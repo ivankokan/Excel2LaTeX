@@ -20,7 +20,7 @@ End Sub
 Public Function GetFileExtension(ByVal pComponent As VBComponent)
     Select Case pComponent.Type
         Case vbext_ct_StdModule
-            GetFileExtension = ".mod"
+            GetFileExtension = ".bas"
             
         Case vbext_ct_Document, vbext_ct_ClassModule
             GetFileExtension = ".cls"

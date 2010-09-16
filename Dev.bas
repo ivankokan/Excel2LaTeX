@@ -28,7 +28,7 @@ Private Sub ImportFromFiles()
         sCurrentFileName = VBA.FileSystem.Dir()
     Loop
     
-    pTargetWkBook.Close
+    pTargetWkBook.Close True
 End Sub
 
 Private Sub ExportToFiles()

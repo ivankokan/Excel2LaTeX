@@ -63,7 +63,8 @@ Private Sub ExportComponent(ByVal sDir As String, ByVal pVbComponent As VBCompon
     
     Dim sDualExtension As String
     
-    If sExtension = ".frm" Then
+    Select Case sExtension
+    Case ".frm"
         ' The .frx file changes with every export of the module.
         ' To prevent this, we check if the code for the form has changed.
         ' If not, we assume that the form hasn't changed at all,
@@ -85,9 +86,11 @@ Private Sub ExportComponent(ByVal sDir As String, ByVal pVbComponent As VBCompon
         
         VBA.FileSystem.Kill sDir & sOldName & sExtension
         VBA.FileSystem.Kill sDir & sOldName & sDualExtension
-    Else
+    Case ""
+        ' Skip this kind of module
+    Case Else
         pVbComponent.Export sDir & sName & sExtension
-    End If
+    End Select
 End Sub
 
 
@@ -142,11 +145,14 @@ Private Function GetFileExtension(ByVal pComponent As VBComponent)
         Case vbext_ct_StdModule
             GetFileExtension = ".bas"
             
-        Case vbext_ct_Document, vbext_ct_ClassModule
+        Case vbext_ct_ClassModule
             GetFileExtension = ".cls"
             
         Case vbext_ct_MSForm
             GetFileExtension = ".frm"
+            
+        Case vbext_ct_Document
+            ' Skip this type of module
             
         Case Else
             Debug.Assert False

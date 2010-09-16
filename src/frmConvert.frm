@@ -68,18 +68,6 @@ Private Sub CommandButton2_Click()
   frmAbout.Show
 End Sub
 
-Private Sub Frame1_Click()
-
-End Sub
-
-Private Sub Label2_Click()
-
-End Sub
-
-Private Sub Label3_Click()
-
-End Sub
-
 Private Sub spnCellWidth_Change()
   txtCellSize = spnCellWidth
 End Sub

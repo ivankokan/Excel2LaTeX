@@ -22,16 +22,7 @@ Private Sub cmdClose_Click()
 End Sub
 
 
-Private Sub Label1_Click()
-
-End Sub
-
-Private Sub TextBox1_Change()
-
-End Sub
-
 Private Sub UserForm_Initialize()
-  TextBox1.SetFocus
-  TextBox1.CurLine = 0
-
+  TextBox1.SelStart = 0
+  TextBox1.SelLength = 0
 End Sub

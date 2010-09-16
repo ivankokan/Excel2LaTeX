@@ -1,6 +1,22 @@
 Attribute VB_Name = "Dev"
 Option Explicit
 
+Private Sub ExportToFiles()
+    Dim sDir As String
+    SplitPath Application.VBE.ActiveVBProject.FileName, sDir:=sDir
+    
+    Dim pVbComponent As VBComponent
+    For Each pVbComponent In Application.VBE.ActiveVBProject.VBComponents
+        pVbComponent.Export sDir & pVbComponent.name & GetFileExtension(pVbComponent)
+    Next
+End Sub
+
+
+
+
+
+
+
 Public Function GetFileExtension(ByVal pComponent As VBComponent)
     Select Case pComponent.Type
         Case vbext_ct_StdModule
@@ -16,16 +32,6 @@ Public Function GetFileExtension(ByVal pComponent As VBComponent)
             Debug.Assert False
     End Select
 End Function
-
-Private Sub ExportToFiles()
-    Dim sDir As String
-    SplitPath Application.VBE.ActiveVBProject.FileName, sDir:=sDir
-    
-    Dim pVbComponent As VBComponent
-    For Each pVbComponent In Application.VBE.ActiveVBProject.VBComponents
-        pVbComponent.Export sDir & pVbComponent.name & GetFileExtension(pVbComponent)
-    Next
-End Sub
 
 
 Sub SplitPath(ByVal sFullPath As String, _

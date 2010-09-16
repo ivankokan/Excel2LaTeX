@@ -26,7 +26,9 @@ Private Sub ExportToAddin()
     Dim sCurrentFileName As String
     sCurrentFileName = VBA.FileSystem.Dir(sDir, vbNormal)
     Do While sCurrentFileName <> ""
-        If sCurrentFileName Like "*.bas" Or sCurrentFileName Like "*.frm" Then
+        If sCurrentFileName = "Dev.bas" Then
+            ' Ignore development module
+        ElseIf sCurrentFileName Like "*.bas" Or sCurrentFileName Like "*.frm" Then
             ImportComponent pTargetWkBook, sDir, sCurrentFileName
         End If
         
@@ -168,7 +170,7 @@ End Function
 
 
 
-Sub SplitPath(ByVal sFullPath As String, _
+Private Sub SplitPath(ByVal sFullPath As String, _
     Optional ByRef sDir As String, _
     Optional ByRef sDriveOrShare As String, _
     Optional ByRef sPath As String, _
@@ -226,7 +228,7 @@ End Sub
 
 
 
-Sub Test_FilesEqual()
+Private Sub Test_FilesEqual()
     Dim sDir As String
     SplitPath Application.VBE.ActiveVBProject.FileName, sDir:=sDir
     
@@ -238,20 +240,20 @@ End Sub
 
 
 
-Sub Test_SafeFileLen()
+Private Sub Test_SafeFileLen()
     Debug.Assert SafeFileLen("nul") = -1
     Debug.Assert SafeFileLen(Application.VBE.ActiveVBProject.FileName) > 0
 End Sub
 
 
 
-Sub Test_GetFileExtension()
+Private Sub Test_GetFileExtension()
     Debug.Assert GetFileExtension(Application.VBE.ActiveVBProject.VBComponents("Dev")) = ".bas"
 End Sub
 
 
 
-Sub Test_SplitPath()
+Private Sub Test_SplitPath()
     Dim sDir As String
     Dim sDriveOrShare As String
     Dim sPath As String

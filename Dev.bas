@@ -1,6 +1,17 @@
 Attribute VB_Name = "Dev"
 Option Explicit
 
+Private Sub ImportFromFiles()
+    Dim sDir As String
+    Dim sFileTitle As String
+    Dim sExtension As String
+    SplitPath Application.VBE.ActiveVBProject.FileName, sDir:=sDir, sFileTitle:=sFileTitle, sExtension:=sExtension
+    
+    Const ADDIN_EXTENSION As String = ".xla"
+    
+    VBA.FileSystem.FileCopy Application.VBE.ActiveVBProject.FileName, sDir & sFileTitle & ADDIN_EXTENSION
+End Sub
+
 Private Sub ExportToFiles()
     Dim sDir As String
     SplitPath Application.VBE.ActiveVBProject.FileName, sDir:=sDir

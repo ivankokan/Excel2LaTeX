@@ -1,6 +1,11 @@
 Attribute VB_Name = "Dev"
 Option Explicit
 
+Private Sub PrepareCommit()
+    ImportFromFiles
+    ExportToFiles
+End Sub
+
 Private Sub ImportFromFiles()
     Dim sDir As String
     Dim sFileTitle As String

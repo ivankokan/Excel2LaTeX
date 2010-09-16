@@ -17,11 +17,18 @@ Private Sub ImportFromFiles()
     
     Dim pTargetWkBook As Workbook
     Set pTargetWkBook = Application.Workbooks.Open(sTargetPath)
-
-    Dim pVbComponent As VBComponent
-    For Each pVbComponent In Application.VBE.ActiveVBProject.VBComponents
-        ImportComponent pTargetWkBook, sDir, pVbComponent
-    Next
+    
+    Dim sCurrentFileName As String
+    sCurrentFileName = VBA.FileSystem.Dir(sDir, vbNormal)
+    Do While sCurrentFileName <> ""
+        If sCurrentFileName Like "*.bas" Or sCurrentFileName Like "*.frm" Then
+            ImportComponent pTargetWkBook, sDir, sCurrentFileName
+        End If
+        
+        sCurrentFileName = VBA.FileSystem.Dir()
+    Loop
+    
+    pTargetWkBook.Close
 End Sub
 
 Private Sub ExportToFiles()
@@ -38,8 +45,8 @@ End Sub
 
 
 
-Private Sub ImportComponent(ByVal pTargetWkBook As Workbook, ByVal sDir As String, ByVal pVbComponent As VBComponent)
-
+Private Sub ImportComponent(ByVal pTargetWkBook As Workbook, ByVal sDir As String, ByVal sFileName As String)
+    Debug.Print sFileName
 End Sub
 
 

@@ -2,11 +2,11 @@ Attribute VB_Name = "Dev"
 Option Explicit
 
 Private Sub PrepareCommit()
-    ImportFromFiles
-    ExportToFiles
+    ExportToAddin
+    ExportToCodeModules
 End Sub
 
-Private Sub ImportFromFiles()
+Private Sub ExportToAddin()
     Dim sDir As String
     Dim sFileTitle As String
     Dim sExtension As String
@@ -36,7 +36,7 @@ Private Sub ImportFromFiles()
     pTargetWkBook.Close True
 End Sub
 
-Private Sub ExportToFiles()
+Private Sub ExportToCodeModules()
     Dim sDir As String
     SplitPath Application.VBE.ActiveVBProject.FileName, sDir:=sDir
     

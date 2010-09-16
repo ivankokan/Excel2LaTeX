@@ -17,7 +17,30 @@ End Sub
 
 
 Private Sub ExportComponent(ByVal sDir As String, ByVal pVbComponent As VBComponent)
-    pVbComponent.Export sDir & pVbComponent.name & GetFileExtension(pVbComponent)
+    Dim sName As String
+    sName = pVbComponent.name
+    
+    Dim sOldName As String
+    sOldName = sName & ".old"
+    
+    Dim sExtension As String
+    sExtension = GetFileExtension(pVbComponent)
+    
+    Dim sDualExtension As String
+    
+    If sExtension = ".frm" Then
+        sDualExtension = ".frx"
+        
+        VBA.FileSystem.FileCopy sDir & sName & sExtension, sDir & sOldName & sExtension
+        VBA.FileSystem.FileCopy sDir & sName & sDualExtension, sDir & sOldName & sDualExtension
+        
+        pVbComponent.Export sDir & sName & sExtension
+        
+        VBA.FileSystem.Kill sDir & sOldName & sExtension
+        VBA.FileSystem.Kill sDir & sOldName & sDualExtension
+    Else
+        pVbComponent.Export sDir & sName & sExtension
+    End If
 End Sub
 
 

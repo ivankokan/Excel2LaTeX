@@ -54,7 +54,7 @@ End Sub
 
 Private Sub ExportToCodeModules()
     Dim sDir As String
-    SplitPath Application.VBE.ActiveVBProject.FileName, sDir:=sDir
+    sDir = BaseDir()
     
     Dim pVbComponent As VBComponent
     For Each pVbComponent In Application.VBE.ActiveVBProject.VBComponents
@@ -301,7 +301,7 @@ End Function
 
 Private Sub Test_FilesEqual()
     Dim sDir As String
-    SplitPath Application.VBE.ActiveVBProject.FileName, sDir:=sDir
+    sDir = BaseDir()
     
     ExportToFiles
     

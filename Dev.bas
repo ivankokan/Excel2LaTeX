@@ -46,7 +46,7 @@ End Sub
 
 
 Private Sub ImportComponent(ByVal pTargetWkBook As Workbook, ByVal sDir As String, ByVal sFileName As String)
-    Debug.Print sFileName
+    pTargetWkBook.VBProject.VBComponents.Import sDir & sFileName
 End Sub
 
 

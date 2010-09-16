@@ -1,7 +1,7 @@
 VERSION 5.00
 Begin {C62A69F0-16DC-11CE-9E98-00AA00574A4F} frmConvert 
    Caption         =   "Exce2LaTeX"
-   ClientHeight    =   6885
+   ClientHeight    =   7365
    ClientLeft      =   45
    ClientTop       =   330
    ClientWidth     =   8010

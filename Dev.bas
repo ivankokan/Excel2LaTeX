@@ -7,9 +7,21 @@ Private Sub ImportFromFiles()
     Dim sExtension As String
     SplitPath Application.VBE.ActiveVBProject.FileName, sDir:=sDir, sFileTitle:=sFileTitle, sExtension:=sExtension
     
+    Const TEMPLATE_FILE = "Template.xla"
     Const ADDIN_EXTENSION As String = ".xla"
     
-    VBA.FileSystem.FileCopy Application.VBE.ActiveVBProject.FileName, sDir & sFileTitle & ADDIN_EXTENSION
+    Dim sTargetPath As String
+    sTargetPath = sDir & sFileTitle & ADDIN_EXTENSION
+    
+    VBA.FileSystem.FileCopy sDir & TEMPLATE_FILE, sTargetPath
+    
+    Dim pTargetWkBook As Workbook
+    Set pTargetWkBook = Application.Workbooks.Open(sTargetPath)
+
+    Dim pVbComponent As VBComponent
+    For Each pVbComponent In Application.VBE.ActiveVBProject.VBComponents
+        ImportComponent pTargetWkBook, sDir, pVbComponent
+    Next
 End Sub
 
 Private Sub ExportToFiles()
@@ -24,6 +36,11 @@ End Sub
 
 
 
+
+
+Private Sub ImportComponent(ByVal pTargetWkBook As Workbook, ByVal sDir As String, ByVal pVbComponent As VBComponent)
+
+End Sub
 
 
 

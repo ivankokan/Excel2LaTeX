@@ -7,7 +7,7 @@ Private Sub ExportToFiles()
     
     Dim pVbComponent As VBComponent
     For Each pVbComponent In Application.VBE.ActiveVBProject.VBComponents
-        pVbComponent.Export sDir & pVbComponent.name & GetFileExtension(pVbComponent)
+        ExportComponent sDir, pVbComponent
     Next
 End Sub
 
@@ -16,8 +16,16 @@ End Sub
 
 
 
+Private Sub ExportComponent(ByVal sDir As String, ByVal pVbComponent As VBComponent)
+    pVbComponent.Export sDir & pVbComponent.name & GetFileExtension(pVbComponent)
+End Sub
 
-Public Function GetFileExtension(ByVal pComponent As VBComponent)
+
+
+
+
+
+Private Function GetFileExtension(ByVal pComponent As VBComponent)
     Select Case pComponent.Type
         Case vbext_ct_StdModule
             GetFileExtension = ".bas"

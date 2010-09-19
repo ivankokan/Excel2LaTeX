@@ -196,7 +196,7 @@ End Function
 Function GetColumnsFormat(ByVal RangeToUse As Range, ByVal booktabs As Boolean) As String
 Dim i As Long
 Dim stg As String
-  stg = VerticalBorder(RangeToUse.Columns(1).Borders(xlLeft).LineStyle, booktabs)
+  stg = VerticalBorder(RangeToUse.Columns(1), booktabs)
   For i = 1 To RangeToUse.Columns.Count
     Select Case RangeToUse.Columns(i).HorizontalAlignment
     Case xlLeft
@@ -206,7 +206,7 @@ Dim stg As String
     Case Else
     stg = stg + "r" 'Default alignment is right
     End Select
-    stg = stg + VerticalBorder(RangeToUse.Columns(i + 1).Borders(xlLeft).LineStyle, booktabs)
+    stg = stg + VerticalBorder(RangeToUse.Columns(i + 1), booktabs)
   Next i
 GetColumnsFormat = stg
 End Function
@@ -260,9 +260,12 @@ End If
 
 End Sub
   
-Function VerticalBorder(ByVal borderStyle As Variant, ByVal booktabs As Boolean)
+Function VerticalBorder(ByVal pRightRange As Range, ByVal booktabs As Boolean)
 ' No vertical borders for booktabs style
 If booktabs Then Exit Function
+
+Dim borderStyle As Variant
+borderStyle = pRightRange.Borders(xlLeft).LineStyle
 
 'return nothing, | or ||
 Dim stg As String

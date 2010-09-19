@@ -206,7 +206,7 @@ Dim stg As String
     Case Else
     stg = stg + "r" 'Default alignment is right
     End Select
-    stg = stg + VerticalBorder(RangeToUse.Columns(i).Borders(xlRight).LineStyle, booktabs)
+    stg = stg + VerticalBorder(RangeToUse.Columns(i + 1).Borders(xlLeft).LineStyle, booktabs)
   Next i
 GetColumnsFormat = stg
 End Function

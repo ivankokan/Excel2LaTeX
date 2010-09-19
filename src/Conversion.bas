@@ -90,11 +90,7 @@ Sub ConvertSelection()
   End If
 
   AddText Space(Indent) + "\begin{tabular}{"
-  If booktabs Then
-    AddText Replace(GetColumnsFormat(RangeToUse), "|", "")
-  Else
-    AddText GetColumnsFormat(RangeToUse)
-  End If
+  AddText GetColumnsFormat(RangeToUse, booktabs)
   AddText "}", True
     
   'Start checking top border
@@ -142,7 +138,7 @@ Sub ConvertSelection()
       If r.Cells(i).MergeCells Then   'multicolumn cell
         multicells = r.Cells(i).MergeArea.Columns.Count
         txt2 = "\multicolumn{" + Str(multicells) + _
-                "}{" + GetColumnsFormat(r.Cells(i))
+                "}{" + GetColumnsFormat(r.Cells(i), booktabs)
         txt2 = txt2 + "}{" + txt + "}"
         AddText txt2
         If i < r.Cells.Count Then
@@ -197,10 +193,10 @@ Function PadSpace(n As Long)
   PadSpace = Space(Application.WorksheetFunction.Max(0, n))
 End Function
 
-Function GetColumnsFormat(RangeToUse As Range) As String
+Function GetColumnsFormat(ByVal RangeToUse As Range, ByVal booktabs As Boolean) As String
 Dim i As Long
 Dim stg As String
-  stg = VerticalBorder(RangeToUse.Columns(1).Borders(xlLeft).LineStyle)
+  stg = VerticalBorder(RangeToUse.Columns(1).Borders(xlLeft).LineStyle, booktabs)
   For i = 1 To RangeToUse.Columns.Count
     Select Case RangeToUse.Columns(i).HorizontalAlignment
     Case xlLeft
@@ -210,7 +206,7 @@ Dim stg As String
     Case Else
     stg = stg + "r" 'Default alignment is right
     End Select
-    stg = stg + VerticalBorder(RangeToUse.Columns(i).Borders(xlRight).LineStyle)
+    stg = stg + VerticalBorder(RangeToUse.Columns(i).Borders(xlRight).LineStyle, booktabs)
   Next i
 GetColumnsFormat = stg
 End Function
@@ -264,7 +260,10 @@ End If
 
 End Sub
   
-Function VerticalBorder(borderStyle)
+Function VerticalBorder(ByVal borderStyle As Variant, ByVal booktabs As Boolean)
+' No vertical borders for booktabs style
+If booktabs Then Exit Function
+
 'return nothing, | or ||
 Dim stg As String
 Select Case borderStyle

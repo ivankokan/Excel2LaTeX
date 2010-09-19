@@ -233,9 +233,6 @@ Dim cl As Range
 'We copy all borders consistently, so we will have to check only top and left
 
 For Each cl In RangeToUse.Cells
-  With cl.Offset(0, 1).Borders(xlEdgeLeft)
-   .LineStyle = ResolveLine(.LineStyle, cl.Borders(xlEdgeRight).LineStyle)
-  End With
   With cl.Offset(1, 0).Borders(xlEdgeTop)
     .LineStyle = ResolveLine(.LineStyle, cl.Borders(xlEdgeBottom).LineStyle)
   End With
@@ -249,14 +246,6 @@ If RangeToUse.Rows(1).EntireRow.Address <> "$1:$1" Then
     End With
   Next cl
 End If
-If RangeToUse.Columns(1).EntireColumn.Address <> "$A:$A" Then
-  For Each cl In RangeToUse.Columns(1).Cells
-    With cl.Borders(xlEdgeRight)
-      .LineStyle = ResolveLine(.LineStyle, cl.Offset(0, -1).Borders(xlEdgeLeft).LineStyle)
-    End With
-  Next cl
-End If
-
 
 End Sub
   
@@ -266,6 +255,12 @@ If booktabs Then Exit Function
 
 Dim borderStyle As Variant
 borderStyle = pRightRange.Borders(xlLeft).LineStyle
+
+Dim pLeftRange As Range
+If pRightRange.Column > 1 Then
+    Set pLeftRange = pRightRange.Offset(ColumnOffset:=-1)
+    borderStyle = ResolveLine(borderStyle, pLeftRange.Borders(xlRight).LineStyle)
+End If
 
 'return nothing, | or ||
 Dim stg As String

@@ -14,6 +14,10 @@ in a floating table environment.
 The LaTeX code can be copied to the clipboard or saved as a LaTeX file, which
 then can be included in an existing LaTeX document using the \input command.
 
+SOURCE
+~~~~~~
+The development repository of this package is hosted at
+https://launchpad.net/excel2latex
 
 INSTALLATION
 ~~~~~~~~~~~~
@@ -50,7 +54,8 @@ ANNOTATIONS
 
 COPYRIGHT
 ~~~~~~~~~
-Copyright 1996,1997,1998,2001,2008 by Joachim Marder and Andrew Hawryluk.
+Copyright 1996, 1997, 1998, 2001, 2008, 2010 by Kirill Müller, Andrew Hawryluk,
+and Joachim Marder.
 
 This work may be distributed and/or modified under the
 conditions of the LaTeX Project Public License, either version 1.3
@@ -61,7 +66,7 @@ and version 1.3 or later is part of all distributions of LaTeX
 version 2005/12/01 or later.
 
 This work has the LPPL maintenance status `maintained'.
-The Current Maintainer of this work is Andrew Hawryluk.
+The Current Maintainer of this work is Kirill Müller.
 This work consists of the file Excel2LaTeX.xla.
 
 

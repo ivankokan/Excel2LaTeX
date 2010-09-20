@@ -49,7 +49,10 @@ ErrorMsg:
 End Sub
 
 Sub ConvertSelection()
-    frmConvert.txtResult = NewModel.GetConversionResult
+    With NewModel
+        .Init frmConvert
+        frmConvert.txtResult = .GetConversionResult
+    End With
     frmConvert.txtResult.SetFocus
 End Sub
 

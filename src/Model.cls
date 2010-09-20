@@ -15,6 +15,14 @@ Dim booktabs As Boolean
 Dim tableFloat As Boolean
 Dim Indent As Integer
 
+Public Sub Init(ByVal frmConvert As frmConvert)
+    CellWidth = Val(frmConvert.txtCellSize)
+    convertDollar = frmConvert.chkConvertDollar
+    booktabs = frmConvert.chkBooktabs
+    tableFloat = frmConvert.chkTableFloat
+    Indent = Val(frmConvert.txtIndent)
+End Sub
+
 Public Function GetConversionResult() As String
     Dim txt As String
     Dim txt2 As String
@@ -25,12 +33,6 @@ Public Function GetConversionResult() As String
     Dim i As Integer
     Dim j As Integer
     Dim pos As Integer
-    
-    CellWidth = Val(frmConvert.txtCellSize)
-    convertDollar = frmConvert.chkConvertDollar
-    booktabs = frmConvert.chkBooktabs
-    tableFloat = frmConvert.chkTableFloat
-    Indent = Val(frmConvert.txtIndent)
     
     multicells = 0
     Set RangeToUse = Selection

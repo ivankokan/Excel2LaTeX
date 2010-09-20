@@ -35,3 +35,8 @@ End Function
 Function NewModel() As Model
     Set NewModel = New Model
 End Function
+
+Function NewView() As frmConvert
+    Set NewView = New frmConvert
+End Function
+

@@ -9,8 +9,9 @@ Attribute VB_PredeclaredId = False
 Attribute VB_Exposed = False
 Option Explicit
 
+Public Event ModelChanged()
+
 Public Sub Latex(ByVal pView As frmConvert)
-    Dim sName As String
     Dim selRange As Range
     If Selection Is Nothing Then GoTo ErrorMsg
     If TypeName(Selection) <> "Range" Then GoTo ErrorMsg
@@ -18,11 +19,14 @@ Public Sub Latex(ByVal pView As frmConvert)
     
     Load pView
     Set selRange = Selection
+    
+    Dim sName As String
     On Error Resume Next
     sName = ActiveSheet.Name
     sName = selRange.Name.Name
     On Error GoTo 0
     
+    pView.Init Me
     pView.txtFilename = CurDir + "\" + sName + ".tex"
     pView.ConvertSelection
     pView.Show

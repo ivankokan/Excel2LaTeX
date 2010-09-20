@@ -13,10 +13,18 @@ Attribute VB_GlobalNameSpace = False
 Attribute VB_Creatable = False
 Attribute VB_PredeclaredId = True
 Attribute VB_Exposed = False
-
-
-
 Option Explicit
+
+Private WithEvents mController As Controller
+Attribute mController.VB_VarHelpID = -1
+
+Public Sub Init(pController As Controller)
+    Set mController = pController
+End Sub
+
+Private Sub mController_ModelChanged()
+'
+End Sub
 
 Public Sub ConvertSelection()
     With NewModel

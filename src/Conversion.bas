@@ -41,19 +41,11 @@ NoName:
 continue:
   On Error GoTo 0
   frmConvert.txtFilename = CurDir + "\" + name + ".tex"
-  ConvertSelection
+  frmConvert.ConvertSelection
   frmConvert.Show
   Exit Sub
 ErrorMsg:
   MsgBox "This macro coverts the selected table to Latex. Pleas select a single table", vbOKOnly + vbCritical
-End Sub
-
-Sub ConvertSelection()
-    With NewModel
-        .Init frmConvert
-        frmConvert.txtResult = .GetConversionResult
-    End With
-    frmConvert.txtResult.SetFocus
 End Sub
 
 Function NewModel() As Model

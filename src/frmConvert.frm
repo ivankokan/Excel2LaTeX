@@ -18,6 +18,14 @@ Attribute VB_Exposed = False
 
 Option Explicit
 
+Public Sub ConvertSelection()
+    With NewModel
+        .Init Me
+        txtResult = .GetConversionResult
+    End With
+    txtResult.SetFocus
+End Sub
+
 Private Sub chkBooktabs_Click()
   ConvertSelection
 End Sub

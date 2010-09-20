@@ -54,7 +54,7 @@ Sub ConvertSelection()
   Dim txt2 As String
   Dim multicells As Integer
   Dim RangeToUse As Range
-  Dim r As Object
+  Dim r As Range
   Dim FileName As String
   Dim i As Integer
   Dim j As Integer
@@ -158,7 +158,7 @@ Sub ConvertSelection()
   AddText " \\", True
     ' Check for Border lines
   If Not booktabs Then
-    AddText HorizontalBorder(r.Borders(xlBottom).LineStyle, Indent)
+    AddText HorizontalBorder(r.Offset(RowOffset:=1).Borders(xlTop).LineStyle, Indent)
   End If
   Next j 'row
 
@@ -274,6 +274,7 @@ Select Case borderStyle
 End Select
 VerticalBorder = stg
 End Function
+
 Function HorizontalBorder(borderStyle, spaces)
 'return nothing, \hline or \hline\hline
 Dim stg As String

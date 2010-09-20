@@ -111,11 +111,6 @@ Sub ConvertSelection()
     AddText Space(Indent)
 
     For i = 1 To r.Cells.Count  ' for each cell in row r
-      
-'      If multicells > 1 Then ' is this cell part of a multicolumn cell
-'        multicells = multicells - 1
-'        GoTo nxt
-'      End If
       txt = r.Cells(i).Text
       
       'Check for special characters % and $
@@ -186,7 +181,6 @@ End Sub
 Sub AddText(txt As String, Optional LineFeed = False)
   If LineFeed Then txt = txt + vbLf
   FullText = FullText + txt
-'  If frmConvert.optSaveFile Then Print #1, txt;
 End Sub
 Function PadSpace(n As Long)
   PadSpace = Space(Application.WorksheetFunction.Max(0, n))

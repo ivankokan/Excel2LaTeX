@@ -53,6 +53,10 @@ Sub ConvertSelection()
     frmConvert.txtResult.SetFocus
 End Sub
 
+Function NewModel() As Model
+    Set NewModel = New Model
+End Function
+
 Function GetConversionResult() As String
   Dim CellWidth As Integer    'Characters per Cell in output file
   Dim txt As String

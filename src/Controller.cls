@@ -10,7 +10,7 @@ Attribute VB_Exposed = False
 Option Explicit
 
 Public Sub Latex(ByVal pView As frmConvert)
-    Dim name, selRange As Range
+    Dim Name, selRange As Range
     If Selection Is Nothing Then GoTo ErrorMsg
     If TypeName(Selection) <> "Range" Then GoTo ErrorMsg
     If Selection.Areas.Count > 1 Then GoTo ErrorMsg
@@ -18,11 +18,11 @@ Public Sub Latex(ByVal pView As frmConvert)
     Load pView
     Set selRange = Selection
     On Error Resume Next
-    name = ActiveSheet.name
-    name = selRange.name.name
+    Name = ActiveSheet.Name
+    Name = selRange.Name.Name
     On Error GoTo 0
     
-    pView.txtFilename = CurDir + "\" + name + ".tex"
+    pView.txtFilename = CurDir + "\" + Name + ".tex"
     pView.ConvertSelection
     pView.Show
     Exit Sub

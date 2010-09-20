@@ -75,7 +75,7 @@ End Sub
 
 Private Sub ExportComponent(ByVal sDir As String, ByVal pVbComponent As VBComponent)
     Dim sName As String
-    sName = pVbComponent.name
+    sName = pVbComponent.Name
     
     Dim sOldName As String
     sOldName = sName & ".old"

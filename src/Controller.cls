@@ -17,13 +17,11 @@ Public Sub Latex(ByVal pView As frmConvert)
     
     Load pView
     Set selRange = Selection
-    On Error GoTo NoName
-    name = selRange.name.name
-    GoTo continue
-NoName:
+    On Error Resume Next
     name = ActiveSheet.name
-continue:
+    name = selRange.name.name
     On Error GoTo 0
+    
     pView.txtFilename = CurDir + "\" + name + ".tex"
     pView.ConvertSelection
     pView.Show

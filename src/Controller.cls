@@ -9,3 +9,27 @@ Attribute VB_PredeclaredId = False
 Attribute VB_Exposed = False
 Option Explicit
 
+Public Sub Latex()
+    Dim name, selRange As Range
+    If Selection Is Nothing Then GoTo ErrorMsg
+    If TypeName(Selection) <> "Range" Then GoTo ErrorMsg
+    If Selection.Areas.Count > 1 Then GoTo ErrorMsg
+    
+    Load frmConvert
+    Set selRange = Selection
+    On Error GoTo NoName
+    name = selRange.name.name
+    GoTo continue
+NoName:
+    name = ActiveSheet.name
+continue:
+    On Error GoTo 0
+    frmConvert.txtFilename = CurDir + "\" + name + ".tex"
+    frmConvert.ConvertSelection
+    frmConvert.Show
+    Exit Sub
+
+ErrorMsg:
+    MsgBox "This macro coverts the selected table to Latex. Pleas select a single table", vbOKOnly + vbCritical
+End Sub
+

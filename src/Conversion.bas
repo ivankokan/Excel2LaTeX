@@ -25,7 +25,7 @@ Option Explicit
 Sub Latex()
 Attribute Latex.VB_Description = "Converts the selection to LaTex"
 Attribute Latex.VB_ProcData.VB_Invoke_Func = "l\n14"
-    NewController.Latex
+    NewController.Latex NewView
 End Sub
 
 Function NewController() As Controller

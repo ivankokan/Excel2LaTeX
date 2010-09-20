@@ -169,11 +169,11 @@ frmConvert.txtResult = FullText
 frmConvert.txtResult.SetFocus
 End Sub
 
-Sub AddText(txt As String, Optional LineFeed = False)
+Sub AddText(ByVal txt As String, Optional ByVal LineFeed = False)
   If LineFeed Then txt = txt + vbLf
   FullText = FullText + txt
 End Sub
-Function PadSpace(n As Long)
+Function PadSpace(ByVal n As Long)
   PadSpace = Space(Application.WorksheetFunction.Max(0, n))
 End Function
 
@@ -244,7 +244,7 @@ End Select
 HorizontalBorder = stg
 End Function
 
-Function ResolveLine(line1, line2)
+Function ResolveLine(ByVal line1, ByVal line2)
 ResolveLine = xlNone
 If line1 = xlContinuous Or line2 = xlContinuous Then ResolveLine = xlContinuous
 If line1 = xlDouble Or line2 = xlDouble Then ResolveLine = xlDouble

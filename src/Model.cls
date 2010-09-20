@@ -15,7 +15,7 @@ Dim booktabs As Boolean
 Dim tableFloat As Boolean
 Dim Indent As Integer
 
-Function GetConversionResult() As String
+Public Function GetConversionResult() As String
     Dim txt As String
     Dim txt2 As String
     Dim multicells As Integer
@@ -131,16 +131,16 @@ theend:      'Tabellenende
     GetConversionResult = FullText
 End Function
 
-Sub AddText(ByVal txt As String, Optional ByVal LineFeed = False)
+Private Sub AddText(ByVal txt As String, Optional ByVal LineFeed = False)
     If LineFeed Then txt = txt + vbLf
     FullText = FullText + txt
 End Sub
 
-Function PadSpace(ByVal n As Long)
+Private Function PadSpace(ByVal n As Long)
     PadSpace = Space(Application.WorksheetFunction.Max(0, n))
 End Function
 
-Function GetColumnsFormat(ByVal RangeToUse As Range) As String
+Private Function GetColumnsFormat(ByVal RangeToUse As Range) As String
     Dim i As Long
     Dim stg As String
     stg = VerticalBorder(RangeToUse.Columns(1))
@@ -158,7 +158,7 @@ Function GetColumnsFormat(ByVal RangeToUse As Range) As String
     GetColumnsFormat = stg
 End Function
 
-Function VerticalBorder(ByVal pRightRange As Range)
+Private Function VerticalBorder(ByVal pRightRange As Range)
     ' No vertical borders for booktabs style
     If booktabs Then Exit Function
     
@@ -184,7 +184,7 @@ Function VerticalBorder(ByVal pRightRange As Range)
     VerticalBorder = stg
 End Function
 
-Function HorizontalBorder(ByVal pBelowRange As Range, ByVal spaces As Integer)
+Private Function HorizontalBorder(ByVal pBelowRange As Range, ByVal spaces As Integer)
     Dim borderStyle As Variant
     borderStyle = pBelowRange.Borders(xlTop).LineStyle
     
@@ -207,7 +207,7 @@ Function HorizontalBorder(ByVal pBelowRange As Range, ByVal spaces As Integer)
     HorizontalBorder = stg
 End Function
 
-Function ResolveLine(ByVal line1, ByVal line2)
+Private Function ResolveLine(ByVal line1, ByVal line2)
     ResolveLine = xlNone
     If line1 = xlContinuous Or line2 = xlContinuous Then ResolveLine = xlContinuous
     If line1 = xlDouble Or line2 = xlDouble Then ResolveLine = xlDouble

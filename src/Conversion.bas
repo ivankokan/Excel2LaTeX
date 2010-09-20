@@ -100,7 +100,7 @@ Sub ConvertSelection()
     AddText Space(Indent) + "\addlinespace", True
     AddText Space(Indent) + "\toprule", True
   Else
-    AddText HorizontalBorder(r.Borders(xlTop).LineStyle, Indent)
+    AddText HorizontalBorder(r, Indent)
   End If
   
   'Table contents:
@@ -158,7 +158,7 @@ Sub ConvertSelection()
   AddText " \\", True
     ' Check for Border lines
   If Not booktabs Then
-    AddText HorizontalBorder(r.Offset(RowOffset:=1).Borders(xlTop).LineStyle, Indent)
+    AddText HorizontalBorder(r.Offset(RowOffset:=1), Indent)
   End If
   Next j 'row
 
@@ -275,7 +275,10 @@ End Select
 VerticalBorder = stg
 End Function
 
-Function HorizontalBorder(borderStyle, spaces)
+Function HorizontalBorder(ByVal pBelowRange As Range, ByVal spaces As Integer)
+Dim borderStyle As Variant
+borderStyle = pBelowRange.Borders(xlTop).LineStyle
+
 'return nothing, \hline or \hline\hline
 Dim stg As String
 Select Case borderStyle

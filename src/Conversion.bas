@@ -49,6 +49,11 @@ ErrorMsg:
 End Sub
 
 Sub ConvertSelection()
+    frmConvert.txtResult = GetConversionResult
+    frmConvert.txtResult.SetFocus
+End Sub
+
+Function GetConversionResult() As String
   Dim CellWidth As Integer    'Characters per Cell in output file
   Dim txt As String
   Dim txt2 As String
@@ -165,9 +170,8 @@ If tableFloat Then
   AddText Space(Indent) + "\end{table}"
 End If
 
-frmConvert.txtResult = FullText
-frmConvert.txtResult.SetFocus
-End Sub
+GetConversionResult = FullText
+End Function
 
 Sub AddText(ByVal txt As String, Optional ByVal LineFeed = False)
   If LineFeed Then txt = txt + vbLf

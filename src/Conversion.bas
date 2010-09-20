@@ -228,24 +228,8 @@ End Function
 
 
 Sub TransferStylesTopLeft(RangeToUse As Range)
-Dim cl As Range
 
-'We copy all borders consistently, so we will have to check only top and left
-
-For Each cl In RangeToUse.Cells
-  With cl.Offset(1, 0).Borders(xlEdgeTop)
-    .LineStyle = ResolveLine(.LineStyle, cl.Borders(xlEdgeBottom).LineStyle)
-  End With
-Next cl
-
-' Now we handle top row and left column
-If RangeToUse.Rows(1).EntireRow.Address <> "$1:$1" Then
-  For Each cl In RangeToUse.Rows(1).Cells
-    With cl.Borders(xlEdgeTop)
-      .LineStyle = ResolveLine(.LineStyle, cl.Offset(-1, 0).Borders(xlEdgeBottom).LineStyle)
-    End With
-  Next cl
-End If
+'We do not need to copy borders anymore, they are computed as we go
 
 End Sub
   
@@ -278,6 +262,12 @@ End Function
 Function HorizontalBorder(ByVal pBelowRange As Range, ByVal spaces As Integer)
 Dim borderStyle As Variant
 borderStyle = pBelowRange.Borders(xlTop).LineStyle
+
+Dim pAboveRange As Range
+If pBelowRange.Row > 1 Then
+    Set pAboveRange = pBelowRange.Offset(RowOffset:=-1)
+    borderStyle = ResolveLine(borderStyle, pAboveRange.Borders(xlBottom).LineStyle)
+End If
 
 'return nothing, \hline or \hline\hline
 Dim stg As String

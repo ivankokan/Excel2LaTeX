@@ -16,6 +16,7 @@ Public Sub Commit(Optional ByVal sMessage As String)
 End Sub
 
 Private Sub PrepareCommit()
+    ActiveWorkbook.Save
     ExportToAddin
     ExportToCodeModules
 End Sub

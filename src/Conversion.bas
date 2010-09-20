@@ -21,7 +21,6 @@ Attribute VB_Name = "Conversion"
 '
 
 Option Explicit
-Public FullText
 
 Sub Latex()
 Attribute Latex.VB_Description = "Converts the selection to LaTex"

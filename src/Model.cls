@@ -14,6 +14,7 @@ Dim convertDollar As Boolean
 Dim booktabs As Boolean
 Dim tableFloat As Boolean
 Dim Indent As Integer
+Dim FullText As String
 
 Public Sub Init(ByVal frmConvert As frmConvert)
     CellWidth = Val(frmConvert.txtCellSize)

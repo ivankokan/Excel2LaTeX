@@ -48,6 +48,10 @@ ErrorMsg:
   MsgBox "This macro coverts the selected table to Latex. Pleas select a single table", vbOKOnly + vbCritical
 End Sub
 
+Function NewController() As Controller
+    Set NewController = New Controller
+End Function
+
 Function NewModel() As Model
     Set NewModel = New Model
 End Function

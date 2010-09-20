@@ -10,7 +10,8 @@ Attribute VB_Exposed = False
 Option Explicit
 
 Public Sub Latex(ByVal pView As frmConvert)
-    Dim sName, selRange As Range
+    Dim sName As String
+    Dim selRange As Range
     If Selection Is Nothing Then GoTo ErrorMsg
     If TypeName(Selection) <> "Range" Then GoTo ErrorMsg
     If Selection.Areas.Count > 1 Then GoTo ErrorMsg

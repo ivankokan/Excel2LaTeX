@@ -9,9 +9,13 @@ Attribute VB_PredeclaredId = False
 Attribute VB_Exposed = False
 Option Explicit
 
+Dim CellWidth As Integer    'Characters per Cell in output file
+Dim convertDollar As Boolean
+Dim booktabs As Boolean
+Dim tableFloat As Boolean
+Dim Indent As Integer
 
 Function GetConversionResult() As String
-    Dim CellWidth As Integer    'Characters per Cell in output file
     Dim txt As String
     Dim txt2 As String
     Dim multicells As Integer
@@ -21,10 +25,6 @@ Function GetConversionResult() As String
     Dim i As Integer
     Dim j As Integer
     Dim pos As Integer
-    Dim convertDollar As Boolean
-    Dim booktabs As Boolean
-    Dim tableFloat As Boolean
-    Dim Indent As Integer
     
     CellWidth = Val(frmConvert.txtCellSize)
     convertDollar = frmConvert.chkConvertDollar

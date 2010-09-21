@@ -18,7 +18,7 @@ Option Explicit
 Private WithEvents mController As CController
 Attribute mController.VB_VarHelpID = -1
 
-Public Sub Init(pController As CController)
+Public Sub Init(ByVal pController As CController)
     Set mController = pController
 End Sub
 

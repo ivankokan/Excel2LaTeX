@@ -31,6 +31,13 @@ Public Property Let IModel_Options(ByVal Options As x2lOptions)
     tableFloat = (Options And x2lCreateTableEnvironment) <> x2lNone
 End Property
 
+Public Property Get IModel_Indent() As Integer
+    IModel_Indent = Indent
+End Property
+Public Property Let IModel_Indent(ByVal iIndent As Integer)
+    iIndent = Indent
+End Property
+
 Public Sub Init(ByVal frmConvert As frmConvert)
     CellWidth = Val(frmConvert.txtCellSize)
     convertDollar = frmConvert.chkConvertDollar

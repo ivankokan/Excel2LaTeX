@@ -23,3 +23,12 @@ End Property
 Public Property Let Options(ByVal Options As x2lOptions)
 '
 End Property
+
+Public Property Get Indent() As Integer
+'
+End Property
+Public Property Let Indent(ByVal Indent As Integer)
+'
+End Property
+
+

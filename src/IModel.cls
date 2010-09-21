@@ -45,5 +45,8 @@ Public Property Let FileName(ByVal FileName As String)
 '
 End Property
 
+Public Property Get ConvertedText() As String
+'
+End Property
 
 

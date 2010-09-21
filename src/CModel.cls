@@ -53,6 +53,10 @@ Public Property Let IModel_FileName(ByVal iFileName As String)
     iFileName = sFileName
 End Property
 
+Public Property Get IModel_ConvertedText() As String
+    IModel_ConvertedText = FullText
+End Property
+
 Public Sub Init(ByVal frmConvert As frmConvert)
     CellWidth = Val(frmConvert.txtCellSize)
     convertDollar = frmConvert.chkConvertDollar

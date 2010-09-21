@@ -15,10 +15,10 @@ Attribute VB_PredeclaredId = True
 Attribute VB_Exposed = False
 Option Explicit
 
-Private WithEvents mController As Controller
+Private WithEvents mController As CController
 Attribute mController.VB_VarHelpID = -1
 
-Public Sub Init(pController As Controller)
+Public Sub Init(pController As CController)
     Set mController = pController
 End Sub
 

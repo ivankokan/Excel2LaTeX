@@ -9,6 +9,8 @@ Attribute VB_PredeclaredId = False
 Attribute VB_Exposed = False
 Option Explicit
 
+Implements IModel
+
 Dim CellWidth As Integer    'Characters per Cell in output file
 Dim convertDollar As Boolean
 Dim booktabs As Boolean

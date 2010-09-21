@@ -18,6 +18,19 @@ Dim tableFloat As Boolean
 Dim Indent As Integer
 Dim FullText As String
 
+' IModel implementation
+
+Public Property Get IModel_Options() As x2lOptions
+    If convertDollar Then IModel_Options = IModel_Options Or x2lConvertMathChars
+    If booktabs Then IModel_Options = IModel_Options Or x2lBooktabs
+    If tableFloat Then IModel_Options = IModel_Options Or x2lCreateTableEnvironment
+End Property
+Public Property Let IModel_Options(ByVal Options As x2lOptions)
+    convertDollar = (Options And x2lConvertMathChars) <> x2lNone
+    booktabs = (Options And x2lBooktabs) <> x2lNone
+    tableFloat = (Options And x2lCreateTableEnvironment) <> x2lNone
+End Property
+
 Public Sub Init(ByVal frmConvert As frmConvert)
     CellWidth = Val(frmConvert.txtCellSize)
     convertDollar = frmConvert.chkConvertDollar

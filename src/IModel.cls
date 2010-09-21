@@ -9,3 +9,17 @@ Attribute VB_PredeclaredId = False
 Attribute VB_Exposed = False
 Option Explicit
 
+Public Enum x2lOptions
+    x2lNone = &H0
+    
+    x2lCreateTableEnvironment = &H1
+    x2lBooktabs = &H2
+    x2lConvertMathChars = &H4
+End Enum
+
+Public Property Get Options() As x2lOptions
+'
+End Property
+Public Property Let Options(ByVal Options As x2lOptions)
+'
+End Property

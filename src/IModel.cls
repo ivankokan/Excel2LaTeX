@@ -31,4 +31,12 @@ Public Property Let Indent(ByVal Indent As Integer)
 '
 End Property
 
+Public Property Get CellWidth() As Integer
+'
+End Property
+Public Property Let CellWidth(ByVal CellWidth As Integer)
+'
+End Property
+
+
 

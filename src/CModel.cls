@@ -38,6 +38,13 @@ Public Property Let IModel_Indent(ByVal iIndent As Integer)
     iIndent = Indent
 End Property
 
+Public Property Get IModel_CellWidth() As Integer
+    IModel_CellWidth = CellWidth
+End Property
+Public Property Let IModel_CellWidth(ByVal iCellWidth As Integer)
+    iCellWidth = CellWidth
+End Property
+
 Public Sub Init(ByVal frmConvert As frmConvert)
     CellWidth = Val(frmConvert.txtCellSize)
     convertDollar = frmConvert.chkConvertDollar

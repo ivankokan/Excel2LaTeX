@@ -32,8 +32,8 @@ Function NewController() As Controller
     Set NewController = New Controller
 End Function
 
-Function NewModel() As Model
-    Set NewModel = New Model
+Function NewModel() As CModel
+    Set NewModel = New CModel
 End Function
 
 Function NewView() As frmConvert

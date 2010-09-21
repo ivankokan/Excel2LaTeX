@@ -304,7 +304,7 @@ Private Sub Test_FilesEqual()
     Dim sDir As String
     sDir = BaseDir()
     
-    ExportToFiles
+    ExportToCodeModules
     
     Debug.Assert FilesEqual(sDir & "Dev.bas", sDir & "Dev.bas")
     Debug.Assert Not FilesEqual(sDir & "Dev.bas", sDir & "Conversion.bas")

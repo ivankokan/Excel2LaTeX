@@ -27,12 +27,26 @@ Private Sub mController_ModelChanged()
 End Sub
 
 Public Sub ConvertSelection()
-    With NewModel
-        .Init Me
-        txtResult = .GetConversionResult
-    End With
+    Dim pModel As IModel
+    Set pModel = NewModel
+    InitModel pModel
+    txtResult = pModel.GetConversionResult
     txtResult.SetFocus
 End Sub
+
+Public Sub InitModel(ByVal pModel As IModel)
+    With pModel
+        .CellWidth = Val(frmConvert.txtCellSize)
+        .Options = Me.GetOptions()
+        .Indent = Val(frmConvert.txtIndent)
+    End With
+End Sub
+
+Function GetOptions() As x2lOptions
+    If chkBooktabs.Value Then GetOptions = GetOptions Or x2lBooktabs
+    If chkConvertDollar.Value Then GetOptions = GetOptions Or x2lConvertMathChars
+    If chkTableFloat.Value Then GetOptions = GetOptions Or x2lCreateTableEnvironment
+End Function
 
 Private Sub chkBooktabs_Click()
   ConvertSelection

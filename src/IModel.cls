@@ -45,3 +45,7 @@ Public Property Let FileName(ByVal FileName As String)
 '
 End Property
 
+Public Function GetConversionResult() As String
+'
+End Function
+

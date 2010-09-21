@@ -53,15 +53,7 @@ Public Property Let IModel_FileName(ByVal iFileName As String)
     iFileName = sFileName
 End Property
 
-Public Sub Init(ByVal frmConvert As frmConvert)
-    CellWidth = Val(frmConvert.txtCellSize)
-    convertDollar = frmConvert.chkConvertDollar
-    booktabs = frmConvert.chkBooktabs
-    tableFloat = frmConvert.chkTableFloat
-    Indent = Val(frmConvert.txtIndent)
-End Sub
-
-Public Function GetConversionResult() As String
+Public Function IModel_GetConversionResult() As String
     Dim txt As String
     Dim txt2 As String
     Dim multicells As Integer
@@ -168,7 +160,7 @@ theend:      'Tabellenende
         AddText Space(Indent) + "\end{table}"
     End If
     
-    GetConversionResult = FullText
+    IModel_GetConversionResult = FullText
 End Function
 
 Private Sub AddText(ByVal txt As String, Optional ByVal LineFeed = False)

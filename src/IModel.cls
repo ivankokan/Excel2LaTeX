@@ -38,5 +38,12 @@ Public Property Let CellWidth(ByVal CellWidth As Integer)
 '
 End Property
 
+Public Property Get FileName() As String
+'
+End Property
+Public Property Let FileName(ByVal FileName As String)
+'
+End Property
+
 
 

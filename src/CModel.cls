@@ -17,6 +17,7 @@ Dim booktabs As Boolean
 Dim tableFloat As Boolean
 Dim Indent As Integer
 Dim FullText As String
+Dim sFileName As String
 
 ' IModel implementation
 
@@ -43,6 +44,13 @@ Public Property Get IModel_CellWidth() As Integer
 End Property
 Public Property Let IModel_CellWidth(ByVal iCellWidth As Integer)
     iCellWidth = CellWidth
+End Property
+
+Public Property Get IModel_FileName() As String
+    IModel_FileName = sFileName
+End Property
+Public Property Let IModel_FileName(ByVal iFileName As String)
+    iFileName = sFileName
 End Property
 
 Public Sub Init(ByVal frmConvert As frmConvert)

@@ -163,6 +163,8 @@ theend:      'Tabellenende
     IModel_GetConversionResult = FullText
 End Function
 
+' Class implementation
+
 Private Sub AddText(ByVal txt As String, Optional ByVal LineFeed = False)
     If LineFeed Then txt = txt + vbLf
     FullText = FullText + txt

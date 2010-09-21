@@ -13,7 +13,7 @@ Implements IController
 
 Public Event ModelChanged()
 
-Public Sub Latex(ByVal pView As frmConvert)
+Public Sub Latex(ByVal pView As frmConvert, ByVal pModel As IModel)
     Dim selRange As Range
     If Selection Is Nothing Then GoTo ErrorMsg
     If TypeName(Selection) <> "Range" Then GoTo ErrorMsg

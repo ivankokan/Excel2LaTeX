@@ -9,6 +9,8 @@ Attribute VB_PredeclaredId = False
 Attribute VB_Exposed = False
 Option Explicit
 
+Implements IController
+
 Public Event ModelChanged()
 
 Public Sub Latex(ByVal pView As frmConvert)

@@ -32,7 +32,7 @@ Function NewController() As CController
     Set NewController = New CController
 End Function
 
-Function NewModel() As CModel
+Function NewModel() As IModel
     Set NewModel = New CModel
 End Function
 

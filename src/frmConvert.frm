@@ -62,9 +62,9 @@ Function GetOptions() As x2lOptions
     If chkTableFloat.Value Then GetOptions = GetOptions Or x2lCreateTableEnvironment
 End Function
 Sub SetOptions(ByVal Options As x2lOptions)
-    chkBooktabs.Value = IIf(Options And x2lBooktabs, stdole.Checked, stdole.Unchecked)
-    chkConvertDollar.Value = IIf(Options And x2lConvertMathChars, stdole.Checked, stdole.Unchecked)
-    chkTableFloat.Value = IIf(Options And x2lCreateTableEnvironment, stdole.Checked, stdole.Unchecked)
+    chkBooktabs.Value = (Options And x2lBooktabs) <> 0
+    chkConvertDollar.Value = (Options And x2lConvertMathChars) <> 0
+    chkTableFloat.Value = (Options And x2lCreateTableEnvironment) <> 0
 End Sub
 
 Private Sub chkBooktabs_Click()

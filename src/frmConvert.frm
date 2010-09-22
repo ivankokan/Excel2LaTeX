@@ -43,6 +43,7 @@ Public Sub InitModel(ByVal pModel As IModel)
         .CellWidth = Val(Me.txtCellSize)
         .Options = Me.GetOptions()
         .Indent = Val(Me.txtIndent)
+        .FileName = Me.txtFilename
     End With
 End Sub
 
@@ -52,6 +53,7 @@ Public Sub InitFromModel(ByVal pModel As IModel)
         Me.txtCellSize = .CellWidth
         Me.SetOptions (.Options)
         Me.txtIndent = .Indent
+        Me.txtFilename = .FileName
     End With
     mbIgnoreControlEvents = False
 End Sub

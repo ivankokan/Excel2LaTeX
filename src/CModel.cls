@@ -36,21 +36,21 @@ Public Property Get IModel_Indent() As Integer
     IModel_Indent = Indent
 End Property
 Public Property Let IModel_Indent(ByVal iIndent As Integer)
-    iIndent = Indent
+    Indent = iIndent
 End Property
 
 Public Property Get IModel_CellWidth() As Integer
     IModel_CellWidth = CellWidth
 End Property
 Public Property Let IModel_CellWidth(ByVal iCellWidth As Integer)
-    iCellWidth = CellWidth
+    CellWidth = iCellWidth
 End Property
 
 Public Property Get IModel_FileName() As String
     IModel_FileName = sFileName
 End Property
 Public Property Let IModel_FileName(ByVal iFileName As String)
-    iFileName = sFileName
+    sFileName = iFileName
 End Property
 
 Public Function IModel_GetConversionResult() As String

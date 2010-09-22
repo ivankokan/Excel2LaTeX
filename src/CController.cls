@@ -35,6 +35,6 @@ Public Sub Latex(ByVal pView As frmConvert, ByVal pModel As IModel)
     Exit Sub
 
 ErrorMsg:
-    MsgBox "This macro coverts the selected table to Latex. Pleas select a single table", vbOKOnly + vbCritical
+    MsgBox "This macro coverts the selected table to Latex. Please select a single table", vbOKOnly + vbCritical
 End Sub
 

@@ -37,9 +37,9 @@ End Sub
 
 Public Sub InitModel(ByVal pModel As IModel)
     With pModel
-        .CellWidth = Val(frmConvert.txtCellSize)
+        .CellWidth = Val(Me.txtCellSize)
         .Options = Me.GetOptions()
-        .Indent = Val(frmConvert.txtIndent)
+        .Indent = Val(Me.txtIndent)
     End With
 End Sub
 

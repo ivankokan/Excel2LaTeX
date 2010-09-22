@@ -49,3 +49,6 @@ Public Function GetConversionResult() As String
 '
 End Function
 
+Public Sub InitDefault()
+'
+End Sub

@@ -163,13 +163,13 @@ theend:      'Tabellenende
     IModel_GetConversionResult = FullText
 End Function
 
-' Class implementation
-
-Private Sub Class_Initialize()
+Sub IModel_InitDefault()
     Indent = 0
     CellWidth = 5
     IModel_Options = x2lBooktabs Or x2lConvertMathChars Or x2lCreateTableEnvironment
 End Sub
+
+' Class implementation
 
 Private Sub AddText(ByVal txt As String, Optional ByVal LineFeed = False)
     If LineFeed Then txt = txt + vbLf

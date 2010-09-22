@@ -25,7 +25,7 @@ Option Explicit
 Sub Latex()
 Attribute Latex.VB_Description = "Converts the selection to LaTex"
 Attribute Latex.VB_ProcData.VB_Invoke_Func = "l\n14"
-    NewController.Latex NewView, NewModel
+    NewController.Latex NewView, NewDefaultModel
 End Sub
 
 Function NewController() As CController
@@ -34,6 +34,11 @@ End Function
 
 Private Function NewModel() As IModel
     Set NewModel = New CModel
+End Function
+
+Private Function NewDefaultModel() As IModel
+    Set NewDefaultModel = NewModel
+    NewDefaultModel.InitDefault
 End Function
 
 Function NewView() As frmConvert

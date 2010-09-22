@@ -14,29 +14,15 @@ Implements IController
 Public Event ModelChanged()
 
 Public Sub Latex(ByVal pView As frmConvert, ByVal pModel As IModel)
-    Dim selRange As Range
-    If Selection Is Nothing Then GoTo ErrorMsg
-    If TypeName(Selection) <> "Range" Then GoTo ErrorMsg
-    If Selection.Areas.Count > 1 Then GoTo ErrorMsg
+    If pModel.Range Is Nothing Then
+        MsgBox "This macro converts the selected table to LaTeX. Please select a single rectangular range.", vbOKOnly + vbCritical
+        Exit Sub
+    End If
     
     Load pView
-    Set selRange = Selection
-    
-    Dim sName As String
-    On Error Resume Next
-    sName = ActiveSheet.Name
-    sName = selRange.Name.Name
-    On Error GoTo 0
-    
-    Set pModel.Range = Selection
-    pModel.FileName = CurDir + "\" + sName + ".tex"
-
     pView.Init Me, pModel
     pView.ConvertSelection
     pView.Show
     Exit Sub
-
-ErrorMsg:
-    MsgBox "This macro converts the selected table to LaTeX. Please select a single table", vbOKOnly + vbCritical
 End Sub
 

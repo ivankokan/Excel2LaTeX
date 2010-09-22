@@ -169,13 +169,33 @@ theend:      'Tabellenende
     IModel_GetConversionResult = FullText
 End Function
 
-Sub IModel_InitDefault()
+Public Sub IModel_InitDefault()
+    Set RangeToUse = GetDefaultRange
+    sFileName = GetDefaultFileName
+    
     Indent = 0
     CellWidth = 5
     IModel_Options = x2lBooktabs Or x2lConvertMathChars Or x2lCreateTableEnvironment
 End Sub
 
 ' Class implementation
+
+Private Function GetDefaultRange() As Range
+    If Selection Is Nothing Then Exit Function
+    If TypeName(Selection) <> "Range" Then Exit Function
+    If Selection.Areas.Count > 1 Then Exit Function
+    
+    Set GetDefaultRange = Selection
+End Function
+
+Private Function GetDefaultFileName()
+    Dim sName As String
+    On Error Resume Next
+    sName = ActiveSheet.Name
+    sName = RangeToUse.Name.Name
+    On Error GoTo 0
+    GetDefaultFileName = CurDir + "\" + sName + ".tex"
+End Function
 
 Private Sub AddText(ByVal txt As String, Optional ByVal LineFeed = False)
     If LineFeed Then txt = txt + vbLf

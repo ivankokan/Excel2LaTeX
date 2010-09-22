@@ -45,6 +45,13 @@ Public Property Let FileName(ByVal FileName As String)
 '
 End Property
 
+Public Property Get Range() As Range
+'
+End Property
+Public Property Set Range(ByVal iRange As Range)
+
+End Property
+
 Public Function GetConversionResult() As String
 '
 End Function

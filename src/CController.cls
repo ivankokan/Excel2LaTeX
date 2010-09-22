@@ -28,6 +28,7 @@ Public Sub Latex(ByVal pView As frmConvert, ByVal pModel As IModel)
     sName = selRange.Name.Name
     On Error GoTo 0
     
+    Set pModel.Range = Selection
     pModel.FileName = CurDir + "\" + sName + ".tex"
 
     pView.Init Me, pModel

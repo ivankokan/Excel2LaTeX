@@ -165,6 +165,10 @@ End Function
 
 ' Class implementation
 
+Private Sub Class_Initialize()
+'
+End Sub
+
 Private Sub AddText(ByVal txt As String, Optional ByVal LineFeed = False)
     If LineFeed Then txt = txt + vbLf
     FullText = FullText + txt

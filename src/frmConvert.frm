@@ -43,11 +43,24 @@ Public Sub InitModel(ByVal pModel As IModel)
     End With
 End Sub
 
+Public Sub InitFromModel(ByVal pModel As IModel)
+    With pModel
+        Me.txtCellSize = .CellWidth
+        Me.SetOptions (.Options)
+        Me.txtIndent = .Indent
+    End With
+End Sub
+
 Function GetOptions() As x2lOptions
     If chkBooktabs.Value Then GetOptions = GetOptions Or x2lBooktabs
     If chkConvertDollar.Value Then GetOptions = GetOptions Or x2lConvertMathChars
     If chkTableFloat.Value Then GetOptions = GetOptions Or x2lCreateTableEnvironment
 End Function
+Sub SetOptions(ByVal Options As x2lOptions)
+    chkBooktabs.Value = IIf(GetOptions And x2lBooktabs, stdole.Checked, stdole.Unchecked)
+    chkConvertDollar.Value = IIf(GetOptions And x2lConvertMathChars, stdole.Checked, stdole.Unchecked)
+    chkTableFloat.Value = IIf(GetOptions And x2lCreateTableEnvironment, stdole.Checked, stdole.Unchecked)
+End Sub
 
 Private Sub chkBooktabs_Click()
   ConvertSelection

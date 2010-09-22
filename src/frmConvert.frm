@@ -18,8 +18,11 @@ Option Explicit
 Private WithEvents mController As CController
 Attribute mController.VB_VarHelpID = -1
 
-Public Sub Init(ByVal pController As CController)
+Private mModel As IModel
+
+Public Sub Init(ByVal pController As CController, ByVal pModel As IModel)
     Set mController = pController
+    Set mModel = pModel
 End Sub
 
 Private Sub mController_ModelChanged()
@@ -27,10 +30,8 @@ Private Sub mController_ModelChanged()
 End Sub
 
 Public Sub ConvertSelection()
-    Dim pModel As IModel
-    Set pModel = NewModel
-    InitModel pModel
-    txtResult = pModel.GetConversionResult
+    InitModel mModel
+    txtResult = mModel.GetConversionResult
     txtResult.SetFocus
 End Sub
 

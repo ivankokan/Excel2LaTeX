@@ -166,7 +166,9 @@ End Function
 ' Class implementation
 
 Private Sub Class_Initialize()
-'
+    Indent = 0
+    CellWidth = 5
+    IModel_Options = x2lBooktabs Or x2lConvertMathChars Or x2lCreateTableEnvironment
 End Sub
 
 Private Sub AddText(ByVal txt As String, Optional ByVal LineFeed = False)

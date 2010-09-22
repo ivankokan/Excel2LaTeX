@@ -19,10 +19,12 @@ Private WithEvents mController As CController
 Attribute mController.VB_VarHelpID = -1
 
 Private mModel As IModel
+Private mbIgnoreControlEvents As Boolean
 
 Public Sub Init(ByVal pController As CController, ByVal pModel As IModel)
     Set mController = pController
     Set mModel = pModel
+    InitFromModel mModel
 End Sub
 
 Private Sub mController_ModelChanged()
@@ -30,6 +32,7 @@ Private Sub mController_ModelChanged()
 End Sub
 
 Public Sub ConvertSelection()
+    If mbIgnoreControlEvents Then Exit Sub
     InitModel mModel
     txtResult = mModel.GetConversionResult
     txtResult.SetFocus
@@ -44,11 +47,13 @@ Public Sub InitModel(ByVal pModel As IModel)
 End Sub
 
 Public Sub InitFromModel(ByVal pModel As IModel)
+    mbIgnoreControlEvents = True
     With pModel
         Me.txtCellSize = .CellWidth
         Me.SetOptions (.Options)
         Me.txtIndent = .Indent
     End With
+    mbIgnoreControlEvents = False
 End Sub
 
 Function GetOptions() As x2lOptions
@@ -57,9 +62,9 @@ Function GetOptions() As x2lOptions
     If chkTableFloat.Value Then GetOptions = GetOptions Or x2lCreateTableEnvironment
 End Function
 Sub SetOptions(ByVal Options As x2lOptions)
-    chkBooktabs.Value = IIf(GetOptions And x2lBooktabs, stdole.Checked, stdole.Unchecked)
-    chkConvertDollar.Value = IIf(GetOptions And x2lConvertMathChars, stdole.Checked, stdole.Unchecked)
-    chkTableFloat.Value = IIf(GetOptions And x2lCreateTableEnvironment, stdole.Checked, stdole.Unchecked)
+    chkBooktabs.Value = IIf(Options And x2lBooktabs, stdole.Checked, stdole.Unchecked)
+    chkConvertDollar.Value = IIf(Options And x2lConvertMathChars, stdole.Checked, stdole.Unchecked)
+    chkTableFloat.Value = IIf(Options And x2lCreateTableEnvironment, stdole.Checked, stdole.Unchecked)
 End Sub
 
 Private Sub chkBooktabs_Click()
@@ -129,9 +134,5 @@ End Sub
 Private Sub txtIndent_Change()
   spnIndent = txtIndent
   ConvertSelection
-End Sub
-
-Private Sub UserForm_Initialize()
-  spnCellWidth = txtCellSize
 End Sub
 

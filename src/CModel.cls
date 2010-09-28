@@ -120,8 +120,8 @@ Public Function IModel_GetConversionResult() As String
             txt = Replace(txt, "#", "\#")
                         
             'Check for Font Styles
-            If r.Cells(i).Font.Bold Then txt = "{\bf " + txt + "}"
-            If r.Cells(i).Font.Italic Then txt = "{\it " + txt + "}"
+            If r.Cells(i).Font.Bold Then txt = Printf("\textbf{%1}", txt)
+            If r.Cells(i).Font.Italic Then txt = Printf("\textit{%1}", txt)
             
             'Check for multicolumns
             If r.Cells(i).MergeCells Then   'multicolumn cell

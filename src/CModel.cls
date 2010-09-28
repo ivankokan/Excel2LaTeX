@@ -156,14 +156,13 @@ theend:      'Tabellenende
     If booktabs Then
         AddText Space(Indent) + "\bottomrule", True
     End If
-    AddText Space(Indent) + "\end{tabular}"
+    AddText Space(Indent) + "\end{tabular}%", True
     
     If tableFloat Then
         Indent = Indent - 2
-        AddText "", True
-        AddText Space(Indent) + "\label{tab:addlabel}", True
+        AddText Space(Indent) + "\label{tab:addlabel}%", True
         Indent = Indent - 2
-        AddText Space(Indent) + "\end{table}"
+        AddText Space(Indent) + "\end{table}%", True
     End If
     
     IModel_GetConversionResult = FullText

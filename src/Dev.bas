@@ -43,7 +43,7 @@ Private Sub ExportToAddin()
     Do While sCurrentFileName <> ""
         If sCurrentFileName = "Dev.bas" Then
             ' Ignore development module
-        ElseIf sCurrentFileName Like "*.bas" Or sCurrentFileName Like "*.frm" Then
+        ElseIf sCurrentFileName Like "*.bas" Or sCurrentFileName Like "*.frm" Or sCurrentFileName Like "*.cls" Then
             ImportComponent pTargetWkBook, sDir, sCurrentFileName
         End If
         

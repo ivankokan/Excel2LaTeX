@@ -11,4 +11,6 @@ Option Explicit
 
 Public Event Changed()
 
-
+Public Sub RaiseChanged()
+    RaiseEvent Changed
+End Sub

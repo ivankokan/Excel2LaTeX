@@ -34,23 +34,34 @@ Public Property Get IModel_Options() As x2lOptions
     If tableFloat Then IModel_Options = IModel_Options Or x2lCreateTableEnvironment
 End Property
 Public Property Let IModel_Options(ByVal Options As x2lOptions)
+    Dim oldOptions As x2lOptions
+    oldOptions = IModel_Options()
+    
     convertDollar = (Options And x2lConvertMathChars) <> x2lNone
     booktabs = (Options And x2lBooktabs) <> x2lNone
     tableFloat = (Options And x2lCreateTableEnvironment) <> x2lNone
+    
+    If oldOptions <> IModel_Options() Then
+        mpEvents.RaiseChanged
+    End If
 End Property
 
 Public Property Get IModel_Indent() As Integer
     IModel_Indent = Indent
 End Property
 Public Property Let IModel_Indent(ByVal iIndent As Integer)
+    If Indent = iIndent Then Exit Property
     Indent = iIndent
+    mpEvents.RaiseChanged
 End Property
 
 Public Property Get IModel_CellWidth() As Integer
     IModel_CellWidth = CellWidth
 End Property
 Public Property Let IModel_CellWidth(ByVal iCellWidth As Integer)
+    If CellWidth = iCellWidth Then Exit Property
     CellWidth = iCellWidth
+    mpEvents.RaiseChanged
 End Property
 
 Public Property Get IModel_FileName() As String

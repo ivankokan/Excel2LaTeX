@@ -36,10 +36,6 @@ Private Sub mModelEvents_Changed()
     txtResult = mModel.GetConversionResult
 End Sub
 
-Private Sub mController_ModelChanged()
-'
-End Sub
-
 Public Sub ConvertSelection()
     If mbIgnoreControlEvents Then Exit Sub
     InitModel mModel

@@ -19,12 +19,21 @@ Private WithEvents mController As CController
 Attribute mController.VB_VarHelpID = -1
 
 Private mModel As IModel
+Private WithEvents mModelEvents As IModelEvents
+Attribute mModelEvents.VB_VarHelpID = -1
+
 Private mbIgnoreControlEvents As Boolean
 
 Public Sub Init(ByVal pController As CController, ByVal pModel As IModel)
     Set mController = pController
     Set mModel = pModel
+    Set mModelEvents = pModel.Events
     InitFromModel mModel
+End Sub
+
+Private Sub mModelEvents_Changed()
+    If mbIgnoreControlEvents Then Exit Sub
+    txtResult = mModel.GetConversionResult
 End Sub
 
 Private Sub mController_ModelChanged()
@@ -69,16 +78,20 @@ Sub SetOptions(ByVal Options As x2lOptions)
     chkTableFloat.Value = (Options And x2lCreateTableEnvironment) <> 0
 End Sub
 
+Private Sub UpdateOptions()
+    mModel.Options = GetOptions()
+End Sub
+
 Private Sub chkBooktabs_Click()
-  ConvertSelection
+    UpdateOptions
 End Sub
 
 Private Sub chkConvertDollar_Click()
-  ConvertSelection
+    UpdateOptions
 End Sub
 
 Private Sub chkTableFloat_Click()
-  ConvertSelection
+    UpdateOptions
 End Sub
 
 Private Sub cmdBrowse_Click()
@@ -119,6 +132,7 @@ Private Sub CommandButton2_Click()
   frmAbout.Show
 End Sub
 
+
 Private Sub spnCellWidth_Change()
   txtCellSize = spnCellWidth
 End Sub
@@ -128,13 +142,12 @@ Private Sub spnIndent_Change()
 End Sub
 
 Private Sub txtCellSize_Change()
-  spnCellWidth = txtCellSize
-  ConvertSelection
+    spnCellWidth = txtCellSize
+    mModel.CellWidth = txtCellSize
 End Sub
 
-
 Private Sub txtIndent_Change()
-  spnIndent = txtIndent
-  ConvertSelection
+    spnIndent = txtIndent
+    mModel.Indent = txtIndent
 End Sub
 

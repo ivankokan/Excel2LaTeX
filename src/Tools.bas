@@ -56,6 +56,18 @@ Public Function Printf(ByVal sFormat As String, ParamArray Values()) As String
     Printf = Join(aText, "")
 End Function
 
+Sub SplitKeyValue(ByVal sKeyValue As String, ByRef sKey As String, ByRef sValue As String)
+    Dim lPos As Long
+    lPos = VBA.InStr(1, sKeyValue, "=")
+    
+    If lPos <= 0 Then
+        sKey = sKeyValue
+        sValue = ""
+    Else
+        sKey = Left$(sKeyValue, lPos - 1)
+        sValue = Mid$(sKeyValue, lPos + 1)
+    End If
+End Sub
 
 
 
@@ -78,3 +90,19 @@ Private Sub Test_Printf()
     Debug.Assert Printf("%1%%%2%%%") = "%1%%2%%"
 End Sub
 
+Private Sub Test_SplitKeyValue()
+    Dim sKey As String
+    Dim sValue As String
+    
+    SplitKeyValue "ab=cd", sKey, sValue
+    Debug.Assert sKey = "ab"
+    Debug.Assert sValue = "cd"
+    
+    SplitKeyValue "ab=cd=ef", sKey, sValue
+    Debug.Assert sKey = "ab"
+    Debug.Assert sValue = "cd=ef"
+    
+    SplitKeyValue "abc", sKey, sValue
+    Debug.Assert sKey = "abc"
+    Debug.Assert sValue = ""
+End Sub

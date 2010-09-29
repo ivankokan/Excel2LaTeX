@@ -1,15 +1,15 @@
-﻿                              Excel2LaTeX
-                             =============
-                                 v2.1
+﻿Excel2LaTeX
+=============
+v2.1
 
 It's difficult to create tables in LaTeX, especially if some columns are
 calculated. Excel2LaTeX allows you to transform the current selection from Excel
-to Latex.
+to LaTeX.
 
 Text formatting (bold, italic) is retained and multi-column cells are supported.
 Border lines can be retained, or replaced with the style of formatting
-recommended by the booktabs package. The generated LaTeX code can also be placed
-in a floating table environment.
+recommended by the booktabs package. The generated LaTeX code can also be 
+placed in a floating table environment.
 
 The LaTeX code can be copied to the clipboard or saved as a LaTeX file, which
 then can be included in an existing LaTeX document using the \input command.
@@ -31,7 +31,7 @@ USAGE
 ~~~~~
 Just select the table to convert and hit the button. You will be given the
 option to save the result to a file, or send it to the clipboard (so you can
-paste it on your Latex editor).
+paste it on your LaTeX editor).
 
 
 ANNOTATIONS
@@ -84,7 +84,7 @@ Version 2.1: Released on 18 Sep 2008
 Version 2.0: Released on 21 Jul 2001
 This version is based on modifications by Germán Riaño
 * Graphical user interface
-* The LATeX code can be copied to clipboard and then pasted into you editor.
+* The LaTeX code can be copied to clipboard and then pasted into you editor.
 * Better handling of multicolum cells
 * doublelines on top border are now handled
 

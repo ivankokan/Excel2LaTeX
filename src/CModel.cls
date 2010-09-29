@@ -175,9 +175,15 @@ Public Sub IModel_InitDefault()
     Indent = 0
     CellWidth = 5
     IModel_Options = x2lBooktabs Or x2lConvertMathChars Or x2lCreateTableEnvironment
+    
+    InitFromSettings VBA.GetSetting("Excel2LaTeX", "Main", "DefaultSettings")
 End Sub
 
 ' Class implementation
+
+Private Sub InitFromSettings(ByVal sSettings As String)
+'
+End Sub
 
 Private Function GetDefaultRange() As Range
     If Selection Is Nothing Then Exit Function

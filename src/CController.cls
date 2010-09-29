@@ -11,7 +11,7 @@ Option Explicit
 
 Implements IController
 
-Public Sub IController_Latex(ByVal pView As frmConvert, ByVal pModel As IModel)
+Public Sub IController_LaTeX(ByVal pView As frmConvert, ByVal pModel As IModel)
     If pModel.Range Is Nothing Then
         MsgBox "This macro converts the selected table to LaTeX. Please select a single rectangular range.", vbOKOnly + vbExclamation
         Exit Sub

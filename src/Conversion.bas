@@ -1,9 +1,9 @@
 Attribute VB_Name = "Conversion"
-' Excel2LaTeX:  is en excel to Latex converter.
+' Excel2LaTeX:  is en excel to LaTeX converter.
 ' The improvements of V2.0 are based on Modifications by German Riano german@mendozas.com
 ' Changes introduced:
 ' * Graphical user interface
-' * The LATeX code can be copied to clipboard and then pasted into you editor.
+' * The LaTeX code can be copied to clipboard and then pasted into you editor.
 ' * Better handling of multicolum cells
 ' * doublelines on top border are now handled
 '
@@ -22,10 +22,10 @@ Attribute VB_Name = "Conversion"
 
 Option Explicit
 
-Sub Latex()
-Attribute Latex.VB_Description = "Converts the selection to LaTex"
-Attribute Latex.VB_ProcData.VB_Invoke_Func = "l\n14"
-    NewController.Latex NewView, NewDefaultModel
+Sub LaTeX()
+Attribute LaTeX.VB_Description = "Converts the selection to LaTex"
+Attribute LaTeX.VB_ProcData.VB_Invoke_Func = "l\n14"
+    NewController.LaTeX NewView, NewDefaultModel
 End Sub
 
 Function NewController() As IController

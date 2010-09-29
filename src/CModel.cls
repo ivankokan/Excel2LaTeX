@@ -166,6 +166,9 @@ theend:      'Tabellenende
     End If
     
     IModel_GetConversionResult = FullText
+    
+    ' Save to registry after successful conversion
+    SaveToRegistry
 End Function
 
 Public Sub IModel_InitDefault()

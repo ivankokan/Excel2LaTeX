@@ -15,7 +15,7 @@ Public Event ModelChanged()
 
 Public Sub Latex(ByVal pView As frmConvert, ByVal pModel As IModel)
     If pModel.Range Is Nothing Then
-        MsgBox "This macro converts the selected table to LaTeX. Please select a single rectangular range.", vbOKOnly + vbCritical
+        MsgBox "This macro converts the selected table to LaTeX. Please select a single rectangular range.", vbOKOnly + vbExclamation
         Exit Sub
     End If
     

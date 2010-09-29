@@ -15,7 +15,7 @@ Attribute VB_PredeclaredId = True
 Attribute VB_Exposed = False
 Option Explicit
 
-Private WithEvents mController As CController
+Private mController As CController
 Attribute mController.VB_VarHelpID = -1
 
 Private mModel As IModel

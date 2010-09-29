@@ -9,3 +9,8 @@ Attribute VB_PredeclaredId = False
 Attribute VB_Exposed = False
 Option Explicit
 
+Public Sub Latex(ByVal pView As frmConvert, ByVal pModel As IModel)
+'
+End Sub
+
+

@@ -28,7 +28,7 @@ Attribute Latex.VB_ProcData.VB_Invoke_Func = "l\n14"
     NewController.Latex NewView, NewDefaultModel
 End Sub
 
-Function NewController() As CController
+Function NewController() As IController
     Set NewController = New CController
 End Function
 

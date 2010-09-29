@@ -1,6 +1,6 @@
 ﻿Excel2LaTeX
 =============
-v2.1
+v2.2
 
 It's difficult to create tables in LaTeX, especially if some columns are
 calculated. Excel2LaTeX allows you to transform the current selection from Excel
@@ -37,8 +37,8 @@ paste it on your LaTeX editor).
 ANNOTATIONS
 ~~~~~~~~~~~
 * Bold and italic are regognized as long as whole cell is in bold or italic.
-* Alignment formats (right,left,center) will be recognized for the whole column
-  (not for individual cells).
+* Alignment formats (right, left, center) will be recognized for the whole 
+  column (not for individual cells).
 * Font sizes are not supported, because they are handled completely different in
   TeX.
 * Mutlicolumn cells are supported. For this you have to merge the cells in Excel
@@ -49,7 +49,7 @@ ANNOTATIONS
 * You can put additional LaTeX formatting commands in the Excel cells, so you 
   don't have to edit the output, if you want some special chars or formats.
 * The default file name for export is the name of the selected range (if it has
-  one), otherwise it will be the active excel worksheet.
+  one), otherwise it will be the active Excel worksheet.
 
 
 COPYRIGHT
@@ -72,6 +72,19 @@ This work consists of the file Excel2LaTeX.xla.
 
 CHANGES
 ~~~~~~~
+Version 2.2: Released on 29 Sep 2010
+* Save and load settings to/from registry.
+* Bug fix: do not add two command buttons to the ribbons in Excel 2007 and 
+  later.
+* Bug fix: use \textbf and \textit instead of \bf and \it.
+* Bug fix: do not use vertical borders for multicolumn environment for 
+  booktabs tables.
+* Bug fix: correctly determine LaTeX column borders if Excel cell borders 
+  are set only for the top and/or left border.
+* Internal: avoid copying the range to a hidden worksheet before converting 
+  it to LaTeX.
+* Internal: various code refactorings.
+  
 Version 2.1: Released on 18 Sep 2008
 * Better character replacement: the previous version only replaced the first
   occurrence of $ or % in a cell.

@@ -185,6 +185,10 @@ Private Sub InitFromString(ByVal sSettings As String)
 '
 End Sub
 
+Private Function SaveToString() As String
+'
+End Function
+
 Private Function GetDefaultRange() As Range
     If Selection Is Nothing Then Exit Function
     If TypeName(Selection) <> "Range" Then Exit Function

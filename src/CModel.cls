@@ -176,12 +176,12 @@ Public Sub IModel_InitDefault()
     CellWidth = 5
     IModel_Options = x2lBooktabs Or x2lConvertMathChars Or x2lCreateTableEnvironment
     
-    InitFromSettings VBA.GetSetting("Excel2LaTeX", "Main", "DefaultSettings")
+    InitFromString VBA.GetSetting("Excel2LaTeX", "Main", "DefaultSettings")
 End Sub
 
 ' Class implementation
 
-Private Sub InitFromSettings(ByVal sSettings As String)
+Private Sub InitFromString(ByVal sSettings As String)
 '
 End Sub
 

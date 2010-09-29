@@ -20,7 +20,13 @@ Dim FullText As String
 Dim sFileName As String
 Dim RangeToUse As Range
 
+Private mpEvents As New IModelEvents
+
 ' IModel implementation
+
+Public Property Get IModel_Events() As IModelEvents
+    Set IModel_Events = mpEvents
+End Property
 
 Public Property Get IModel_Options() As x2lOptions
     If convertDollar Then IModel_Options = IModel_Options Or x2lConvertMathChars

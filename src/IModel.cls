@@ -17,6 +17,10 @@ Public Enum x2lOptions
     x2lConvertMathChars = &H4
 End Enum
 
+Public Property Get Events() As IModelEvents
+'
+End Property
+
 Public Property Get Options() As x2lOptions
 '
 End Property

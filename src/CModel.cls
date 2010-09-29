@@ -181,6 +181,14 @@ End Sub
 
 ' Class implementation
 
+Private Sub InitFromRegistry()
+'
+End Sub
+
+Private Sub SaveToRegistry()
+'
+End Sub
+
 Private Sub InitFromString(ByVal sSettings As String)
 '
 End Sub

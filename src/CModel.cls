@@ -182,20 +182,12 @@ End Sub
 ' Class implementation
 
 Private Sub InitFromRegistry()
-    InitFromString VBA.GetSetting("Excel2LaTeX", "Main", "DefaultSettings")
+    StringToModel Me, VBA.GetSetting("Excel2LaTeX", "Main", "DefaultSettings")
 End Sub
 
 Private Sub SaveToRegistry()
-    VBA.SaveSetting "Excel2LaTeX", "Main", "DefaultSettings", SaveToString()
+    VBA.SaveSetting "Excel2LaTeX", "Main", "DefaultSettings", ModelToString(Me)
 End Sub
-
-Private Sub InitFromString(ByVal sSettings As String)
-'
-End Sub
-
-Private Function SaveToString() As String
-'
-End Function
 
 Private Function GetDefaultRange() As Range
     If Selection Is Nothing Then Exit Function

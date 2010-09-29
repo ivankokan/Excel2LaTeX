@@ -45,3 +45,10 @@ Function NewView() As frmConvert
     Set NewView = New frmConvert
 End Function
 
+Public Function ModelToString(ByVal pModel As IModel) As String
+'
+End Function
+
+Public Sub StringToModel(ByVal pModel As IModel, ByVal sSettings As String)
+'
+End Sub

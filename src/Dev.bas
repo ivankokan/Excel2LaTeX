@@ -17,8 +17,8 @@ End Sub
 
 Private Sub PrepareCommit()
     ActiveWorkbook.Save
-    ExportToAddin
     ExportToCodeModules
+    ExportToAddin
 End Sub
 
 Private Sub ExportToAddin()

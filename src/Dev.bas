@@ -31,7 +31,7 @@ Private Sub ExportToAddin()
     Const ADDIN_EXTENSION As String = ".xla"
     
     Dim sTargetPath As String
-    sTargetPath = sDir & "..\" & sFileTitle & ADDIN_EXTENSION
+    sTargetPath = Printf("%1..\%2%3", sDir, sFileTitle, ADDIN_EXTENSION)
     
     VBA.FileSystem.FileCopy sDir & TEMPLATE_FILE, sTargetPath
     

@@ -22,9 +22,15 @@ Private Sub PrepareCommit()
 End Sub
 
 Private Sub ExportToAddin()
-    Dim sDir As String
     Dim sFileTitle As String
-    SplitPath Application.VBE.ActiveVBProject.FileName, sDir:=sDir, sFileTitle:=sFileTitle
+    SplitPath Application.VBE.ActiveVBProject.FileName, sFileTitle:=sFileTitle
+
+    ExportToAddinEx sFileTitle
+End Sub
+
+Private Sub ExportToAddinEx(ByVal sFileTitle As String)
+    Dim sDir As String
+    sDir = BaseDir()
     
     Const TEMPLATE_FILE = "Template.xla.xls"
     Const ADDIN_EXTENSION As String = ".xla"

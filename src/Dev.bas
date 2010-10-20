@@ -53,7 +53,7 @@ Private Sub ExportToNewSheet(ByVal sTemplateFile As String, ByVal sTargetFileNam
     Dim sCurrentFileName As String
     sCurrentFileName = VBA.FileSystem.Dir(sDir, vbNormal)
     Do While sCurrentFileName <> ""
-        If sCurrentFileName = "Dev.bas" Then
+        If (sTargetFileName Like "*.xla") And (sCurrentFileName = "Dev.bas") Then
             ' Ignore development module
         ElseIf sCurrentFileName Like "*.bas" Or sCurrentFileName Like "*.frm" Or sCurrentFileName Like "*.cls" Then
             ImportComponent pTargetWkBook, sDir, sCurrentFileName

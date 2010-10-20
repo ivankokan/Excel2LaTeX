@@ -15,6 +15,21 @@ Public Sub Commit(Optional ByVal sMessage As String)
     End If
 End Sub
 
+Public Sub CreateBzrWorksheet()
+    Dim sTargetPath As String
+    sTargetPath = BaseDir() & "Excel2LaTeX.xls"
+    
+    Application.ActiveWorkbook.SaveCopyAs sTargetPath
+    
+    Dim pTargetWkBook As Workbook
+    Set pTargetWkBook = Application.Workbooks.Open(sTargetPath)
+    
+    DropCodeModules pTargetWkBook
+    ImportCodeModules pTargetWkBook, True, True
+    
+    pTargetWkBook.Close True
+End Sub
+
 Public Sub CreateDevWorksheet()
     Dim sTargetPath As String
     sTargetPath = BaseDir() & "Excel2LaTeXDev.xls"
@@ -69,7 +84,7 @@ Private Sub ExportToNewSheet(ByVal sTemplateFile As String, ByVal sTargetFileNam
     pTargetWkBook.Close True
 End Sub
     
-Private Sub ImportCodeModules(ByVal pTargetWkBook As Workbook, ByVal bImportDevModule As Boolean)
+Private Sub ImportCodeModules(ByVal pTargetWkBook As Workbook, ByVal bImportDevModule As Boolean, Optional ByVal bImportOnlyDevModule As Boolean = False)
     Dim sDir As String
     sDir = BaseDir()
     
@@ -78,12 +93,24 @@ Private Sub ImportCodeModules(ByVal pTargetWkBook As Workbook, ByVal bImportDevM
     Do While sCurrentFileName <> ""
         If (Not bImportDevModule) And (sCurrentFileName = "Dev.bas") Then
             ' Ignore development module
+        ElseIf bImportOnlyDevModule And sCurrentFileName <> "Dev.bas" Then
+            ' Ignore anything but development module
         ElseIf sCurrentFileName Like "*.bas" Or sCurrentFileName Like "*.frm" Or sCurrentFileName Like "*.cls" Then
             ImportComponent pTargetWkBook, sDir, sCurrentFileName
         End If
         
         sCurrentFileName = VBA.FileSystem.Dir()
     Loop
+End Sub
+
+Private Sub DropCodeModules(ByVal pTargetWkBook As Workbook)
+    Dim pVbComponent As VBComponent
+    For Each pVbComponent In pTargetWkBook.VBProject.VBComponents
+        Select Case GetFileExtension(pVbComponent)
+        Case ".bas", ".cls", ".frm"
+            pTargetWkBook.VBProject.VBComponents.Remove pVbComponent
+        End Select
+    Next
 End Sub
 
 Private Sub ExportToCodeModules()

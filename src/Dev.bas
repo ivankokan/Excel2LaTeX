@@ -53,24 +53,13 @@ End Sub
 Private Sub PrepareCommit()
     ActiveWorkbook.Save
     ExportToCodeModules
-    ExportToAddin
 End Sub
 
-Private Sub ExportToAddin()
-    Dim sFileTitle As String
-    SplitPath Application.VBE.ActiveVBProject.FileName, sFileTitle:=sFileTitle
-
-    ExportToAddinEx sFileTitle
-End Sub
-
-Private Sub ExportToAddinEx(ByVal sFileTitle As String)
-    Const ADDIN_EXTENSION As String = ".xla"
+Public Sub ExportToAddin()
     Const TEMPLATE_FILE = "Template.xla.xls"
+    Const ADDIN_PATH As String = "..\Excel2LaTeX.xla"
     
-    Dim sTargetFileName As String
-    sTargetFileName = Printf("..\%1%2", sFileTitle, ADDIN_EXTENSION)
-    
-    ExportToNewSheet TEMPLATE_FILE, sTargetFileName
+    ExportToNewSheet TEMPLATE_FILE, ADDIN_PATH
 End Sub
     
 Private Sub ExportToNewSheet(ByVal sTemplateFile As String, ByVal sTargetFileName As String)

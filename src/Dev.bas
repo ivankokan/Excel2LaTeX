@@ -53,11 +53,19 @@ End Sub
 Private Sub PrepareCommit()
     ActiveWorkbook.Save
     ExportToCodeModules
+    ExportToDevAddin
 End Sub
 
 Public Sub ExportToAddin()
     Const TEMPLATE_FILE = "Template.xla.xls"
     Const ADDIN_PATH As String = "..\Excel2LaTeX.xla"
+    
+    ExportToNewSheet TEMPLATE_FILE, ADDIN_PATH
+End Sub
+    
+Public Sub ExportToDevAddin()
+    Const TEMPLATE_FILE = "Template.xla.xls"
+    Const ADDIN_PATH As String = "..\Excel2LaTeXDev.xla"
     
     ExportToNewSheet TEMPLATE_FILE, ADDIN_PATH
 End Sub

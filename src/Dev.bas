@@ -15,6 +15,20 @@ Public Sub Commit(Optional ByVal sMessage As String)
     End If
 End Sub
 
+Public Sub CreateDevWorksheet()
+    Dim sTargetPath As String
+    sTargetPath = BaseDir() & "Excel2LaTeXDev.xls"
+    
+    Application.ActiveWorkbook.SaveCopyAs sTargetPath
+    
+    Dim pTargetWkBook As Workbook
+    Set pTargetWkBook = Application.Workbooks.Open(sTargetPath)
+    
+    ImportCodeModules pTargetWkBook, True
+    
+    pTargetWkBook.Close True
+End Sub
+
 Private Sub PrepareCommit()
     ActiveWorkbook.Save
     ExportToCodeModules

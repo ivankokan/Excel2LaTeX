@@ -29,16 +29,23 @@ Private Sub ExportToAddin()
 End Sub
 
 Private Sub ExportToAddinEx(ByVal sFileTitle As String)
+    Const ADDIN_EXTENSION As String = ".xla"
+    Const TEMPLATE_FILE = "Template.xla.xls"
+    
+    Dim sTargetFileName As String
+    sTargetFileName = Printf("..\%1%2", sFileTitle, ADDIN_EXTENSION)
+    
+    ExportToNewSheet TEMPLATE_FILE, sTargetFileName
+End Sub
+    
+Private Sub ExportToNewSheet(ByVal sTemplateFile As String, ByVal sTargetFileName As String)
     Dim sDir As String
     sDir = BaseDir()
     
-    Const TEMPLATE_FILE = "Template.xla.xls"
-    Const ADDIN_EXTENSION As String = ".xla"
-    
     Dim sTargetPath As String
-    sTargetPath = Printf("%1..\%2%3", sDir, sFileTitle, ADDIN_EXTENSION)
+    sTargetPath = sDir & sTargetFileName
     
-    VBA.FileSystem.FileCopy sDir & TEMPLATE_FILE, sTargetPath
+    VBA.FileSystem.FileCopy sDir & sTemplateFile, sTargetPath
     
     Dim pTargetWkBook As Workbook
     Set pTargetWkBook = Application.Workbooks.Open(sTargetPath)

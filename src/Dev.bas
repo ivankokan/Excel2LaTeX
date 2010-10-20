@@ -50,10 +50,19 @@ Private Sub ExportToNewSheet(ByVal sTemplateFile As String, ByVal sTargetFileNam
     Dim pTargetWkBook As Workbook
     Set pTargetWkBook = Application.Workbooks.Open(sTargetPath)
     
+    ImportCodeModules pTargetWkBook, False
+    
+    pTargetWkBook.Close True
+End Sub
+    
+Private Sub ImportCodeModules(ByVal pTargetWkBook As Workbook, ByVal bImportDevModule As Boolean)
+    Dim sDir As String
+    sDir = BaseDir()
+    
     Dim sCurrentFileName As String
     sCurrentFileName = VBA.FileSystem.Dir(sDir, vbNormal)
     Do While sCurrentFileName <> ""
-        If (sTargetFileName Like "*.xla") And (sCurrentFileName = "Dev.bas") Then
+        If (Not bImportDevModule) And (sCurrentFileName = "Dev.bas") Then
             ' Ignore development module
         ElseIf sCurrentFileName Like "*.bas" Or sCurrentFileName Like "*.frm" Or sCurrentFileName Like "*.cls" Then
             ImportComponent pTargetWkBook, sDir, sCurrentFileName
@@ -61,8 +70,6 @@ Private Sub ExportToNewSheet(ByVal sTemplateFile As String, ByVal sTargetFileNam
         
         sCurrentFileName = VBA.FileSystem.Dir()
     Loop
-    
-    pTargetWkBook.Close True
 End Sub
 
 Private Sub ExportToCodeModules()

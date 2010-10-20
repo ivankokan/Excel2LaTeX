@@ -36,12 +36,18 @@ Public Sub CreateDevWorksheet()
     
     Application.ActiveWorkbook.SaveCopyAs sTargetPath
     
+    Dim pOldWkBook As Workbook
+    Set pOldWkBook = Application.ActiveWorkbook
+    
     Dim pTargetWkBook As Workbook
     Set pTargetWkBook = Application.Workbooks.Open(sTargetPath)
     
+    DropCodeModules pTargetWkBook
     ImportCodeModules pTargetWkBook, True
     
-    pTargetWkBook.Close True
+    pTargetWkBook.Save
+    
+    pOldWkBook.Close False
 End Sub
 
 Private Sub PrepareCommit()

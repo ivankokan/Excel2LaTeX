@@ -192,14 +192,14 @@ theend:      'Tabellenende
 End Function
 
 Public Sub IModel_InitDefault()
-    Set RangeToUse = GetDefaultRange
-    sFileName = GetDefaultFileName
-    
     Indent = 0
     CellWidth = 5
     IModel_Options = x2lBooktabs Or x2lConvertMathChars Or x2lCreateTableEnvironment
     
     InitFromRegistry
+
+    Set RangeToUse = GetDefaultRange
+    sFileName = GetDefaultFileName
 End Sub
 
 Private Property Get IModel_Description() As String

@@ -9,6 +9,10 @@ Attribute VB_PredeclaredId = False
 Attribute VB_Exposed = False
 Option Explicit
 
+Public Property Get Events() As IStorageEvents
+'
+End Property
+
 Public Function Add(ByVal pModel As IModel) As Long
 '
 End Function

@@ -13,14 +13,22 @@ Implements IStorage
 
 Private mCollection As New Collection
 
+Private mpEvents As New IStorageEvents
+
+
+Private Property Get IStorage_Events() As IStorageEvents
+    Set IStorage_Events = mpEvents
+End Property
 
 Private Function IStorage_Add(ByVal pModel As IModel) As Long
     IStorage_Add = mCollection.Count + 1
     mCollection.Add pModel
+    mpEvents.RaiseChanged
 End Function
 
 Private Sub IStorage_Remove(ByVal lIndex As Long)
     mCollection.Remove lIndex
+    mpEvents.RaiseChanged
 End Sub
 
 Private Function IStorage_GetItems() As Collection

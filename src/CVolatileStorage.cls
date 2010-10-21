@@ -36,7 +36,7 @@ Private Function IStorage_GetItems() As Collection
     
     Dim sModel As Variant
     For Each sModel In mCollection
-        IStorage_GetItems.Add StringToModel(NewModel(), sModel)
+        IStorage_GetItems.Add StringToNewModel(sModel)
     Next
 End Function
 

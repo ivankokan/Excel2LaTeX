@@ -36,4 +36,9 @@ Public Sub StringToModel(ByVal pModel As IModel, ByVal sSettings As String)
     Next
 End Sub
 
+Public Function StringToNewModel(ByVal sSettings As String) As IModel
+    Set StringToNewModel = NewModel()
+    StringToModel StringToNewModel, sSettings
+End Function
+
 

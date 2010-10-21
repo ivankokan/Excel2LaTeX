@@ -22,7 +22,7 @@ End Property
 
 Private Function IStorage_Add(ByVal pModel As IModel) As Long
     IStorage_Add = mCollection.Count + 1
-    mCollection.Add pModel
+    mCollection.Add ModelToString(pModel)
     mpEvents.RaiseChanged
 End Function
 
@@ -34,9 +34,9 @@ End Sub
 Private Function IStorage_GetItems() As Collection
     Set IStorage_GetItems = New Collection
     
-    Dim pModel As IModel
-    For Each pModel In mCollection
-        IStorage_GetItems.Add pModel
+    Dim sModel As Variant
+    For Each sModel In mCollection
+        IStorage_GetItems.Add StringToModel(NewModel(), sModel)
     Next
 End Function
 

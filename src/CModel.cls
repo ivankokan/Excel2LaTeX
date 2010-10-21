@@ -199,6 +199,10 @@ Public Sub IModel_InitDefault()
     InitFromRegistry
 End Sub
 
+Private Property Get IModel_Description() As String
+    IModel_Description = Printf("%1!%2", RangeToUse.Worksheet.Name, RangeToUse.Address)
+End Property
+
 ' Class implementation
 
 Private Sub InitFromRegistry()

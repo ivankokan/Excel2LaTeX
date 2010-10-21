@@ -63,3 +63,7 @@ End Function
 Public Sub InitDefault()
 '
 End Sub
+
+Public Property Get Description() As String
+'
+End Property

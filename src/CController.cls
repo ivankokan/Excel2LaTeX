@@ -12,7 +12,7 @@ Option Explicit
 Implements IController
 
 Public Sub IController_LaTeX(ByVal pView As frmConvert, ByVal pModel As IModel, ByVal pStorage As IStorage)
-    If pModel.Range Is Nothing Then
+    If pModel.RangeAddress = "" Then
         MsgBox "This macro converts the selected table to LaTeX. Please select a single rectangular range.", vbOKOnly + vbExclamation
         Exit Sub
     End If

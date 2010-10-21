@@ -71,11 +71,14 @@ Public Property Let IModel_FileName(ByVal iFileName As String)
     sFileName = iFileName
 End Property
 
-Public Property Get IModel_Range() As Range
-    Set IModel_Range = RangeToUse
+Public Property Get IModel_RangeAddress() As String
+    If RangeToUse Is Nothing Then Exit Property
+    IModel_RangeAddress = Printf("%1!%2", RangeToUse.Worksheet.Name, RangeToUse.Address)
 End Property
-Public Property Set IModel_Range(ByVal iRange As Range)
-    Set RangeToUse = iRange
+Public Property Let IModel_RangeAddress(ByVal iRange As String)
+    Set RangeToUse = Nothing
+    If iRange = "" Then Exit Property
+    Set RangeToUse = Application.Range(iRange)
 End Property
 
 Public Function IModel_GetConversionResult() As String

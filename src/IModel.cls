@@ -49,11 +49,11 @@ Public Property Let FileName(ByVal FileName As String)
 '
 End Property
 
-Public Property Get Range() As Range
+Public Property Get RangeAddress() As String
 '
 End Property
-Public Property Set Range(ByVal iRange As Range)
-
+Public Property Let RangeAddress(ByVal iRange As String)
+'
 End Property
 
 Public Function GetConversionResult() As String

@@ -18,4 +18,8 @@ Public Function NewView() As frmConvert
     Set NewView = New frmConvert
 End Function
 
+Function NewStorage() As IStorage
+    Set NewStorage = New CVolatileStorage
+End Function
+
 

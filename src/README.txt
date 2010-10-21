@@ -1,9 +1,10 @@
 This is the "development environment". The master files are the .bas, .cls and 
 .frm/.frx files. To edit these master files, the following workflow is suggested:
 
-- After branch or checkout, open Excel2LaTeX.xls and execute the routine 
+- After branch or checkout, execute the script "!CreateDevWorksheet.wsf". It will 
+	open Excel2LaTeX.xls in the background and execute the routine 
 	Dev.CreateDevWorksheet. This imports the master files to a new Excel sheet,
-	Excel2LaTeXDev.cls. This file is ignored for version control, modifications
+	Excel2LaTeXDev.xls. This file is ignored for version control, modifications
 	are not committed.
 - From the VBA debug window (accessible via Ctrl+G), call Diff to see the current
 	changes. This exports all code modules back to the master files and shows

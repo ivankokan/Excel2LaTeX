@@ -7,6 +7,7 @@ Public Function ModelToString(ByVal pModel As IModel) As String
             & Printf("Options=%1;", .Options) _
             & Printf("CellWidth=%1;", .CellWidth) _
             & Printf("Indent=%1;", .Indent) _
+            & Printf("RangeAddress=%1;", .RangeAddress) _
             & ""
     End With
 End Function
@@ -30,6 +31,8 @@ Public Sub StringToModel(ByVal pModel As IModel, ByVal sSettings As String)
                 .CellWidth = sValue
             Case "Indent"
                 .Indent = sValue
+            Case "RangeAddress"
+                .RangeAddress = sValue
             End Select
         End With
         On Error GoTo 0

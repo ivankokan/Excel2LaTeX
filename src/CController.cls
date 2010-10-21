@@ -18,7 +18,7 @@ Public Sub IController_LaTeX(ByVal pView As frmConvert, ByVal pModel As IModel, 
     End If
     
     Load pView
-    pView.Init Me, pModel
+    pView.Init Me, pModel, pStorage
     pView.ConvertSelection
     pView.Show
     Exit Sub

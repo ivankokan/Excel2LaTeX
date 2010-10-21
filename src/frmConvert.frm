@@ -22,18 +22,28 @@ Private mModel As IModel
 Private WithEvents mModelEvents As IModelEvents
 Attribute mModelEvents.VB_VarHelpID = -1
 
+Private mStorage As IStorage
+Private WithEvents mStorageEvents As IStorageEvents
+Attribute mStorageEvents.VB_VarHelpID = -1
+
 Private mbIgnoreControlEvents As Boolean
 
-Public Sub Init(ByVal pController As CController, ByVal pModel As IModel)
+Public Sub Init(ByVal pController As CController, ByVal pModel As IModel, ByVal pStorage As IStorage)
     Set mController = pController
     Set mModel = pModel
     Set mModelEvents = pModel.Events
+    Set mStorage = pStorage
+    Set mStorageEvents = pStorage.Events
     InitFromModel mModel
 End Sub
 
 Private Sub mModelEvents_Changed()
     If mbIgnoreControlEvents Then Exit Sub
     txtResult = mModel.GetConversionResult
+End Sub
+
+Private Sub mStorageEvents_Changed()
+'
 End Sub
 
 Public Sub ConvertSelection()

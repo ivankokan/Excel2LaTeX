@@ -200,6 +200,10 @@ Public Sub IModel_InitDefault()
 End Sub
 
 Private Property Get IModel_Description() As String
+    If RangeToUse Is Nothing Then
+        IModel_Description = "(empty range)"
+        Exit Property
+    End If
     IModel_Description = Printf("%1!%2", RangeToUse.Worksheet.Name, RangeToUse.Address)
 End Property
 

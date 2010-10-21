@@ -19,7 +19,8 @@ Public Function NewView() As frmConvert
 End Function
 
 Function NewStorage() As IStorage
-    Set NewStorage = New CVolatileStorage
+    Static pStorage As New CVolatileStorage
+    Set NewStorage = pStorage
 End Function
 
 

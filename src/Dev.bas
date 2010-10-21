@@ -131,7 +131,13 @@ End Sub
 
 
 Private Sub ImportComponent(ByVal pTargetWkBook As Workbook, ByVal sDir As String, ByVal sFileName As String)
-    pTargetWkBook.VBProject.VBComponents.Import sDir & sFileName
+    Dim pVbComponent As VBComponent
+    Set pVbComponent = pTargetWkBook.VBProject.VBComponents.Import(sDir & sFileName)
+    
+    ' Bug: VBA inserts extra line when importing .frm files => delete first line upon import
+    If sFileName Like "*.frm" Then
+        pVbComponent.CodeModule.DeleteLines 1
+    End If
 End Sub
 
 

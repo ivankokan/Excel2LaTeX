@@ -52,6 +52,7 @@ End Property
 Private Property Set IView_Storage(ByVal pStorage As IStorage)
     Set mStorage = pStorage
     Set mStorageEvents = pStorage.Events
+    LoadStoredTablesList
 End Property
 
 Private Sub IView_Show(ByVal Modal As FormShowConstants)
@@ -102,7 +103,7 @@ Private Sub mModelEvents_Changed()
 End Sub
 
 Private Sub mStorageEvents_Changed()
-'
+    LoadStoredTablesList
 End Sub
 
 Private Sub ConvertSelection()
@@ -130,6 +131,15 @@ Public Sub InitFromModel(ByVal pModel As IModel)
     End With
     mbIgnoreControlEvents = False
     ConvertSelection
+End Sub
+
+Private Sub LoadStoredTablesList()
+    lvwStoredTables.Clear
+    
+    Dim pModel As IModel
+    For Each pModel In mStorage.GetItems
+        lvwStoredTables.AddItem pModel.Description
+    Next
 End Sub
 
 Function GetOptions() As x2lOptions
@@ -184,6 +194,14 @@ Private Sub cmdSave_Click()
     SaveConversionResultToFile mModel
     Hide
 End Sub
+
+
+
+
+Private Sub cmdStore_Click()
+    mStorage.Add mModel
+End Sub
+
 
 
 Private Sub CommandButton2_Click()

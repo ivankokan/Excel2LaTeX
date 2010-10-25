@@ -38,18 +38,6 @@ Private mbIgnoreControlEvents As Boolean
 '
 ' IView implementation
 '
-Private Property Get IView_Model() As IModel
-    Set IView_Model = mModel
-End Property
-Private Property Set IView_Model(ByVal pModel As IModel)
-    Set mModel = pModel
-    Set mModelEvents = pModel.Events
-    InitFromModel mModel
-    
-    Set mActiveWkSheet = Nothing
-    If Not mModel.Range Is Nothing Then Set mActiveWkSheet = mModel.Range.Worksheet
-End Property
-
 Private Property Get IView_Controller() As IController
     Set IView_Controller = mController
 End Property
@@ -97,7 +85,15 @@ Private Sub mActiveWkSheet_Change(ByVal Target As Range)
 End Sub
 
 Private Sub mControllerEvents_ModelChanged()
-    Set IView_Model = mController.Model
+    Dim pModel As IModel
+    Set pModel = mController.Model
+    
+    Set mModel = pModel
+    Set mModelEvents = pModel.Events
+    InitFromModel mModel
+    
+    Set mActiveWkSheet = Nothing
+    If Not mModel.Range Is Nothing Then Set mActiveWkSheet = mModel.Range.Worksheet
 End Sub
 
 Private Sub mModelEvents_Changed()

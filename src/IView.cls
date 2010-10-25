@@ -9,13 +9,6 @@ Attribute VB_PredeclaredId = False
 Attribute VB_Exposed = False
 Option Explicit
 
-Public Property Get Model() As IModel
-'
-End Property
-Public Property Set Model(ByVal pModel As IModel)
-'
-End Property
-
 Public Property Get Controller() As IController
 '
 End Property

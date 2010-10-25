@@ -48,6 +48,9 @@ End Property
 Public Property Let FileName(ByVal FileName As String)
 '
 End Property
+Public Property Get AbsoluteFileName() As String
+'
+End Property
 
 Public Property Get RangeAddress() As String
 '

@@ -70,6 +70,13 @@ End Property
 Public Property Let IModel_FileName(ByVal iFileName As String)
     sFileName = iFileName
 End Property
+Public Property Get IModel_AbsoluteFileName() As String
+    If sFileName Like "?:\*" Or sFileName Like "\\*\*" Then
+        IModel_AbsoluteFileName = sFileName
+    Else
+        IModel_AbsoluteFileName = Printf("%1\%2", RangeToUse.Worksheet.Parent.PATH, sFileName)
+    End If
+End Property
 
 Public Property Get IModel_RangeAddress() As String
     IModel_RangeAddress = RangeToAddress(RangeToUse)

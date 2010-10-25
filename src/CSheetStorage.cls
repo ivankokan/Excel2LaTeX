@@ -117,11 +117,9 @@ Private Function GetStorageSheet(Optional ByVal bCreate As Boolean = True) As Wo
         Set GetStorageSheet = .Item("Excel2LaTeX")
         If (Err.Number <> 0) And bCreate Then
             On Error GoTo 0
-            Dim pOldWkSheet As Worksheet
-            Set pOldWkSheet = ActiveWorkbook.ActiveSheet
             Set GetStorageSheet = .Add
             GetStorageSheet.Name = "Excel2LaTeX"
-            pOldWkSheet.Activate
+            GetStorageSheet.Visible = xlSheetHidden
         End If
     End With
 End Function

@@ -46,7 +46,7 @@ Private Sub mStorageEvents_Changed()
 '
 End Sub
 
-Public Sub ConvertSelection()
+Private Sub ConvertSelection()
     If mbIgnoreControlEvents Then Exit Sub
     InitModel mModel
     txtResult = mModel.GetConversionResult
@@ -71,6 +71,7 @@ Public Sub InitFromModel(ByVal pModel As IModel)
         Me.txtFilename = .FileName
     End With
     mbIgnoreControlEvents = False
+    ConvertSelection
 End Sub
 
 Function GetOptions() As x2lOptions

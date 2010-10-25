@@ -117,7 +117,7 @@ Private Function GetColumnList(Optional ByRef cNameList As Collection) As Collec
     Dim pStorageSheet As Worksheet
     Set pStorageSheet = GetStorageSheet(False)
     
-    If pStorageSheet Is Nothing Then Exit Sub
+    If pStorageSheet Is Nothing Then Exit Function
     
     Dim pFirstRow As Range
     Set pFirstRow = pStorageSheet.Rows(1)

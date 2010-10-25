@@ -26,7 +26,7 @@ Private Property Get IController_Model() As IModel
 End Property
 Private Property Set IController_Model(ByVal pModel As IModel)
     Set mModel = pModel
-    Set mView.Model = pModel
+    mpEvents.RaiseModelChanged
 End Property
 
 Private Property Get IController_View() As IView

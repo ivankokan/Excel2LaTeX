@@ -19,6 +19,8 @@ Implements IView
 
 Private mController As IController
 Attribute mController.VB_VarHelpID = -1
+Private WithEvents mControllerEvents As IControllerEvents
+Attribute mControllerEvents.VB_VarHelpID = -1
 
 Private mModel As IModel
 Private WithEvents mModelEvents As IModelEvents
@@ -53,6 +55,7 @@ Private Property Get IView_Controller() As IController
 End Property
 Private Property Set IView_Controller(ByVal pController As IController)
     Set mController = pController
+    Set mControllerEvents = pController.Events
 End Property
 
 Private Property Get IView_Storage() As IStorage
@@ -91,6 +94,10 @@ Private Sub mActiveWkSheet_Change(ByVal Target As Range)
     If Not Intersect(Target, UnionOfRangeAndItsPrecedents(mModel.Range)) Is Nothing Then
         ConvertSelection
     End If
+End Sub
+
+Private Sub mControllerEvents_ModelChanged()
+    Set IView_Model = mController.Model
 End Sub
 
 Private Sub mModelEvents_Changed()

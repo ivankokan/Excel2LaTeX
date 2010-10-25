@@ -236,6 +236,10 @@ Private Sub cmdDelete_Click()
 End Sub
 
 
+Private Sub cmdExportAll_Click()
+    SaveAllStoredItems mStorage
+End Sub
+
 Private Sub CommandButton2_Click()
   frmAbout.Show
 End Sub

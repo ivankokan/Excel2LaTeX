@@ -87,6 +87,10 @@ Private Sub lvwStoredTables_Change()
     cmdOverwrite.Enabled = bSelected
 End Sub
 
+Private Sub lvwStoredTables_DblClick(ByVal Cancel As MSForms.ReturnBoolean)
+    If cmdLoad.Enabled Then cmdLoad_Click
+End Sub
+
 Private Sub lvwStoredTables_KeyDown(ByVal KeyCode As MSForms.ReturnInteger, ByVal Shift As Integer)
     Select Case KeyCode
     Case 46 ' delete

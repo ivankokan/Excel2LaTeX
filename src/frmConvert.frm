@@ -48,7 +48,6 @@ End Sub
 
 Private Sub ConvertSelection()
     If mbIgnoreControlEvents Then Exit Sub
-    InitModel mModel
     txtResult = mModel.GetConversionResult
     txtResult.SetFocus
 End Sub
@@ -118,10 +117,6 @@ Private Sub cmdCopy_Click()
   dataObj.SetText txtResult
   dataObj.PutInClipboard
   Hide
-End Sub
-
-Private Sub cmdRefresh_Click()
-  ConvertSelection
 End Sub
 
 Private Sub cmdSave_Click()

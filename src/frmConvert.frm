@@ -15,6 +15,8 @@ Attribute VB_PredeclaredId = True
 Attribute VB_Exposed = False
 Option Explicit
 
+Implements IView
+
 Private mController As IController
 Attribute mController.VB_VarHelpID = -1
 
@@ -182,3 +184,7 @@ Private Sub txtIndent_Change()
     mModel.Indent = txtIndent
 End Sub
 
+
+Private Sub UserForm_Click()
+' This is regenerated every time the form is activated in the IDE. Just keep it here.
+End Sub

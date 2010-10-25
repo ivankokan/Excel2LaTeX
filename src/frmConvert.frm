@@ -216,6 +216,7 @@ End Sub
 
 Private Sub cmdStore_Click()
     mStorage.Add mModel
+    lvwStoredTables.ListIndex = lvwStoredTables.ListCount - 1
 End Sub
 
 Private Sub cmdOverwrite_Click()
@@ -223,6 +224,7 @@ Private Sub cmdOverwrite_Click()
     lIndex = lvwStoredTables.ListIndex
     mStorage.Remove lIndex + 1
     mStorage.Add mModel, lIndex
+    lvwStoredTables.ListIndex = lIndex
 End Sub
 
 Private Sub cmdLoad_Click()

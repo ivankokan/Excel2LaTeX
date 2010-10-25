@@ -128,6 +128,7 @@ Public Sub InitFromModel(ByVal pModel As IModel)
         Me.SetOptions (.Options)
         Me.txtIndent = .Indent
         Me.txtFilename = .FileName
+        Me.cmdSelection.caption = .RangeAddress
     End With
     mbIgnoreControlEvents = False
     ConvertSelection
@@ -232,6 +233,11 @@ End Sub
 Private Sub txtIndent_Change()
     spnIndent = txtIndent
     mModel.Indent = txtIndent
+End Sub
+
+Private Sub cmdSelection_Click()
+    Set mModel.Range = Application.Selection
+    Me.cmdSelection.caption = mModel.RangeAddress
 End Sub
 
 

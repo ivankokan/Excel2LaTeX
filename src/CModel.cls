@@ -212,7 +212,7 @@ Private Property Get IModel_Range() As Range
     Set IModel_Range = RangeToUse
 End Property
 Private Property Set IModel_Range(ByVal pRange As Range)
-    Set RangeToUse = pRange
+    Set RangeToUse = pRange.Areas(1)
     mpEvents.RaiseChanged
 End Property
 
@@ -229,7 +229,6 @@ End Sub
 Private Function GetDefaultRange() As Range
     If Selection Is Nothing Then Exit Function
     If TypeName(Selection) <> "Range" Then Exit Function
-    If Selection.Areas.Count > 1 Then Exit Function
     
     Set GetDefaultRange = Selection
 End Function

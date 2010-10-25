@@ -1,17 +1,47 @@
 Attribute VB_Name = "Memento"
 Option Explicit
 
-Public Function ModelToString(ByVal pModel As IModel) As String
-    With pModel
-        ModelToString = "" _
-            & Printf("Options=%1;", .Options) _
-            & Printf("CellWidth=%1;", .CellWidth) _
-            & Printf("Indent=%1;", .Indent) _
-            & Printf("RangeAddress=%1;", .RangeAddress) _
-            & Printf("FileName=%1;", .FileName) _
-            & ""
-    End With
+Public Function ModelPropertyNames() As String()
+    Const NAMES As String = "RangeAddress|Options|CellWidth|Indent|FileName"
+    
+    Static aNames() As String
+    Static bInitialized As Boolean
+    
+    If Not bInitialized Then
+        aNames = Split(NAMES, "|")
+        bInitialized = True
+    End If
+        
+    ModelPropertyNames = aNames
 End Function
+
+Public Function ModelToCollection(ByVal pModel As IModel) As Collection
+    Dim pCollection As New Collection
+    
+    Dim sName As Variant
+    For Each sName In ModelPropertyNames()
+        pCollection.Add CallByName(pModel, sName, VbGet), sName
+    Next
+End Function
+
+Public Function ModelToString(ByVal pModel As IModel) As String
+    Dim pCollection As New Collection
+    
+    Dim sName As Variant
+    For Each sName In ModelPropertyNames()
+        ModelToString = ModelToString & Printf("%1=%2", sName, CallByName(pModel, sName, VbGet))
+    Next
+End Function
+
+Public Sub CollectionToModel(ByVal pModel As IModel, ByVal pCollection As Collection)
+    Dim sName As Variant
+    For Each sName In ModelPropertyNames()
+        On Error Resume Next
+        CallByName pModel, sName, VbLet, pCollection(sName)
+        On Error GoTo 0
+    Next
+End Sub
+
 
 Public Sub StringToModel(ByVal pModel As IModel, ByVal sSettings As String)
     Dim aSettings() As String
@@ -24,24 +54,15 @@ Public Sub StringToModel(ByVal pModel As IModel, ByVal sSettings As String)
         SplitKeyValue aSettings(l1), sKey, sValue
         
         On Error Resume Next
-        With pModel
-            Select Case sKey
-            Case "Options"
-                .Options = sValue
-            Case "CellWidth"
-                .CellWidth = sValue
-            Case "Indent"
-                .Indent = sValue
-            Case "RangeAddress"
-                .RangeAddress = sValue
-            Case "FileName"
-                .FileName = sValue
-            End Select
-        End With
+        CallByName pModel, sKey, VbLet, sValue
         On Error GoTo 0
     Next
 End Sub
 
+Public Function CollectionToNewModel(ByVal pSettings As Collection) As IModel
+    Set CollectionToNewModel = NewModel()
+    CollectionToModel CollectionToNewModel, pSettings
+End Function
 Public Function StringToNewModel(ByVal sSettings As String) As IModel
     Set StringToNewModel = NewModel()
     StringToModel StringToNewModel, sSettings

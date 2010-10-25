@@ -71,3 +71,7 @@ End Property
 Public Property Get Range() As Range
 '
 End Property
+Public Property Set Range(ByVal pRange As Range)
+'
+End Property
+

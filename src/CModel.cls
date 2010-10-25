@@ -211,6 +211,10 @@ End Property
 Private Property Get IModel_Range() As Range
     Set IModel_Range = RangeToUse
 End Property
+Private Property Set IModel_Range(ByVal pRange As Range)
+    Set RangeToUse = pRange
+    mpEvents.RaiseChanged
+End Property
 
 ' Class implementation
 

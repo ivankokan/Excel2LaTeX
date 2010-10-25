@@ -24,6 +24,8 @@ Private Function IStorage_Add(ByVal pModel As IModel, Optional ByVal lIndex = -1
     IStorage_Add = mCollection.Count + 1
     If (lIndex < 0) Or (mCollection.Count = 0) Then
         mCollection.Add ModelToString(pModel)
+    ElseIf lIndex = 0 Then
+        mCollection.Add ModelToString(pModel), Before:=1
     Else
         mCollection.Add ModelToString(pModel), After:=lIndex
     End If

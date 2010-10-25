@@ -15,6 +15,12 @@ Private mView As IView
 Private mModel As IModel
 Private mStorage As IStorage
 
+Private mpEvents As New IControllerEvents
+
+Private Property Get IController_Events() As IControllerEvents
+    Set IController_Events = mpEvents
+End Property
+
 Private Property Get IController_Model() As IModel
     Set IController_Model = mModel
 End Property

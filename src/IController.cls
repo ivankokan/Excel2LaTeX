@@ -9,6 +9,10 @@ Attribute VB_PredeclaredId = False
 Attribute VB_Exposed = False
 Option Explicit
 
+Public Property Get Events() As IControllerEvents
+'
+End Property
+
 Public Property Get Model() As IModel
 '
 End Property

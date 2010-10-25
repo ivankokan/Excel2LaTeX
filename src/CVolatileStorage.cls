@@ -20,9 +20,9 @@ Private Property Get IStorage_Events() As IStorageEvents
     Set IStorage_Events = mpEvents
 End Property
 
-Private Function IStorage_Add(ByVal pModel As IModel) As Long
+Private Function IStorage_Add(ByVal pModel As IModel, Optional ByVal lIndex = -1) As Long
     IStorage_Add = mCollection.Count + 1
-    mCollection.Add ModelToString(pModel)
+    mCollection.Add ModelToString(pModel), After:=lIndex
     mpEvents.RaiseChanged
 End Function
 

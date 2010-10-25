@@ -13,7 +13,7 @@ Public Property Get Events() As IStorageEvents
 '
 End Property
 
-Public Function Add(ByVal pModel As IModel) As Long
+Public Function Add(ByVal pModel As IModel, Optional ByVal lIndex = -1) As Long
 '
 End Function
 

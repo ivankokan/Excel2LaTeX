@@ -160,9 +160,11 @@ Private Sub chkTableFloat_Click()
 End Sub
 
 Private Sub cmdBrowse_Click()
-Dim FileName
-  FileName = Application.GetSaveAsFilename(txtFilename, "TeX documents (*.tex), *.tex")
-  If FileName <> False Then txtFilename = FileName
+    Dim sFileName
+    sFileName = Application.GetSaveAsFilename(mModel.AbsoluteFileName, "TeX documents (*.tex), *.tex")
+    If sFileName <> False Then
+        txtFilename = sFileName
+    End If
 End Sub
 
 Private Sub cmdCancel_Click()
@@ -205,6 +207,13 @@ End Sub
 Private Sub txtCellSize_Change()
     spnCellWidth = txtCellSize
     mModel.CellWidth = txtCellSize
+End Sub
+
+Private Sub txtFilename_Change()
+    mModel.FileName = txtFilename
+    If txtFilename <> mModel.FileName Then
+        txtFilename = mModel.FileName
+    End If
 End Sub
 
 Private Sub txtIndent_Change()

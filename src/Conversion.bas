@@ -25,6 +25,11 @@ Option Explicit
 Sub LaTeX()
 Attribute LaTeX.VB_Description = "Converts the selection to LaTex"
 Attribute LaTeX.VB_ProcData.VB_Invoke_Func = "l\n14"
-    NewController.LaTeX NewView, NewDefaultModel, NewStorage
+    With NewController
+        Set .View = NewView
+        Set .Model = NewDefaultModel
+        Set .Storage = NewStorage
+        .Run
+    End With
 End Sub
 

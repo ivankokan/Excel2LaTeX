@@ -11,19 +11,35 @@ Option Explicit
 
 Implements IController
 
-Public Sub IController_LaTeX(ByVal pView As IView, ByVal pModel As IModel, ByVal pStorage As IStorage)
-    If pModel.RangeAddress = "" Then
-        MsgBox "This macro converts the selected table to LaTeX. Please select a single rectangular range.", vbOKOnly + vbExclamation
-        Exit Sub
-    End If
-    
-    With pView
-        Set .Controller = Me
-        Set .Model = pModel
-        Set .Storage = pStorage
-        .Show vbModeless
-    End With
-    
-    Exit Sub
+Private mView As IView
+Private mModel As IModel
+Private mStorage As IStorage
+
+Private Property Get IController_Model() As IModel
+    Set IController_Model = mModel
+End Property
+Private Property Set IController_Model(ByVal pModel As IModel)
+    Set mModel = pModel
+    Set mView.Model = pModel
+End Property
+
+Private Property Get IController_View() As IView
+    Set IController_View = mView
+End Property
+Private Property Set IController_View(ByVal pView As IView)
+    Set mView = pView
+    Set mView.Controller = Me
+End Property
+
+Private Property Get IController_Storage() As IStorage
+    Set IController_Storage = mStorage
+End Property
+Private Property Set IController_Storage(ByVal pStorage As IStorage)
+    Set mStorage = pStorage
+    Set mView.Storage = pStorage
+End Property
+
+Private Sub IController_Run()
+    mView.Show vbModeless
 End Sub
 

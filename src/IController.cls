@@ -9,7 +9,28 @@ Attribute VB_PredeclaredId = False
 Attribute VB_Exposed = False
 Option Explicit
 
-Public Sub LaTeX(ByVal pView As IView, ByVal pModel As IModel, ByVal pStorage As IStorage)
+Public Property Get Model() As IModel
+'
+End Property
+Public Property Set Model(ByVal pModel As IModel)
+'
+End Property
+
+Public Property Get View() As IView
+'
+End Property
+Public Property Set View(ByVal pView As IView)
+'
+End Property
+
+Public Property Get Storage() As IStorage
+'
+End Property
+Public Property Set Storage(ByVal pStorage As IStorage)
+'
+End Property
+
+Public Sub Run()
 '
 End Sub
 

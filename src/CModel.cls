@@ -79,6 +79,7 @@ Public Property Let IModel_RangeAddress(ByVal iRange As String)
     Set RangeToUse = Nothing
     If iRange = "" Then Exit Property
     Set RangeToUse = Application.Range(iRange)
+    mpEvents.RaiseChanged
 End Property
 
 Public Function IModel_GetConversionResult() As String

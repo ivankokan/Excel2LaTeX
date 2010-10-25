@@ -43,7 +43,9 @@ Private Property Set IView_Model(ByVal pModel As IModel)
     Set mModel = pModel
     Set mModelEvents = pModel.Events
     InitFromModel mModel
-    Set mActiveWkSheet = mModel.Range.Worksheet
+    
+    Set mActiveWkSheet = Nothing
+    If Not mModel.Range Is Nothing Then Set mActiveWkSheet = mModel.Range.Worksheet
 End Property
 
 Private Property Get IView_Controller() As IController

@@ -64,7 +64,9 @@ Private Function IStorage_GetItems() As Collection
     Set IStorage_GetItems = New Collection
     
     Dim pStorageSheet As Worksheet
-    Set pStorageSheet = GetStorageSheet()
+    Set pStorageSheet = GetStorageSheet(False)
+    
+    If pStorageSheet Is Nothing Then Exit Function
 
     Dim cColumns As Collection
     Dim cKeys As Collection
@@ -93,27 +95,32 @@ End Function
 
 
 
-Private Function GetStorageSheet() As Worksheet
+Private Function GetStorageSheet(Optional ByVal bCreate As Boolean = True) As Worksheet
     On Error Resume Next
     With ActiveWorkbook.Worksheets
         Set GetStorageSheet = .Item("Excel2LaTeX")
-        If Err.Number <> 0 Then
+        If (Err.Number <> 0) And bCreate Then
             On Error GoTo 0
+            Dim pOldWkSheet As Worksheet
+            Set pOldWkSheet = ActiveWorkbook.ActiveSheet
             Set GetStorageSheet = .Add
             GetStorageSheet.Name = "Excel2LaTeX"
+            pOldWkSheet.Activate
         End If
     End With
 End Function
 
 Private Function GetColumnList(Optional ByRef cNameList As Collection) As Collection
+    Set GetColumnList = New Collection
+    Set cNameList = New Collection
+    
     Dim pStorageSheet As Worksheet
-    Set pStorageSheet = GetStorageSheet()
+    Set pStorageSheet = GetStorageSheet(False)
+    
+    If pStorageSheet Is Nothing Then Exit Sub
     
     Dim pFirstRow As Range
     Set pFirstRow = pStorageSheet.Rows(1)
-    
-    Set GetColumnList = New Collection
-    Set cNameList = New Collection
     
     Dim l1 As Long
     Dim sName As String

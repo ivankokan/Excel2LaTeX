@@ -205,7 +205,7 @@ Private Property Get IModel_Description() As String
         IModel_Description = "(empty range)"
         Exit Property
     End If
-    IModel_Description = Printf("%1!%2", RangeToUse.Worksheet.Name, RangeToUse.Address)
+    IModel_Description = Me.IModel_RangeAddress
 End Property
 
 Private Property Get IModel_Range() As Range

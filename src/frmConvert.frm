@@ -84,6 +84,7 @@ Private Sub lvwStoredTables_Change()
     bSelected = (lvwStoredTables.ListIndex >= 0)
     cmdLoad.Enabled = bSelected
     cmdDelete.Enabled = bSelected
+    cmdOverwrite.Enabled = bSelected
 End Sub
 
 Private Sub lvwStoredTables_KeyDown(ByVal KeyCode As MSForms.ReturnInteger, ByVal Shift As Integer)
@@ -215,6 +216,13 @@ End Sub
 
 Private Sub cmdStore_Click()
     mStorage.Add mModel
+End Sub
+
+Private Sub cmdOverwrite_Click()
+    Dim lIndex As Long
+    lIndex = lvwStoredTables.ListIndex
+    mStorage.Remove lIndex + 1
+    mStorage.Add mModel, lIndex
 End Sub
 
 Private Sub cmdLoad_Click()

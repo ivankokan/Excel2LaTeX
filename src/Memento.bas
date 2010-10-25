@@ -45,3 +45,13 @@ Public Function StringToNewModel(ByVal sSettings As String) As IModel
 End Function
 
 
+Public Function RangeToAddress(ByVal pRange As Range) As String
+    If pRange Is Nothing Then Exit Function
+    RangeToAddress = Printf("%1!%2", pRange.Worksheet.Name, pRange.Address)
+End Function
+
+Public Function AddressToRange(ByVal sRangeAddress As String) As Range
+    Set AddressToRange = Nothing
+    If sRangeAddress = "" Then Exit Function
+    Set AddressToRange = Application.Range(sRangeAddress)
+End Function

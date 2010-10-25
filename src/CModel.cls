@@ -72,13 +72,10 @@ Public Property Let IModel_FileName(ByVal iFileName As String)
 End Property
 
 Public Property Get IModel_RangeAddress() As String
-    If RangeToUse Is Nothing Then Exit Property
-    IModel_RangeAddress = Printf("%1!%2", RangeToUse.Worksheet.Name, RangeToUse.Address)
+    IModel_RangeAddress = RangeToAddress(RangeToUse)
 End Property
 Public Property Let IModel_RangeAddress(ByVal iRange As String)
-    Set RangeToUse = Nothing
-    If iRange = "" Then Exit Property
-    Set RangeToUse = Application.Range(iRange)
+    Set RangeToUse = AddressToRange(iRange)
     mpEvents.RaiseChanged
 End Property
 

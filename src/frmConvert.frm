@@ -15,7 +15,7 @@ Attribute VB_PredeclaredId = True
 Attribute VB_Exposed = False
 Option Explicit
 
-Private mController As CController
+Private mController As IController
 Attribute mController.VB_VarHelpID = -1
 
 Private mModel As IModel
@@ -26,15 +26,44 @@ Private mStorage As IStorage
 Private WithEvents mStorageEvents As IStorageEvents
 Attribute mStorageEvents.VB_VarHelpID = -1
 
+Private WithEvents mActiveWkSheet As Worksheet
+Attribute mActiveWkSheet.VB_VarHelpID = -1
+
 Private mbIgnoreControlEvents As Boolean
 
 Public Sub Init(ByVal pController As CController, ByVal pModel As IModel, ByVal pStorage As IStorage)
     Set mController = pController
+    
     Set mModel = pModel
     Set mModelEvents = pModel.Events
+    InitFromModel mModel
+    
+    Set mActiveWkSheet = mModel.Range.Worksheet
+    
     Set mStorage = pStorage
     Set mStorageEvents = pStorage.Events
-    InitFromModel mModel
+End Sub
+
+Private Function SafeRangePrecedents(ByVal pRange As Range) As Range
+    On Error Resume Next
+    Set SafeRangePrecedents = pRange.Precedents
+End Function
+
+Private Function UnionOfRangeAndItsPrecedents(ByVal pRange As Range) As Range
+    Dim pPrecedents As Range
+    Set pPrecedents = SafeRangePrecedents(pRange)
+    
+    If pPrecedents Is Nothing Then
+        Set UnionOfRangeAndItsPrecedents = pRange
+    Else
+        Set UnionOfRangeAndItsPrecedents = Union(pRange, pPrecedents)
+    End If
+End Function
+
+Private Sub mActiveWkSheet_Change(ByVal Target As Range)
+    If Not Intersect(Target, UnionOfRangeAndItsPrecedents(mModel.Range)) Is Nothing Then
+        ConvertSelection
+    End If
 End Sub
 
 Private Sub mModelEvents_Changed()

@@ -69,7 +69,7 @@ Public Property Get IModel_FileName() As String
 End Property
 Public Property Let IModel_FileName(ByVal iFileName As String)
     Dim sBaseDir As String
-    sBaseDir = RangeToUse.Worksheet.Parent.PATH
+    sBaseDir = WorksheetDir
     If UCase(iFileName) Like UCase(sBaseDir) & "\*" Then
         iFileName = Mid$(iFileName, Len(sBaseDir) + 2)
     End If
@@ -79,7 +79,7 @@ Public Property Get IModel_AbsoluteFileName() As String
     If sFileName Like "?:\*" Or sFileName Like "\\*\*" Then
         IModel_AbsoluteFileName = sFileName
     Else
-        IModel_AbsoluteFileName = Printf("%1\%2", RangeToUse.Worksheet.Parent.PATH, sFileName)
+        IModel_AbsoluteFileName = Printf("%1\%2", WorksheetDir, sFileName)
     End If
 End Property
 
@@ -243,6 +243,15 @@ End Sub
 Private Sub SaveToRegistry()
     VBA.SaveSetting "Excel2LaTeX", "Main", "DefaultSettings", ModelToString(Me)
 End Sub
+
+Private Function WorksheetDir() As String
+    If RangeToUse Is Nothing Then
+        WorksheetDir = "."
+        Exit Function
+    End If
+    
+    WorksheetDir = RangeToUse.Worksheet.Parent.PATH
+End Function
 
 Private Function GetDefaultRange() As Range
     If Selection Is Nothing Then Exit Function

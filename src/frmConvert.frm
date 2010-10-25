@@ -79,6 +79,20 @@ Private Function UnionOfRangeAndItsPrecedents(ByVal pRange As Range) As Range
     End If
 End Function
 
+Private Sub lvwStoredTables_Change()
+    Dim bSelected As Boolean
+    bSelected = (lvwStoredTables.ListIndex >= 0)
+    cmdLoad.Enabled = bSelected
+    cmdDelete.Enabled = bSelected
+End Sub
+
+Private Sub lvwStoredTables_KeyDown(ByVal KeyCode As MSForms.ReturnInteger, ByVal Shift As Integer)
+    Select Case KeyCode
+    Case 46 ' delete
+        cmdDelete_Click
+    End Select
+End Sub
+
 Private Sub mActiveWkSheet_Change(ByVal Target As Range)
     If Not Intersect(Target, UnionOfRangeAndItsPrecedents(mModel.Range)) Is Nothing Then
         ConvertSelection
@@ -202,8 +216,13 @@ End Sub
 Private Sub cmdStore_Click()
     mStorage.Add mModel
 End Sub
+
 Private Sub cmdLoad_Click()
     Set mController.Model = mStorage.GetItems.Item(lvwStoredTables.ListIndex + 1)
+End Sub
+
+Private Sub cmdDelete_Click()
+    mStorage.Remove lvwStoredTables.ListIndex + 1
 End Sub
 
 
@@ -245,4 +264,8 @@ End Sub
 
 Private Sub UserForm_Click()
 ' This is regenerated every time the form is activated in the IDE. Just keep it here.
+End Sub
+
+Private Sub UserForm_Initialize()
+    lvwStoredTables_Change
 End Sub

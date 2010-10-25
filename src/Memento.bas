@@ -3,16 +3,7 @@ Option Explicit
 
 Public Function ModelPropertyNames() As String()
     Const NAMES As String = "RangeAddress|Options|CellWidth|Indent|FileName"
-    
-    Static aNames() As String
-    Static bInitialized As Boolean
-    
-    If Not bInitialized Then
-        aNames = Split(NAMES, "|")
-        bInitialized = True
-    End If
-        
-    ModelPropertyNames = aNames
+    ModelPropertyNames = Split(NAMES, "|")
 End Function
 
 Public Function ModelToCollection(ByVal pModel As IModel) As Collection
@@ -29,7 +20,7 @@ Public Function ModelToString(ByVal pModel As IModel) As String
     
     Dim sName As Variant
     For Each sName In ModelPropertyNames()
-        ModelToString = ModelToString & Printf("%1=%2", sName, CallByName(pModel, sName, VbGet))
+        ModelToString = ModelToString & Printf("%1=%2;", sName, CallByName(pModel, sName, VbGet))
     Next
 End Function
 

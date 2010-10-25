@@ -1,10 +1,21 @@
 Attribute VB_Name = "Test"
 Option Explicit
 
-Private Sub Test_Storage()
-    Dim pStorage As IStorage
-    Set pStorage = NewStorage
-    
+Private Sub Test_VolatileStorage()
+    Test_Storage New CVolatileStorage
+End Sub
+
+Private Sub Test_SheetStorage()
+    On Error Resume Next
+    With ActiveWorkbook.Sheets("Excel2LaTeX")
+        .Range.Clear
+        .Delete
+    End With
+    On Error GoTo 0
+    Test_Storage New CSheetStorage
+End Sub
+
+Private Sub Test_Storage(ByVal pStorage As IStorage)
     Dim lIndex As Long
     lIndex = pStorage.Add(NewDefaultModel())
     Debug.Assert lIndex = 1

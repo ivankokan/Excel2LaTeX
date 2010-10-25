@@ -44,7 +44,11 @@ Private Function IStorage_Add(ByVal pModel As IModel, Optional ByVal lIndex = -1
         If lColumnIndex < 0 Then lColumnIndex = CreateColumn(sKey)
         Debug.Assert lColumnIndex > 0
         
-        rRow.Cells(1, lColumnIndex) = cValues(sKey)
+        If sKey = "RangeAddress" Then
+            AddressToFormula cValues(sKey), rRow.Cells(1, lColumnIndex)
+        Else
+            rRow.Cells(1, lColumnIndex) = cValues(sKey)
+        End If
     Next
     
     IStorage_Add = lFreeRow - 1
@@ -84,7 +88,11 @@ Private Function IStorage_GetItems() As Collection
         
         For Each lColumn In cColumns
             sKey = cKeys(lColumn)
-            sValue = rRow.Cells(ColumnIndex:=lColumn)
+            If sKey = "RangeAddress" Then
+                sValue = FormulaToAddress(rRow.Cells(ColumnIndex:=lColumn))
+            Else
+                sValue = rRow.Cells(ColumnIndex:=lColumn)
+            End If
             cRow.Add sValue, sKey
         Next
         
@@ -94,6 +102,14 @@ Private Function IStorage_GetItems() As Collection
 End Function
 
 
+
+Private Sub AddressToFormula(ByVal sAddress As String, ByVal rCell As Range)
+    rCell.Formula = Printf("=COUNT(%1)", sAddress)
+End Sub
+Private Function FormulaToAddress(ByVal rCell As Range) As String
+    On Error Resume Next
+    FormulaToAddress = Mid(rCell.Formula, 8, Len(rCell.Formula) - 8)
+End Function
 
 Private Function GetStorageSheet(Optional ByVal bCreate As Boolean = True) As Worksheet
     On Error Resume Next

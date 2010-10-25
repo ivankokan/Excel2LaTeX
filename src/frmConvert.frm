@@ -181,13 +181,8 @@ Private Sub cmdCopy_Click()
 End Sub
 
 Private Sub cmdSave_Click()
-Dim FileName
-  FileName = frmConvert.txtFilename
-  If FileName = "" Then Exit Sub
-  Open FileName For Output As 1
-  Print #1, txtResult
-  Close #1
-  Hide
+    SaveConversionResultToFile mModel
+    Hide
 End Sub
 
 

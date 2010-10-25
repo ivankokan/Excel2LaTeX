@@ -58,3 +58,13 @@ Public Function AddressToRange(ByVal sRangeAddress As String) As Range
     If sRangeAddress = "" Then Exit Function
     Set AddressToRange = Application.Range(sRangeAddress)
 End Function
+
+Public Sub SaveConversionResultToFile(ByVal pModel As IModel)
+    Dim sFileName As String
+    sFileName = pModel.AbsoluteFileName
+    If sFileName = "" Then Exit Sub
+    
+    Open sFileName For Output As 1
+    Print #1, pModel.GetConversionResult
+    Close #1
+End Sub

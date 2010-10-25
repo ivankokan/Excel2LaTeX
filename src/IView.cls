@@ -9,3 +9,27 @@ Attribute VB_PredeclaredId = False
 Attribute VB_Exposed = False
 Option Explicit
 
+Public Property Get Model() As IModel
+'
+End Property
+Public Property Set Model(ByVal pModel As IModel)
+'
+End Property
+
+Public Property Get Controller() As IController
+'
+End Property
+Public Property Set Controller(ByVal pController As IController)
+'
+End Property
+
+Public Property Get Storage() As IStorage
+'
+End Property
+Public Property Set Storage(ByVal pStorage As IStorage)
+'
+End Property
+
+Public Sub Show(ByVal Modal As FormShowConstants)
+'
+End Sub

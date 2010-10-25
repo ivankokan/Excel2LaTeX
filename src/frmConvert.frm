@@ -33,19 +33,42 @@ Attribute mActiveWkSheet.VB_VarHelpID = -1
 
 Private mbIgnoreControlEvents As Boolean
 
-Public Sub Init(ByVal pController As CController, ByVal pModel As IModel, ByVal pStorage As IStorage)
-    Set mController = pController
-    
+'
+' IView implementation
+'
+Private Property Get IView_Model() As IModel
+    Set IView_Model = mModel
+End Property
+Private Property Set IView_Model(ByVal pModel As IModel)
     Set mModel = pModel
     Set mModelEvents = pModel.Events
     InitFromModel mModel
-    
     Set mActiveWkSheet = mModel.Range.Worksheet
-    
+End Property
+
+Private Property Get IView_Controller() As IController
+    Set IView_Controller = mController
+End Property
+Private Property Set IView_Controller(ByVal pController As IController)
+    Set mController = pController
+End Property
+
+Private Property Get IView_Storage() As IStorage
+    Set IView_Storage = mStorage
+End Property
+Private Property Set IView_Storage(ByVal pStorage As IStorage)
     Set mStorage = pStorage
     Set mStorageEvents = pStorage.Events
+End Property
+
+Private Sub IView_Show(ByVal Modal As FormShowConstants)
+    Me.Show Modal
 End Sub
 
+
+'
+' Form implementation
+'
 Private Function SafeRangePrecedents(ByVal pRange As Range) As Range
     On Error Resume Next
     Set SafeRangePrecedents = pRange.Precedents

@@ -9,7 +9,7 @@ Attribute VB_PredeclaredId = False
 Attribute VB_Exposed = False
 Option Explicit
 
-Public Sub LaTeX(ByVal pView As frmConvert, ByVal pModel As IModel, ByVal pStorage As IStorage)
+Public Sub LaTeX(ByVal pView As IView, ByVal pModel As IModel, ByVal pStorage As IStorage)
 '
 End Sub
 

@@ -11,15 +11,19 @@ Option Explicit
 
 Implements IController
 
-Public Sub IController_LaTeX(ByVal pView As frmConvert, ByVal pModel As IModel, ByVal pStorage As IStorage)
+Public Sub IController_LaTeX(ByVal pView As IView, ByVal pModel As IModel, ByVal pStorage As IStorage)
     If pModel.RangeAddress = "" Then
         MsgBox "This macro converts the selected table to LaTeX. Please select a single rectangular range.", vbOKOnly + vbExclamation
         Exit Sub
     End If
     
-    Load pView
-    pView.Init Me, pModel, pStorage
-    pView.Show vbModeless
+    With pView
+        Set .Controller = Me
+        Set .Model = pModel
+        Set .Storage = pStorage
+        .Show vbModeless
+    End With
+    
     Exit Sub
 End Sub
 

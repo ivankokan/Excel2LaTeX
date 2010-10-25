@@ -4,7 +4,7 @@ Begin {C62A69F0-16DC-11CE-9E98-00AA00574A4F} frmConvert
    ClientHeight    =   7365
    ClientLeft      =   45
    ClientTop       =   330
-   ClientWidth     =   12585
+   ClientWidth     =   12150
    OleObjectBlob   =   "frmConvert.frx":0000
    StartUpPosition =   1  'Fenstermitte
 End

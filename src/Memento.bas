@@ -68,3 +68,14 @@ Public Sub SaveConversionResultToFile(ByVal pModel As IModel)
     Print #1, pModel.GetConversionResult
     Close #1
 End Sub
+
+Public Sub SaveAllStoredItems(ByVal pStorage As IStorage)
+    Dim l1 As Long
+    Dim cItems As Collection
+    Set cItems = pStorage.GetItems
+    
+    For l1 = 1 To cItems.Count
+        SaveConversionResultToFile cItems(l1)
+    Next
+End Sub
+

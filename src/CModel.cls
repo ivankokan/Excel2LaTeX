@@ -68,6 +68,11 @@ Public Property Get IModel_FileName() As String
     IModel_FileName = sFileName
 End Property
 Public Property Let IModel_FileName(ByVal iFileName As String)
+    Dim sBaseDir As String
+    sBaseDir = RangeToUse.Worksheet.Parent.PATH
+    If UCase(iFileName) Like UCase(sBaseDir) & "\*" Then
+        iFileName = Mid$(iFileName, Len(sBaseDir) + 2)
+    End If
     sFileName = iFileName
 End Property
 Public Property Get IModel_AbsoluteFileName() As String

@@ -8,6 +8,7 @@ Public Function ModelToString(ByVal pModel As IModel) As String
             & Printf("CellWidth=%1;", .CellWidth) _
             & Printf("Indent=%1;", .Indent) _
             & Printf("RangeAddress=%1;", .RangeAddress) _
+            & Printf("FileName=%1;", .FileName) _
             & ""
     End With
 End Function
@@ -33,6 +34,8 @@ Public Sub StringToModel(ByVal pModel As IModel, ByVal sSettings As String)
                 .Indent = sValue
             Case "RangeAddress"
                 .RangeAddress = sValue
+            Case "FileName"
+                .FileName = sValue
             End Select
         End With
         On Error GoTo 0

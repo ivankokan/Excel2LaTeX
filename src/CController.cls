@@ -19,7 +19,7 @@ Public Sub IController_LaTeX(ByVal pView As frmConvert, ByVal pModel As IModel, 
     
     Load pView
     pView.Init Me, pModel, pStorage
-    pView.Show
+    pView.Show vbModeless
     Exit Sub
 End Sub
 

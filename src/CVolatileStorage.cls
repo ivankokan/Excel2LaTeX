@@ -22,7 +22,11 @@ End Property
 
 Private Function IStorage_Add(ByVal pModel As IModel, Optional ByVal lIndex = -1) As Long
     IStorage_Add = mCollection.Count + 1
-    mCollection.Add ModelToString(pModel), After:=lIndex
+    If lIndex < 0 Then
+        mCollection.Add ModelToString(pModel)
+    Else
+        mCollection.Add ModelToString(pModel), After:=lIndex
+    End If
     mpEvents.RaiseChanged
 End Function
 

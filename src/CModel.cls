@@ -257,7 +257,7 @@ Private Function GetDefaultFileName()
     sName = ActiveSheet.Name
     sName = RangeToUse.Name.Name
     On Error GoTo 0
-    GetDefaultFileName = CurDir + "\" + sName + ".tex"
+    GetDefaultFileName = Printf("%1.tex", sName)
 End Function
 
 Private Sub AddText(ByVal txt As String, Optional ByVal LineFeed = False)

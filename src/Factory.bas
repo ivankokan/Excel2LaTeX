@@ -19,8 +19,7 @@ Public Function NewView() As frmConvert
 End Function
 
 Function NewStorage() As IStorage
-    Static pStorage As New CVolatileStorage
-    Set NewStorage = pStorage
+    Set NewStorage = New CSheetStorage
 End Function
 
 

@@ -7,17 +7,15 @@ Public Function ModelPropertyNames() As String()
 End Function
 
 Public Function ModelToCollection(ByVal pModel As IModel) As Collection
-    Dim pCollection As New Collection
+    Set ModelToCollection = New Collection
     
     Dim sName As Variant
     For Each sName In ModelPropertyNames()
-        pCollection.Add CallByName(pModel, sName, VbGet), sName
+        ModelToCollection.Add CallByName(pModel, sName, VbGet), sName
     Next
 End Function
 
 Public Function ModelToString(ByVal pModel As IModel) As String
-    Dim pCollection As New Collection
-    
     Dim sName As Variant
     For Each sName In ModelPropertyNames()
         ModelToString = ModelToString & Printf("%1=%2;", sName, CallByName(pModel, sName, VbGet))

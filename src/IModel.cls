@@ -67,3 +67,7 @@ End Sub
 Public Property Get Description() As String
 '
 End Property
+
+Public Property Get Range() As Range
+'
+End Property

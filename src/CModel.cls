@@ -211,6 +211,10 @@ Private Property Get IModel_Description() As String
     IModel_Description = Printf("%1!%2", RangeToUse.Worksheet.Name, RangeToUse.Address)
 End Property
 
+Private Property Get IModel_Range() As Range
+    Set IModel_Range = RangeToUse
+End Property
+
 ' Class implementation
 
 Private Sub InitFromRegistry()

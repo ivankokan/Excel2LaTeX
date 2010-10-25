@@ -91,7 +91,7 @@ Private Sub ImportCodeModules(ByVal pTargetWkBook As Workbook, ByVal bImportDevM
     Do While sCurrentFileName <> ""
         If (Not bImportDevModule) And (sCurrentFileName = "Dev.bas") Then
             ' Ignore development module
-        ElseIf bImportOnlyDevModule And sCurrentFileName <> "Dev.bas" Then
+        ElseIf bImportOnlyDevModule And sCurrentFileName <> "Dev.bas" And sCurrentFileName <> "Tools.bas" Then
             ' Ignore anything but development module
         ElseIf sCurrentFileName Like "*.bas" Or sCurrentFileName Like "*.frm" Or sCurrentFileName Like "*.cls" Then
             ImportComponent pTargetWkBook, sDir, sCurrentFileName

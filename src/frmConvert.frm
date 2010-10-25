@@ -202,7 +202,9 @@ End Sub
 Private Sub cmdStore_Click()
     mStorage.Add mModel
 End Sub
-
+Private Sub cmdLoad_Click()
+    Set mController.Model = mStorage.GetItems.Item(lvwStoredTables.ListIndex + 1)
+End Sub
 
 
 Private Sub CommandButton2_Click()

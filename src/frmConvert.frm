@@ -118,7 +118,7 @@ Dim FileName
   FileName = frmConvert.txtFilename
   If FileName = "" Then Exit Sub
   Open FileName For Output As 1
-  Print #1, txtResult
+  Print #1, txtResult;
   Close #1
   Hide
 End Sub

@@ -339,9 +339,7 @@ Private Function AddCell(ByVal rCell As Range, ByVal bLastCell As Boolean) As Lo
     'Check for multicolumns
     If rCell.MergeCells Then   'multicolumn cell
         multicells = rCell.MergeArea.Columns.Count
-        txt2 = "\multicolumn{" + Str(multicells) + _
-                "}{" + GetColumnsFormat(rCell)
-        txt2 = txt2 + "}{" + txt + "}"
+        txt2 = Printf("\multicolumn{%1}{%2}{%3}", multicells, GetColumnsFormat(rCell), txt)
         AddText txt2
         If Not bLastCell Then
             AddText PadSpace(multicells * (3 + CellWidth) - 3 - Len(txt2))

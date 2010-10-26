@@ -75,7 +75,7 @@ Public Sub SaveConversionResultToFile(ByVal pModel As IModel)
     If sFileName = "" Then Exit Sub
     
     Open sFileName For Output As 1
-    Print #1, pModel.GetConversionResult
+    Print #1, pModel.GetConversionResult;
     Close #1
 End Sub
 

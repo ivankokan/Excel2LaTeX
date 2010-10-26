@@ -92,16 +92,11 @@ Public Property Let IModel_RangeAddress(ByVal iRange As String)
 End Property
 
 Public Function IModel_GetConversionResult() As String
-    Dim txt As String
-    Dim txt2 As String
-    Dim multicells As Integer
     Dim r As Range
     Dim FileName As String
     Dim i As Integer
     Dim j As Integer
     Dim pos As Integer
-    
-    multicells = 0
     
     FullText = ""
     If RangeToUse Is Nothing Then
@@ -141,40 +136,8 @@ Public Function IModel_GetConversionResult() As String
         AddText Space(Indent)
     
         For i = 1 To r.Cells.Count  ' for each cell in row r
-            txt = r.Cells(i).Text
+            i = i + AddCell(r.Cells(i), i >= r.Cells.Count) - 1
             
-            'Check for special characters % and $
-            If convertDollar Then
-                txt = Replace(txt, "\", "\textbackslash ")
-                txt = Replace(txt, "$", "\$")
-                txt = Replace(txt, "_", "\_")
-                txt = Replace(txt, "^", "\^")
-            End If
-            txt = Replace(txt, "%", "\%")
-            txt = Replace(txt, "&", "\&")
-            txt = Replace(txt, "#", "\#")
-                        
-            'Check for Font Styles
-            If r.Cells(i).Font.Bold Then txt = Printf("\textbf{%1}", txt)
-            If r.Cells(i).Font.Italic Then txt = Printf("\textit{%1}", txt)
-            
-            'Check for multicolumns
-            If r.Cells(i).MergeCells Then   'multicolumn cell
-                multicells = r.Cells(i).MergeArea.Columns.Count
-                txt2 = "\multicolumn{" + Str(multicells) + _
-                        "}{" + GetColumnsFormat(r.Cells(i))
-                txt2 = txt2 + "}{" + txt + "}"
-                AddText txt2
-                If i < r.Cells.Count Then
-                    AddText PadSpace(multicells * (3 + CellWidth) - 3 - Len(txt2))
-                End If
-                i = i + multicells - 1
-            Else 'single cell
-                AddText txt
-                If i < r.Cells.Count Then
-                    AddText PadSpace(CellWidth - Len(txt))
-                End If
-            End If
             If i <> r.Cells.Count Then
               AddText " & "
             End If
@@ -351,4 +314,44 @@ Private Function ResolveLine(ByVal line1, ByVal line2)
     If line1 = xlDouble Or line2 = xlDouble Then ResolveLine = xlDouble
 End Function
 
-
+Private Function AddCell(ByVal rCell As Range, ByVal bLastCell As Boolean) As Long
+    Dim txt As String
+    Dim txt2 As String
+    Dim multicells As Integer
+    
+    txt = rCell.Text
+    
+    'Check for special characters % and $
+    If convertDollar Then
+        txt = Replace(txt, "\", "\textbackslash ")
+        txt = Replace(txt, "$", "\$")
+        txt = Replace(txt, "_", "\_")
+        txt = Replace(txt, "^", "\^")
+    End If
+    txt = Replace(txt, "%", "\%")
+    txt = Replace(txt, "&", "\&")
+    txt = Replace(txt, "#", "\#")
+                
+    'Check for Font Styles
+    If rCell.Font.Bold Then txt = Printf("\textbf{%1}", txt)
+    If rCell.Font.Italic Then txt = Printf("\textit{%1}", txt)
+    
+    'Check for multicolumns
+    If rCell.MergeCells Then   'multicolumn cell
+        multicells = rCell.MergeArea.Columns.Count
+        txt2 = "\multicolumn{" + Str(multicells) + _
+                "}{" + GetColumnsFormat(rCell)
+        txt2 = txt2 + "}{" + txt + "}"
+        AddText txt2
+        If Not bLastCell Then
+            AddText PadSpace(multicells * (3 + CellWidth) - 3 - Len(txt2))
+        End If
+    Else 'single cell
+        multicells = 1
+        AddText txt
+        If Not bLastCell Then
+            AddText PadSpace(CellWidth - Len(txt))
+        End If
+    End If
+    AddCell = multicells
+End Function

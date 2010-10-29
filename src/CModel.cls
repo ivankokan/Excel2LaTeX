@@ -316,8 +316,8 @@ End Function
 
 Private Function AddCell(ByVal rCell As Range, ByVal bLastCell As Boolean) As Long
     Dim txt As String
-    Dim txt2 As String
-    Dim multicells As Integer
+    Dim nColumns As Long
+    Dim nRows As Long
     
     txt = rCell.Text
     
@@ -338,18 +338,31 @@ Private Function AddCell(ByVal rCell As Range, ByVal bLastCell As Boolean) As Lo
     
     'Check for multicolumns
     If rCell.MergeCells Then   'multicolumn cell
-        multicells = rCell.MergeArea.Columns.Count
-        txt2 = Printf("\multicolumn{%1}{%2}{%3}", multicells, GetColumnsFormat(rCell), txt)
-        AddText txt2
-        If Not bLastCell Then
-            AddText PadSpace(multicells * (3 + CellWidth) - 3 - Len(txt2))
+        With rCell.MergeArea
+            nColumns = .Columns.Count
+            nRows = .Rows.Count
+        End With
+        
+        If nRows > 1 Then
+            ' Add contents only for first row of a multi-row cell
+            If rCell.Row = rCell.MergeArea.Row Then
+                txt = Printf("\multirow{%1}{*}{%2}", nRows, txt)
+            Else
+                txt = ""
+            End If
+        End If
+        If nColumns > 1 Then
+            txt = Printf("\multicolumn{%1}{%2}{%3}", nColumns, GetColumnsFormat(rCell), txt)
         End If
     Else 'single cell
-        multicells = 1
-        AddText txt
-        If Not bLastCell Then
-            AddText PadSpace(CellWidth - Len(txt))
-        End If
+        nColumns = 1
+        nRows = 1
     End If
-    AddCell = multicells
+    
+    AddText txt
+    If Not bLastCell Then
+        AddText PadSpace(nColumns * (3 + CellWidth) - 3 - Len(txt))
+    End If
+    
+    AddCell = nColumns
 End Function

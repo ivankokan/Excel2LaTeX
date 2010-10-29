@@ -43,3 +43,23 @@ Private Sub Test_Storage(ByVal pStorage As IStorage)
     pStorage.Remove 1
     Debug.Assert pStorage.GetItems.Count = 0
 End Sub
+
+Private Sub Test_Model_AppendToRangeSet()
+    Dim pModel As New CModel
+    
+    Dim sLineDef As String
+    Dim lLineOpenFrom As Long
+    
+    pModel.AppendToRangeSet sLineDef, lLineOpenFrom, True, 1
+    Debug.Assert sLineDef = "1"
+    pModel.AppendToRangeSet sLineDef, lLineOpenFrom, False, 2
+    Debug.Assert sLineDef = "1-1"
+    pModel.AppendToRangeSet sLineDef, lLineOpenFrom, False, 3
+    Debug.Assert sLineDef = "1-1"
+    pModel.AppendToRangeSet sLineDef, lLineOpenFrom, True, 4
+    Debug.Assert sLineDef = "1-1;4"
+    pModel.AppendToRangeSet sLineDef, lLineOpenFrom, True, 5
+    Debug.Assert sLineDef = "1-1;4"
+    pModel.AppendToRangeSet sLineDef, lLineOpenFrom, False, 6
+    Debug.Assert sLineDef = "1-1;4-5"
+End Sub

@@ -312,6 +312,26 @@ Private Function HorizontalBorder(ByVal pBelowRange As Range, ByVal spaces As In
     HorizontalBorder = stg
 End Function
 
+Public Sub AppendToRangeSet(ByRef sRangeDef As String, ByRef lLineOpenFrom As Long, ByVal bOpenLine As Boolean, ByVal lCurrentPos As Long)
+    If bOpenLine Then
+        If lLineOpenFrom <= 0 Then
+            lLineOpenFrom = lCurrentPos
+            sRangeDef = Printf("%1%3%2", sRangeDef, lCurrentPos, IIf(sRangeDef = "", "", ";"))
+        End If
+    Else
+        If lLineOpenFrom > 0 Then
+            sRangeDef = Printf("%1-%2", sRangeDef, lCurrentPos - 1)
+            lLineOpenFrom = 0
+        End If
+    End If
+End Sub
+
+Private Function ResolveHorizontalLine(ByVal rBelowRange As Range, ByVal rAboveRange As Range)
+    ResolveHorizontalLine = rBelowRange.Borders(xlTop).LineStyle
+    If rAboveRange Is Nothing Then Exit Function
+    ResolveHorizontalLine = ResolveLine(ResolveHorizontalLine, rAboveRange.Borders(xlBottom).LineStyle)
+End Function
+
 Private Function ResolveLine(ByVal line1, ByVal line2)
     ResolveLine = xlNone
     If line1 = xlContinuous Or line2 = xlContinuous Then ResolveLine = xlContinuous

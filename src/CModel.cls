@@ -370,3 +370,7 @@ Private Function AddCell(ByVal rCell As Range, ByVal bLastCell As Boolean) As Lo
     
     AddCell = nColumns
 End Function
+
+Function IsFirstRowOfMultiRowCell(ByVal rCell As Range) As Boolean
+    IsFirstRowOfMultiRowCell = (rCell.Row = rCell.MergeArea.Row)
+End Function

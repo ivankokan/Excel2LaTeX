@@ -241,10 +241,14 @@ Private Function PadSpace(ByVal n As Long)
     PadSpace = Space(Application.WorksheetFunction.Max(0, n))
 End Function
 
-Private Function GetColumnsFormat(ByVal RangeToUse As Range) As String
+Private Function GetColumnsFormat(ByVal RangeToUse As Range, Optional ByVal bSkipFirst = False) As String
     Dim i As Long
     Dim stg As String
-    stg = VerticalBorder(RangeToUse.Columns(1))
+    
+    If Not bSkipFirst Then
+        stg = VerticalBorder(RangeToUse.Columns(1))
+    End If
+    
     For i = 1 To RangeToUse.Columns.Count
         Select Case RangeToUse.Columns(i).HorizontalAlignment
         Case xlLeft
@@ -352,7 +356,7 @@ Private Function AddCell(ByVal rCell As Range, ByVal bLastCell As Boolean) As Lo
             End If
         End If
         If nColumns > 1 Then
-            txt = Printf("\multicolumn{%1}{%2}{%3}", nColumns, GetColumnsFormat(rCell), txt)
+            txt = Printf("\multicolumn{%1}{%2}{%3}", nColumns, GetColumnsFormat(rCell, True), txt)
         End If
     Else 'single cell
         nColumns = 1

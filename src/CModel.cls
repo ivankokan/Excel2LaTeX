@@ -136,7 +136,7 @@ Public Function IModel_GetConversionResult() As String
         AddText Space(Indent)
     
         For i = 1 To r.Cells.Count  ' for each cell in row r
-            i = i + AddCell(r.Cells(i), i >= r.Cells.Count) - 1
+            i = i + AddCell(r.Cells(i), i = 1, i >= r.Cells.Count) - 1
             
             If i <> r.Cells.Count Then
               AddText " & "
@@ -338,7 +338,7 @@ Private Function ResolveLine(ByVal line1, ByVal line2)
     If line1 = xlDouble Or line2 = xlDouble Then ResolveLine = xlDouble
 End Function
 
-Private Function AddCell(ByVal rCell As Range, ByVal bLastCell As Boolean) As Long
+Private Function AddCell(ByVal rCell As Range, ByVal bFirstCell As Boolean, ByVal bLastCell As Boolean) As Long
     Dim txt As String
     Dim nColumns As Long
     Dim nRows As Long

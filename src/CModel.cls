@@ -143,8 +143,10 @@ Public Function IModel_GetConversionResult() As String
             End If
         Next i 'cells in row
         
-        AddText " \\", True
-          ' Check for Border lines
+        ' Struts and end of line
+        AddText Printf(" %1\\", GetStruts(r)), True
+        
+        ' Check for Border lines
         If Not booktabs Then
             AddText HorizontalBorder(r.Offset(RowOffset:=1), Indent)
         End If
@@ -239,6 +241,29 @@ End Sub
 
 Private Function PadSpace(ByVal n As Long)
     PadSpace = Space(Application.WorksheetFunction.Max(0, n))
+End Function
+
+Private Function GetStruts(ByVal rRow As Range) As String
+    ' No struts in booktabs mode
+    If booktabs Then Exit Function
+    
+    Dim bHasTopBorder As Boolean
+    Dim bHasBottomBorder As Boolean
+    
+    bHasTopBorder = HasHorizontalBorder(rRow)
+    bHasBottomBorder = HasHorizontalBorder(rRow.Offset(RowOffset:=1))
+    
+    If bHasTopBorder Then
+        If bHasBottomBorder Then
+            GetStruts = "\bigstrut"
+        Else
+            GetStruts = "\bigstrut[t]"
+        End If
+    Else
+        If bHasBottomBorder Then
+            GetStruts = "\bigstrut[b]"
+        End If
+    End If
 End Function
 
 Private Function GetColumnsFormat(ByVal RangeToUse As Range, Optional ByVal bSkipFirst = False, Optional ByVal lStep As Long = 1) As String

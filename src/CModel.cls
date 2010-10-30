@@ -241,7 +241,7 @@ Private Function PadSpace(ByVal n As Long)
     PadSpace = Space(Application.WorksheetFunction.Max(0, n))
 End Function
 
-Private Function GetColumnsFormat(ByVal RangeToUse As Range, Optional ByVal bSkipFirst = False) As String
+Private Function GetColumnsFormat(ByVal RangeToUse As Range, Optional ByVal bSkipFirst = False, Optional ByVal lStep As Long = 1) As String
     Dim i As Long
     Dim stg As String
     
@@ -249,7 +249,7 @@ Private Function GetColumnsFormat(ByVal RangeToUse As Range, Optional ByVal bSki
         stg = VerticalBorder(RangeToUse.Columns(1))
     End If
     
-    For i = 1 To RangeToUse.Columns.Count
+    For i = 1 To RangeToUse.Columns.Count Step lStep
         Select Case RangeToUse.Columns(i).HorizontalAlignment
         Case xlLeft
             stg = stg + "l"
@@ -258,7 +258,7 @@ Private Function GetColumnsFormat(ByVal RangeToUse As Range, Optional ByVal bSki
         Case Else
             stg = stg + "r" 'Default alignment is right
         End Select
-        stg = stg + VerticalBorder(RangeToUse.Columns(i + 1))
+        stg = stg + VerticalBorder(RangeToUse.Columns(i + lStep))
     Next i
     GetColumnsFormat = stg
 End Function

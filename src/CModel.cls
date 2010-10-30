@@ -455,5 +455,24 @@ Function IsFirstRowOfMultiRowCell(ByVal rCell As Range) As Boolean
 End Function
 
 Function GetMultiRowStruts(ByVal rCell As Range) As Long
-'
+    Dim lStartRow As Long
+    Dim lEndRow As Long
+    Dim lRow As Long
+    Dim bBorder As Boolean
+    
+    lStartRow = rCell.Row - RangeToUse.Row + 1
+    lEndRow = lStartRow + rCell.MergeArea.Rows.Count
+    
+    For lRow = lStartRow To lEndRow
+        bBorder = HasHorizontalBorder(RangeToUse.Rows(lRow))
+        
+        ' First and last horizontal lines account for one strut,
+        ' the others account for two struts each:
+        If bBorder Then
+            GetMultiRowStruts = GetMultiRowStruts + 1
+            If (lRow > lStartRow) And (lRow < lEndRow) Then
+                GetMultiRowStruts = GetMultiRowStruts + 1
+            End If
+        End If
+    Next
 End Function

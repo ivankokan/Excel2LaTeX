@@ -369,14 +369,17 @@ Private Function AddCell(ByVal rCell As Range, ByVal bFirstCell As Boolean, ByVa
         
         If nRows > 1 Then
             ' Add contents only for first row of a multi-row cell
-            If rCell.Row = rCell.MergeArea.Row Then
+            If IsFirstRowOfMultiRowCell(rCell) Then
                 txt = Printf("\multirow{%1}{*}{%2}", nRows, txt)
             Else
                 txt = ""
             End If
         End If
         If nColumns > 1 Then
-            txt = Printf("\multicolumn{%1}{%2}{%3}", nColumns, GetColumnsFormat(rCell, True), txt)
+            txt = Printf("\multicolumn{%1}{%2}{%3}", _
+                nColumns, _
+                GetColumnsFormat(rCell.MergeArea, Not bFirstCell, rCell.MergeArea.Columns.Count), _
+                txt)
         End If
     Else 'single cell
         nColumns = 1

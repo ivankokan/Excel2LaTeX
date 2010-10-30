@@ -289,27 +289,54 @@ Private Function VerticalBorder(ByVal pRightRange As Range)
     VerticalBorder = stg
 End Function
 
-Private Function HorizontalBorder(ByVal pBelowRange As Range, ByVal spaces As Integer)
-    Dim borderStyle As Variant
-    borderStyle = pBelowRange.Borders(xlTop).LineStyle
-    
-    Dim pAboveRange As Range
-    If pBelowRange.Row > 1 Then
-        Set pAboveRange = pBelowRange.Offset(RowOffset:=-1)
-        borderStyle = ResolveLine(borderStyle, pAboveRange.Borders(xlBottom).LineStyle)
+Private Function HorizontalBorder(ByVal rBelowRange As Range, ByVal spaces As Integer) As String
+    Dim rAboveRange As Range
+    If rBelowRange.Row > 1 Then
+        Set rAboveRange = rBelowRange.Offset(RowOffset:=-1)
     End If
     
-    'return nothing, \hline or \hline\hline
-    Dim stg As String
-    Select Case borderStyle
-    Case xlDouble
-        stg = Space(spaces) + "\hline" + vbLf + Space(spaces) + "\hline" + vbLf
-    Case xlContinuous
-        stg = Space(spaces) + "\hline" + vbLf
-    Case Else
-        stg = ""
-    End Select
-    HorizontalBorder = stg
+    Dim sRangeDef As String
+    Dim lLineOpenFrom As Long
+    Dim bOpenLine As Boolean
+    Dim borderStyle As Variant
+    
+    Dim rBelowColumn As Range
+    Dim rAboveColumn As Range
+    For Each rBelowColumn In rBelowRange.Columns
+        If Not rAboveRange Is Nothing Then
+            Set rAboveColumn = rAboveRange.Columns(rBelowColumn.Column - rBelowRange.Column + 1)
+        End If
+        
+        If Not IsFirstRowOfMultiRowCell(rBelowColumn) Then
+            bOpenLine = False
+        Else
+            borderStyle = ResolveHorizontalLine(rBelowColumn, rAboveColumn)
+            bOpenLine = (borderStyle <> xlNone)
+        End If
+        
+        AppendToRangeSet sRangeDef, lLineOpenFrom, bOpenLine, rBelowColumn.Column - rBelowRange.Column + 1
+    Next
+    
+    AppendToRangeSet sRangeDef, lLineOpenFrom, False, rBelowRange.Columns.Count + 1
+    
+    ' Straight line? => revert to old behavior
+    If sRangeDef = Printf("1-%1", rBelowRange.Columns.Count) Then
+        'return nothing, \hline or \hline\hline
+        borderStyle = ResolveHorizontalLine(rBelowRange, rAboveRange)
+    
+        Select Case borderStyle
+        Case xlDouble
+            HorizontalBorder = Space(spaces) + "\hline" + vbLf + Space(spaces) + "\hline" + vbLf
+        Case xlContinuous
+            HorizontalBorder = Space(spaces) + "\hline" + vbLf
+        Case Else
+            HorizontalBorder = ""
+        End Select
+    ElseIf sRangeDef = "" Then
+        HorizontalBorder = ""
+    Else
+        HorizontalBorder = Printf("\cline{%1}", Replace(sRangeDef, ";", "}\cline{"))
+    End If
 End Function
 
 Public Sub AppendToRangeSet(ByRef sRangeDef As String, ByRef lLineOpenFrom As Long, ByVal bOpenLine As Boolean, ByVal lCurrentPos As Long)

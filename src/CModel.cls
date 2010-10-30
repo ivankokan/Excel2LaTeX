@@ -426,7 +426,7 @@ Private Function AddCell(ByVal rCell As Range, ByVal bFirstCell As Boolean, ByVa
         If nRows > 1 Then
             ' Add contents only for first row of a multi-row cell
             If IsFirstRowOfMultiRowCell(rCell) Then
-                txt = Printf("\multirow{%1}{*}{%2}", nRows, txt)
+                txt = Printf("\multirow{%1}[%3]{*}{%2}", nRows, txt, GetMultiRowStruts(rCell))
             Else
                 txt = ""
             End If
@@ -452,4 +452,8 @@ End Function
 
 Function IsFirstRowOfMultiRowCell(ByVal rCell As Range) As Boolean
     IsFirstRowOfMultiRowCell = (rCell.Row = rCell.MergeArea.Row)
+End Function
+
+Function GetMultiRowStruts(ByVal rCell As Range) As Long
+'
 End Function

@@ -289,6 +289,10 @@ Private Function VerticalBorder(ByVal pRightRange As Range)
     VerticalBorder = stg
 End Function
 
+Private Function HasHorizontalBorder(ByVal rBelowRange As Range) As Boolean
+    HasHorizontalBorder = (HorizontalBorder(rBelowRange, 0) <> "")
+End Function
+
 Private Function HorizontalBorder(ByVal rBelowRange As Range, ByVal spaces As Integer) As String
     Dim rAboveRange As Range
     If rBelowRange.Row > 1 Then

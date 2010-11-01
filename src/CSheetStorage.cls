@@ -22,7 +22,12 @@ End Property
 
 Private Function IStorage_Add(ByVal pModel As IModel, Optional ByVal lIndex = -1) As Long
     Dim lFreeRow As Long
-    lFreeRow = GetFreeRowIndex
+    If lIndex < 0 Then
+        lFreeRow = GetFreeRowIndex
+    Else
+        lFreeRow = lIndex + 2
+        GetStorageSheet().Rows(lFreeRow).Insert xlShiftDown
+    End If
     
     Dim rRow As Range
     Set rRow = GetStorageSheet().Rows(lFreeRow)

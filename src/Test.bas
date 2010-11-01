@@ -28,17 +28,23 @@ Private Sub Test_Storage(ByVal pStorage As IStorage)
     Debug.Assert lIndex <> lIndex2
     
     pStorage.Remove lIndex
+    Debug.Assert pStorage.GetItems.Count = 1
     
-    Dim pCollection As Collection
-    Set pCollection = pStorage.GetItems
-    Debug.Assert pCollection.Count = 1
-    Debug.Assert pCollection.Item(1).CellWidth = NewDefaultModel().CellWidth + 1
+    Debug.Assert pStorage.GetItems.Count = 1
+    Debug.Assert pStorage.GetItems.Item(1).CellWidth = NewDefaultModel().CellWidth + 1
     
     pStorage.Add NewDefaultModel, 0
+    Debug.Assert pStorage.GetItems.Item(2).CellWidth = NewDefaultModel().CellWidth + 1
+    pStorage.Add NewDefaultModel, 2
+    Debug.Assert pStorage.GetItems.Item(2).CellWidth = NewDefaultModel().CellWidth + 1
+    pStorage.Add NewDefaultModel, 1
+    Debug.Assert pStorage.GetItems.Item(3).CellWidth = NewDefaultModel().CellWidth + 1
     pStorage.Add NewDefaultModel, pStorage.GetItems.Count
-    Debug.Assert pStorage.GetItems.Count = 3
+    Debug.Assert pStorage.GetItems.Count = 5
     
     pStorage.Remove 1
+    pStorage.Remove 2
+    pStorage.Remove 3
     pStorage.Remove 2
     pStorage.Remove 1
     Debug.Assert pStorage.GetItems.Count = 0

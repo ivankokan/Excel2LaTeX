@@ -188,7 +188,7 @@ Private Property Get IModel_Description() As String
         IModel_Description = "(empty range)"
         Exit Property
     End If
-    IModel_Description = Me.IModel_RangeAddress
+    IModel_Description = Printf("%1: %2", Me.IModel_RangeAddress, Me.IModel_FileName)
 End Property
 
 Private Property Get IModel_Range() As Range

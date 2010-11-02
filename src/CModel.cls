@@ -416,8 +416,11 @@ Private Function AddCell(ByVal rCell As Range, ByVal bFirstCell As Boolean, ByVa
     If rCell.Font.Bold Then txt = Printf("\textbf{%1}", txt)
     If rCell.Font.Italic Then txt = Printf("\textit{%1}", txt)
     
+    Dim bRequiresDifferentVlineFormat As Boolean
+    bRequiresDifferentVlineFormat = RequiresDifferentVlineFormat(rCell)
+    
     'Check for multicolumns
-    If rCell.MergeCells Then   'multicolumn cell
+    If rCell.MergeCells Or bRequiresDifferentVlineFormat Then   'multicolumn cell
         With rCell.MergeArea
             nColumns = .Columns.Count
             nRows = .Rows.Count
@@ -431,7 +434,7 @@ Private Function AddCell(ByVal rCell As Range, ByVal bFirstCell As Boolean, ByVa
                 txt = ""
             End If
         End If
-        If nColumns > 1 Then
+        If (nColumns > 1) Or bRequiresDifferentVlineFormat Then
             txt = Printf("\multicolumn{%1}{%2}{%3}", _
                 nColumns, _
                 GetColumnsFormat(rCell.MergeArea, Not bFirstCell, rCell.MergeArea.Columns.Count), _
@@ -450,6 +453,30 @@ Private Function AddCell(ByVal rCell As Range, ByVal bFirstCell As Boolean, ByVa
     AddCell = nColumns
 End Function
 
+Private Function RequiresDifferentVlineFormat(ByVal rCell As Range) As Boolean
+    Dim sColumnFormat As String
+    Dim sCellFormat As String
+    
+    Dim lRelativeColumn As Long
+    lRelativeColumn = GetRelativeColumn(rCell)
+    
+    Dim rColumn As Range
+    Set rColumn = RangeToUse.Columns(lRelativeColumn)
+    
+    sColumnFormat = GetColumnsFormat(rColumn, lRelativeColumn > 1, rCell.MergeArea.Columns.Count)
+    sCellFormat = GetColumnsFormat(rCell, lRelativeColumn > 1, rCell.MergeArea.Columns.Count)
+    
+    RequiresDifferentVlineFormat = (sColumnFormat <> sCellFormat)
+End Function
+
+Private Function GetRelativeColumn(ByVal rCell As Range) As Long
+    GetRelativeColumn = rCell.Column - RangeToUse.Column + 1
+End Function
+
+Private Function GetRelativeRow(ByVal rCell As Range) As Long
+    GetRelativeRow = rCell.Row - RangeToUse.Row + 1
+End Function
+
 Function IsFirstRowOfMultiRowCell(ByVal rCell As Range) As Boolean
     IsFirstRowOfMultiRowCell = (rCell.Row = rCell.MergeArea.Row)
 End Function
@@ -460,7 +487,7 @@ Function GetMultiRowStruts(ByVal rCell As Range) As Long
     Dim lRow As Long
     Dim bBorder As Boolean
     
-    lStartRow = rCell.Row - RangeToUse.Row + 1
+    lStartRow = GetRelativeRow(rCell)
     lEndRow = lStartRow + rCell.MergeArea.Rows.Count
     
     For lRow = lStartRow To lEndRow

@@ -454,6 +454,7 @@ Private Function FormatCell(ByVal rCell As Range) As String
     
     FormatCell = ConvertSpecialChars(FormatCell)
     FormatCell = FormatCellFont(FormatCell, rCell)
+    FormatCell = FormatCellOrientation(FormatCell, rCell)
 End Function
 
 Private Function ConvertSpecialChars(ByVal sText As String) As String
@@ -484,6 +485,27 @@ Private Function FormatCellFont(ByVal sText As String, ByVal rCell As Range) As 
     ElseIf InStr(1, FormatCellFont, "$") > 0 Then
         FormatCellFont = Printf("\boldmath{}%1\unboldmath{}", FormatCellFont)
     End If
+End Function
+
+Private Function FormatCellOrientation(ByVal sText As String, ByVal rCell As Range) As String
+    ' Requires "rotating" package
+    FormatCellOrientation = sText
+    
+    ' Check for orientation
+    Select Case rCell.Orientation
+    Case xlHorizontal
+        ' Do nothing
+        
+    Case xlUpward
+        FormatCellOrientation = Printf("\begin{sideways}%1\end{sideways}", FormatCellOrientation)
+        
+    Case xlDownward
+        FormatCellOrientation = Printf("\begin{turn}{-90}%1\end{turn}", FormatCellOrientation)
+        
+    Case Else
+        FormatCellOrientation = Printf("\begin{turn}{%2}%1\end{turn}", FormatCellOrientation, rCell.Orientation)
+    
+    End Select
 End Function
 
 Private Function RequiresDifferentVlineFormat(ByVal rCell As Range) As Boolean

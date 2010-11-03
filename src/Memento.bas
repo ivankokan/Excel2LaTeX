@@ -60,7 +60,7 @@ End Function
 
 Public Function RangeToAddress(ByVal pRange As Range) As String
     If pRange Is Nothing Then Exit Function
-    RangeToAddress = Printf("%1!%2", pRange.Worksheet.Name, pRange.Address)
+    RangeToAddress = Printf("'%1'!%2", pRange.Worksheet.Name, pRange.Address)
 End Function
 
 Public Function AddressToRange(ByVal sRangeAddress As String) As Range

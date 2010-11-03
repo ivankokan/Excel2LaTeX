@@ -33,3 +33,6 @@ Attribute LaTeX.VB_ProcData.VB_Invoke_Func = "l\n14"
     End With
 End Sub
 
+Sub LaTeXAllToFiles()
+    SaveAllStoredItems NewStorage
+End Sub

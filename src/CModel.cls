@@ -316,6 +316,22 @@ Private Function VerticalBorder(ByVal pRightRange As Range)
     VerticalBorder = stg
 End Function
 
+Private Function VerticalBorderStyle(ByVal pRightRange As Range) As Variant
+    VerticalBorderStyle = xlNone
+    
+    Dim pRightRow As Range
+    Dim pLeftRow As Range
+    For Each pRightRow In pRightRange.Rows
+        VerticalBorderStyle = ResolveLine(VerticalBorderStyle, pRightRow.Borders(xlLeft).LineStyle)
+        
+        If pRightRow.Column > 1 Then
+            Set pLeftRow = pRightRow.Resize(ColumnSize:=1).Offset(ColumnOffset:=-1)
+            
+            VerticalBorderStyle = ResolveLine(VerticalBorderStyle, pLeftRow.Borders(xlRight).LineStyle)
+        End If
+    Next
+End Function
+
 Private Function HasHorizontalBorder(ByVal rBelowRange As Range) As Boolean
     HasHorizontalBorder = (HorizontalBorder(rBelowRange, 0) <> "")
 End Function

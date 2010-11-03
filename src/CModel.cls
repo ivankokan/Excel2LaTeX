@@ -244,6 +244,8 @@ Private Function PadSpace(ByVal n As Long)
 End Function
 
 Private Function GetStruts(ByVal rRow As Range) As String
+    Debug.Assert rRow.Rows.Count = 1
+    
     ' No struts in booktabs mode
     If booktabs Then Exit Function
     
@@ -319,6 +321,8 @@ Private Function HasHorizontalBorder(ByVal rBelowRange As Range) As Boolean
 End Function
 
 Private Function HorizontalBorder(ByVal rBelowRange As Range, ByVal spaces As Integer) As String
+    Debug.Assert rBelowRange.Rows.Count = 1
+    
     Dim rAboveRange As Range
     If rBelowRange.Row > 1 Then
         Set rAboveRange = rBelowRange.Offset(RowOffset:=-1)

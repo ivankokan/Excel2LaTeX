@@ -410,22 +410,7 @@ Private Function AddCell(ByVal rCell As Range, ByVal bFirstCell As Boolean, ByVa
     Dim nColumns As Long
     Dim nRows As Long
     
-    txt = rCell.Text
-    
-    'Check for special characters % and $
-    If convertDollar Then
-        txt = Replace(txt, "\", "\textbackslash ")
-        txt = Replace(txt, "$", "\$")
-        txt = Replace(txt, "_", "\_")
-        txt = Replace(txt, "^", "\^")
-    End If
-    txt = Replace(txt, "%", "\%")
-    txt = Replace(txt, "&", "\&")
-    txt = Replace(txt, "#", "\#")
-                
-    'Check for Font Styles
-    If rCell.Font.Bold Then txt = Printf("\textbf{%1}", txt)
-    If rCell.Font.Italic Then txt = Printf("\textit{%1}", txt)
+    txt = FormatCell(rCell)
     
     Dim bRequiresDifferentVlineFormat As Boolean
     bRequiresDifferentVlineFormat = RequiresDifferentVlineFormat(rCell)
@@ -462,6 +447,36 @@ Private Function AddCell(ByVal rCell As Range, ByVal bFirstCell As Boolean, ByVa
     End If
     
     AddCell = nColumns
+End Function
+
+Private Function FormatCell(ByVal rCell As Range) As String
+    FormatCell = rCell.Text
+    
+    FormatCell = ConvertSpecialChars(FormatCell)
+    FormatCell = FormatCellFont(FormatCell, rCell)
+End Function
+
+Private Function ConvertSpecialChars(ByVal sText As String) As String
+    ConvertSpecialChars = sText
+    
+    'Check for special characters % and $
+    If convertDollar Then
+        ConvertSpecialChars = Replace(ConvertSpecialChars, "\", "\textbackslash ")
+        ConvertSpecialChars = Replace(ConvertSpecialChars, "$", "\$")
+        ConvertSpecialChars = Replace(ConvertSpecialChars, "_", "\_")
+        ConvertSpecialChars = Replace(ConvertSpecialChars, "^", "\^")
+    End If
+    ConvertSpecialChars = Replace(ConvertSpecialChars, "%", "\%")
+    ConvertSpecialChars = Replace(ConvertSpecialChars, "&", "\&")
+    ConvertSpecialChars = Replace(ConvertSpecialChars, "#", "\#")
+End Function
+
+Private Function FormatCellFont(ByVal sText As String, ByVal rCell As Range) As String
+    FormatCellFont = sText
+    
+    'Check for Font Styles
+    If rCell.Font.Bold Then FormatCellFont = Printf("\textbf{%1}", FormatCellFont)
+    If rCell.Font.Italic Then FormatCellFont = Printf("\textit{%1}", FormatCellFont)
 End Function
 
 Private Function RequiresDifferentVlineFormat(ByVal rCell As Range) As Boolean

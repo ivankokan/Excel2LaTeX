@@ -477,6 +477,13 @@ Private Function FormatCellFont(ByVal sText As String, ByVal rCell As Range) As 
     'Check for Font Styles
     If rCell.Font.Bold Then FormatCellFont = Printf("\textbf{%1}", FormatCellFont)
     If rCell.Font.Italic Then FormatCellFont = Printf("\textit{%1}", FormatCellFont)
+    
+    'Typeset math in bold if required
+    If Not rCell.Font.Bold Then
+    ElseIf convertDollar Then
+    ElseIf InStr(1, FormatCellFont, "$") > 0 Then
+        FormatCellFont = Printf("\boldmath{}%1\unboldmath{}", FormatCellFont)
+    End If
 End Function
 
 Private Function RequiresDifferentVlineFormat(ByVal rCell As Range) As Boolean

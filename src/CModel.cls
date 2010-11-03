@@ -294,18 +294,9 @@ Private Function VerticalBorder(ByVal pRightRange As Range)
     ' No vertical borders for booktabs style
     If booktabs Then Exit Function
     
-    Dim borderStyle As Variant
-    borderStyle = pRightRange.Borders(xlLeft).LineStyle
-    
-    Dim pLeftRange As Range
-    If pRightRange.Column > 1 Then
-        Set pLeftRange = pRightRange.Offset(ColumnOffset:=-1)
-        borderStyle = ResolveLine(borderStyle, pLeftRange.Borders(xlRight).LineStyle)
-    End If
-
     'return nothing, | or ||
     Dim stg As String
-    Select Case borderStyle
+    Select Case VerticalBorderStyle(pRightRange)
     Case xlDouble
         stg = "||"
     Case xlContinuous

@@ -1,6 +1,6 @@
 ﻿Excel2LaTeX
-=============
-v2.2
+===========
+v2.3
 
 It's difficult to create tables in LaTeX, especially if some columns are calculated. 
 Excel2LaTeX allows you to transform the current selection from Excel to LaTeX.
@@ -16,8 +16,8 @@ then can be included in an existing LaTeX document using the \input command.
 
 SOURCE
 ~~~~~~
-The development repository of this package is hosted at
-https://launchpad.net/excel2latex
+The development repository and the bug tracker for this package is hosted at
+https://launchpad.net/excel2latex .
 
 
 INSTALLATION
@@ -26,7 +26,7 @@ Just open the file Excel2LaTeX.xla in Excel. Then you will have an additional
 menu item in your 'Tools' menu and a new Toolbar with one button on it. 
 For Excel 2007 and later, you will have a new button in the "Add-Ins" ribbon.
 If you plan to use the program frequently, you can save it in your addin directory 
-and add it with tools/add-in. This way it will be loaded whenever excel is 
+and add it with tools/add-in. This way it will be loaded whenever Excel is 
 opened. 
 
 
@@ -73,8 +73,18 @@ The Current Maintainer of this work is Kirill Müller.
 This work consists of the file Excel2LaTeX.xla.
 
 
+BUGS
+~~~~
+Please report bugs via the bug tracker at https://launchpad.net/excel2latex .
+
+
 CHANGES
 ~~~~~~~
+Version 2.3: Released on 16 Nov 2010
+* Bug fix: In Office 2007, no error is raised after opening a document anymore.
+* Bug fix: When writing the TeX file, no additional newline is appended. 
+  Spurious spaces may produce unwanted results.
+
 Version 2.2: Released on 29 Sep 2010
 * Save and load settings to/from registry.
 * Bug fix: do not add two command buttons to the ribbons in Excel 2007 and 

@@ -28,7 +28,9 @@ INSTALLATION
 Just open the file Excel2LaTeX.xla in Excel.  Then you will have two additional 
 menu items in your "Tools" menu and a new toolbar with two buttons on it.  For 
 Excel 2007 and later, you will have two new buttons in the "Add-Ins" ribbon.  If 
-you plan to use the program frequently, you can save it in your addin directory and add it with Tools/Add-in.  This way it will be loaded whenever Excel is opened.
+you plan to use the program frequently, you can save it in your addin directory 
+and add it with Tools/Add-in.  This way it will be loaded whenever Excel is 
+opened.
 
 
 USAGE

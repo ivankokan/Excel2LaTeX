@@ -133,17 +133,15 @@ Public Function IModel_GetConversionResult() As String
             AddText Space(Indent) + "\midrule", True
         End If
         AddText Space(Indent)
+        Indent = Indent + 2
     
         For i = 1 To r.Cells.Count  ' for each cell in row r
             i = i + AddCell(r.Cells(i), i = 1, i >= r.Cells.Count) - 1
-            
-            If i <> r.Cells.Count Then
-              AddText " & "
-            End If
         Next i 'cells in row
         
         ' Struts and end of line
-        AddText Printf(" %1\\", GetStruts(r)), True
+        AddText Printf("%1\\", GetStruts(r)), True
+        Indent = Indent - 2
         
         ' Check for Border lines
         If Not booktabs Then
@@ -442,7 +440,15 @@ Private Function AddCell(ByVal rCell As Range, ByVal bFirstCell As Boolean, ByVa
     
     AddText txt
     If Not bLastCell Then
-        AddText PadSpace(nColumns * (3 + CellWidth) - 3 - Len(txt))
+        If CellWidth > 0 Then
+            AddText PadSpace(nColumns * (3 + CellWidth) - 3 - Len(txt))
+        End If
+        AddText " &"
+    End If
+    If CellWidth > 0 Then
+        AddText " "
+    Else
+        AddText vbLf & Space(Indent)
     End If
     
     AddCell = nColumns

@@ -121,7 +121,6 @@ Public Function IModel_GetConversionResult() As String
     Set r = RangeToUse.Rows(1)
     
     If booktabs Then
-        AddText Space(Indent) + "\addlinespace", True
         AddText Space(Indent) + "\toprule", True
     Else
         AddText HorizontalBorder(r, Indent)

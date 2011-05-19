@@ -258,6 +258,7 @@ Private Sub spnIndent_Change()
 End Sub
 
 Private Sub txtCellSize_Change()
+    On Error Resume Next
     spnCellWidth = txtCellSize
     mModel.CellWidth = txtCellSize
 End Sub
@@ -270,6 +271,7 @@ Private Sub txtFilename_Change()
 End Sub
 
 Private Sub txtIndent_Change()
+    On Error Resume Next
     spnIndent = txtIndent
     mModel.Indent = txtIndent
 End Sub

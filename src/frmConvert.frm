@@ -118,16 +118,28 @@ End Sub
 
 Private Sub mModelEvents_Changed()
     If mbIgnoreControlEvents Then Exit Sub
-    txtResult = mModel.GetConversionResult
+    SetResult mModel.GetConversionResult
 End Sub
 
 Private Sub mStorageEvents_Changed()
     LoadStoredTablesList
 End Sub
 
+Private Sub SetResult(ByVal sResult As String)
+    #If Mac Then
+    txtResult.Locked = False
+    #End If
+    
+    txtResult.Text = sResult
+    
+    #If Mac Then
+    txtResult.Locked = True
+    #End If
+End Sub
+
 Private Sub ConvertSelection()
     If mbIgnoreControlEvents Then Exit Sub
-    txtResult.Text = mModel.GetConversionResult
+    SetResult mModel.GetConversionResult
     txtResult.SetFocus
 End Sub
 
@@ -250,11 +262,11 @@ End Sub
 
 
 Private Sub spnCellWidth_Change()
-  txtCellSize = spnCellWidth
+  txtCellSize.Text = spnCellWidth
 End Sub
 
 Private Sub spnIndent_Change()
-  txtIndent = spnIndent
+  txtIndent.Text = spnIndent
 End Sub
 
 Private Sub txtCellSize_Change()

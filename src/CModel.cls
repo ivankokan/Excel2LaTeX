@@ -136,7 +136,7 @@ Public Function IModel_GetConversionResult() As String
         Indent = Indent + 2
     
         For i = 1 To r.Cells.Count  ' for each cell in row r
-            i = i + AddCell(r.Cells(i), i = 1, i >= r.Cells.Count) - 1
+            i = i + AddCell(r.Cells(i), i = 1, i + r.Cells(i).MergeArea.Columns.Count > r.Cells.Count) - 1
         Next i 'cells in row
         
         ' Struts and end of line

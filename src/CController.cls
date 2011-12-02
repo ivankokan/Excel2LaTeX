@@ -46,6 +46,10 @@ Private Property Set IController_Storage(ByVal pStorage As IStorage)
 End Property
 
 Private Sub IController_Run()
+    #If Win32 Or Win64 Then
     mView.Show vbModeless
+    #Else
+    mView.Show vbModal
+    #End If
 End Sub
 

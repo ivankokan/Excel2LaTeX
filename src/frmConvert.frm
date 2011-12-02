@@ -127,7 +127,7 @@ End Sub
 
 Private Sub ConvertSelection()
     If mbIgnoreControlEvents Then Exit Sub
-    txtResult = mModel.GetConversionResult
+    txtResult.Text = mModel.GetConversionResult
     txtResult.SetFocus
 End Sub
 
@@ -147,7 +147,7 @@ Public Sub InitFromModel(ByVal pModel As IModel)
         Me.SetOptions (.Options)
         Me.txtIndent = .Indent
         Me.txtFilename = .FileName
-        Me.cmdSelection.caption = .RangeAddress
+        Me.cmdSelection.Caption = .RangeAddress
     End With
     mbIgnoreControlEvents = False
     ConvertSelection
@@ -278,7 +278,7 @@ End Sub
 
 Private Sub cmdSelection_Click()
     Set mModel.Range = Application.Selection
-    Me.cmdSelection.caption = mModel.RangeAddress
+    Me.cmdSelection.Caption = mModel.RangeAddress
 End Sub
 
 

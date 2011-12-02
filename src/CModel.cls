@@ -199,10 +199,12 @@ End Property
 ' Class implementation
 
 Private Sub InitFromRegistry()
+    On Error Resume Next
     StringToModel Me, VBA.GetSetting("Excel2LaTeX", "Main", "DefaultSettings")
 End Sub
 
 Private Sub SaveToRegistry()
+    On Error Resume Next
     VBA.SaveSetting "Excel2LaTeX", "Main", "DefaultSettings", ModelToString(Me)
 End Sub
 

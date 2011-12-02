@@ -46,7 +46,7 @@ Public Sub CreateDevWorksheet()
 End Sub
 
 Private Sub PrepareCommit()
-    ActiveWorkbook.Save
+    If Not ActiveWorkbook Is Nothing Then: ActiveWorkbook.Save
     ExportToCodeModules
     ExportToDevAddin
 End Sub

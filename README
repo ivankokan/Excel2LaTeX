@@ -1,6 +1,6 @@
 ﻿Excel2LaTeX
 ===========
-v3.1
+v3.2
 
 It's difficult to create tables in LaTeX, especially if some columns are calculated. 
 Excel2LaTeX allows you to transform the current selection from Excel to LaTeX.
@@ -78,7 +78,7 @@ ANNOTATIONS
 
 COPYRIGHT
 ~~~~~~~~~
-Copyright 1996, 1997, 1998, 2001, 2008, 2010, 2011 by Kirill Müller, 
+Copyright 1996, 1997, 1998, 2001, 2008, 2010, 2011, 2012 by Kirill Müller, 
 Andrew Hawryluk, and Joachim Marder.
 
 This work may be distributed and/or modified under the conditions of the LaTeX 
@@ -100,6 +100,10 @@ Please report bugs via the bug tracker at https://launchpad.net/excel2latex .
 
 CHANGES
 ~~~~~~~
+Version 3.2: Released on 26 Mar 2012
+* Bug fix: Finally restored compatibility with Office Mac
+* Bug fix: Do not add extra alignment tab after \multicolumn{}{}
+
 Version 3.1: Released on 19 May 2011
 * If the column width is set to 0, each cell occupies a separate line in the output file
 * In booktabs mode, no vertical space is inserted before the top row anymore

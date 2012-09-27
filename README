@@ -1,6 +1,6 @@
 ﻿Excel2LaTeX
 ===========
-v3.2
+v3.3
 
 It's difficult to create tables in LaTeX, especially if some columns are calculated. 
 Excel2LaTeX allows you to transform the current selection from Excel to LaTeX.
@@ -15,6 +15,9 @@ The LaTeX code can be copied to the clipboard or saved as a LaTeX file, which
 then can be included in an existing LaTeX document using the \input command.
 You can also specify which ranges of your Excel workbook you want to convert
 into LaTeX, and convert them all at once as individual .tex files.
+
+This Excel add-in works best in Microsoft Office 2000 and later (on Windows).
+It also works in Office:mac (on Mac OS X), but see the "Known issues" section.
 
 
 SOURCE
@@ -93,6 +96,16 @@ The Current Maintainer of this work is Kirill Müller.
 This work consists of the file Excel2LaTeX.xla.
 
 
+KNOWN ISSUES
+~~~~~~~~~~~~
+Office Mac: "Copy to clipboard" appends extra null (\0) characters.
+Office Mac: Performance is worse than in Windows, converting large ranges might
+take minutes or hours.
+Office Mac: The functionality is accessible only through the "Format" menu.
+Office Mac: The dialog is modal (Windows: modeless).
+All: Color not (yet) supported.
+
+
 BUGS
 ~~~~
 Please report bugs via the bug tracker at https://launchpad.net/excel2latex .
@@ -100,6 +113,13 @@ Please report bugs via the bug tracker at https://launchpad.net/excel2latex .
 
 CHANGES
 ~~~~~~~
+Version 3.3: Released on 27 Sep 2012
+* Bug fix: Doesn't crash when trying to start conversion when an entire line is
+  selected.
+* Bug fix: Better conversion of backslashes: '\textbackslash{}' instead of
+  '\textbackslash '
+* Performance: Improvements by avoiding unnecessary calls to Excel objects
+
 Version 3.2: Released on 26 Mar 2012
 * Bug fix: Finally restored compatibility with Office Mac
 * Bug fix: Do not add extra alignment tab after \multicolumn{}{}

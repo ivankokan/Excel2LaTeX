@@ -284,7 +284,9 @@ Private Function GetColumnsFormat(ByVal RangeToUse As Range, Optional ByVal bSki
         Case Else
             stg = stg + "r" 'Default alignment is right
         End Select
+        On Error Resume Next
         stg = stg + VerticalBorder(RangeToUse.Columns(i + lStep))
+        On Error GoTo 0
     Next i
     GetColumnsFormat = stg
 End Function

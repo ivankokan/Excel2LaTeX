@@ -471,7 +471,7 @@ Private Function ConvertSpecialChars(ByVal sText As String) As String
     
     'Check for special characters % and $
     If convertDollar Then
-        ConvertSpecialChars = Replace(ConvertSpecialChars, "\", "\textbackslash ")
+        ConvertSpecialChars = Replace(ConvertSpecialChars, "\", "\textbackslash{}")
         ConvertSpecialChars = Replace(ConvertSpecialChars, "$", "\$")
         ConvertSpecialChars = Replace(ConvertSpecialChars, "_", "\_")
         ConvertSpecialChars = Replace(ConvertSpecialChars, "^", "\^")

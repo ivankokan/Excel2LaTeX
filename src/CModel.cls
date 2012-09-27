@@ -92,7 +92,7 @@ Public Property Let IModel_RangeAddress(ByVal iRange As String)
 End Property
 
 Public Function IModel_GetConversionResult() As String
-    Dim r As Range
+    Dim r As Range, rc As Range, c As Range
     Dim FileName As String
     Dim i As Integer
     Dim j As Integer
@@ -129,14 +129,16 @@ Public Function IModel_GetConversionResult() As String
     'Table contents:
     For j = 1 To RangeToUse.Rows.Count ' for each row
         Set r = RangeToUse.Rows(j)
+        Set rc = r.Cells
         If (j = 2) And booktabs Then
             AddText Space(Indent) + "\midrule", True
         End If
         AddText Space(Indent)
         Indent = Indent + 2
     
-        For i = 1 To r.Cells.Count  ' for each cell in row r
-            i = i + AddCell(r.Cells(i), i = 1, i + r.Cells(i).MergeArea.Columns.Count > r.Cells.Count) - 1
+        For i = 1 To rc.Count  ' for each cell in row r
+            Set c = rc.Item(i)
+            i = i + AddCell(c, i = 1, i + c.MergeArea.Columns.Count > rc.Count) - 1
         Next i 'cells in row
         
         ' Struts and end of line
@@ -268,15 +270,25 @@ Private Function GetStruts(ByVal rRow As Range) As String
 End Function
 
 Private Function GetColumnsFormat(ByVal RangeToUse As Range, Optional ByVal bSkipFirst = False, Optional ByVal lStep As Long = 1) As String
+    Dim rc As Range, c As Range, cn As Range
+    
     Dim i As Long
     Dim stg As String
     
+    Set rc = RangeToUse.Columns
+    Set cn = rc.Item(1)
+    
     If Not bSkipFirst Then
-        stg = VerticalBorder(RangeToUse.Columns(1))
+        stg = VerticalBorder(cn)
     End If
     
-    For i = 1 To RangeToUse.Columns.Count Step lStep
-        Select Case RangeToUse.Columns(i).HorizontalAlignment
+    For i = 1 To rc.Count Step lStep
+        Set c = cn
+        Set cn = Nothing
+        On Error Resume Next
+        Set cn = rc(i + lStep)
+        On Error GoTo 0
+        Select Case c.HorizontalAlignment
         Case xlLeft
             stg = stg + "l"
         Case xlCenter
@@ -284,9 +296,9 @@ Private Function GetColumnsFormat(ByVal RangeToUse As Range, Optional ByVal bSki
         Case Else
             stg = stg + "r" 'Default alignment is right
         End Select
-        On Error Resume Next
-        stg = stg + VerticalBorder(RangeToUse.Columns(i + lStep))
-        On Error GoTo 0
+        If Not (cn Is Nothing) Then
+            stg = stg + VerticalBorder(cn)
+        End If
     Next i
     GetColumnsFormat = stg
 End Function
@@ -482,14 +494,17 @@ Private Function ConvertSpecialChars(ByVal sText As String) As String
 End Function
 
 Private Function FormatCellFont(ByVal sText As String, ByVal rCell As Range) As String
+    Dim pFont As Font
+    Set pFont = rCell.Font
+    
     FormatCellFont = sText
     
     'Check for Font Styles
-    If rCell.Font.Bold Then FormatCellFont = Printf("\textbf{%1}", FormatCellFont)
-    If rCell.Font.Italic Then FormatCellFont = Printf("\textit{%1}", FormatCellFont)
+    If pFont.Bold Then FormatCellFont = Printf("\textbf{%1}", FormatCellFont)
+    If pFont.Italic Then FormatCellFont = Printf("\textit{%1}", FormatCellFont)
     
     'Typeset math in bold if required
-    If Not rCell.Font.Bold Then
+    If Not pFont.Bold Then
     ElseIf convertDollar Then
     ElseIf InStr(1, FormatCellFont, "$") > 0 Then
         FormatCellFont = Printf("\boldmath{}%1\unboldmath{}", FormatCellFont)

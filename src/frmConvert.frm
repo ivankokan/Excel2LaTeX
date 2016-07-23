@@ -1,18 +1,22 @@
 VERSION 5.00
 Begin {C62A69F0-16DC-11CE-9E98-00AA00574A4F} frmConvert 
-   Caption         =   "Exce2LaTeX"
-   ClientHeight    =   7365
+   OleObjectBlob   =   "frmConvert.frx":0000
+   Caption         =   "Excel2LaTeX"
+   ClientHeight    =   7440
    ClientLeft      =   45
    ClientTop       =   330
-   ClientWidth     =   12150
-   OleObjectBlob   =   "frmConvert.frx":0000
-   StartUpPosition =   1  'Fenstermitte
+   ClientWidth     =   12075
+   StartUpPosition =   1  'CenterOwner
+   TypeInfoVer     =   109
 End
 Attribute VB_Name = "frmConvert"
+Attribute VB_Base = "0{86998920-9B42-405F-8BA3-9B10214C86E8}{A87D0BBE-8D68-4653-9A87-9251ECDE6A1F}"
 Attribute VB_GlobalNameSpace = False
 Attribute VB_Creatable = False
 Attribute VB_PredeclaredId = True
 Attribute VB_Exposed = False
+Attribute VB_TemplateDerived = False
+Attribute VB_Customizable = False
 Option Explicit
 
 Implements IView
@@ -307,7 +311,6 @@ Private Sub cmdSelection_Click()
     Set mModel.Range = Application.Selection
     Me.cmdSelection.Caption = mModel.RangeAddress
 End Sub
-
 
 Private Sub UserForm_Click()
 ' This is regenerated every time the form is activated in the IDE. Just keep it here.

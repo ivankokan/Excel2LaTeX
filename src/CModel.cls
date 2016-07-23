@@ -134,9 +134,12 @@ Public Function IModel_GetConversionResult() As String
         AddText Space(Indent)
         Indent = Indent + 2
     
+        Dim RowColor&
+        RowColor = GetRowColor(rc)
+        If RowColor <> &HFFFFFF Then AddText Printf("\rowcolor[rgb]{%1} ", ColorToRGB(RowColor))
         For i = 1 To rc.Count  ' for each cell in row r
             Set c = rc.Item(i)
-            i = i + AddCell(c, i = 1, i + c.MergeArea.Columns.Count > rc.Count) - 1
+            i = i + AddCell(c, i = 1, i + c.MergeArea.Columns.Count > rc.Count, RowColor) - 1
         Next i 'cells in row
         
         ' Struts and end of line
@@ -192,6 +195,20 @@ Private Property Set IModel_Range(ByVal pRange As Range)
 End Property
 
 ' Class implementation
+
+Private Function GetRowColor(Row As Range) As Long
+    If Excel2010 Then
+        GetRowColor = Row.DisplayFormat.Interior.Color
+    Else
+        GetRowColor = Row.Interior.Color
+    End If
+    If GetRowColor <> 0 Then Exit Function
+    If Excel2010 Then
+        GetRowColor = Row.Cells(1, 1).DisplayFormat.Interior.Color
+    Else
+        GetRowColor = Row.Cells(1, 1).Interior.Color
+    End If
+End Function
 
 Private Sub InitFromRegistry()
     On Error Resume Next
@@ -446,12 +463,12 @@ Private Function ResolveLine(ByVal line1, ByVal line2)
     If line1 = xlDouble Or line2 = xlDouble Then ResolveLine = xlDouble
 End Function
 
-Private Function AddCell(ByVal rCell As Range, ByVal bFirstCell As Boolean, ByVal bLastCell As Boolean) As Long
+Private Function AddCell(ByVal rCell As Range, ByVal bFirstCell As Boolean, ByVal bLastCell As Boolean, ByVal RowColor&) As Long
     Dim txt As String
     Dim nColumns As Long
     Dim nRows As Long
     
-    txt = FormatCell(rCell)
+    txt = FormatCell(rCell, RowColor)
     
     Dim bRequiresDifferentVlineFormat As Boolean
     bRequiresDifferentVlineFormat = RequiresDifferentVlineFormat(rCell)
@@ -498,12 +515,41 @@ Private Function AddCell(ByVal rCell As Range, ByVal bFirstCell As Boolean, ByVa
     AddCell = nColumns
 End Function
 
-Private Function FormatCell(ByVal rCell As Range) As String
+Private Function FormatCell(ByVal rCell As Range, ByVal RowColor&) As String
     FormatCell = rCell.Text
     
     FormatCell = ConvertSpecialChars(FormatCell)
     FormatCell = FormatCellFont(FormatCell, rCell)
     FormatCell = FormatCellOrientation(FormatCell, rCell)
+    FormatCell = FormatCellColor(FormatCell, rCell, RowColor)
+End Function
+
+Private Function FormatCellColor(Text$, Cell As Range, ByVal RowColor&) As String
+    Dim FontColor&, InteriorColor&
+    If Excel2010 Then
+        With Cell.DisplayFormat
+            FontColor = .Font.Color
+            InteriorColor = .Interior.Color
+        End With
+    Else
+        FontColor = Cell.Font.Color
+        InteriorColor = Cell.Interior.Color
+    End If
+    
+    If FontColor = 0 Then
+        FormatCellColor = Text
+    Else
+        FormatCellColor = Printf("\textcolor[rgb]{%1}{%2}", ColorToRGB(FontColor), Text)
+    End If
+    
+    If InteriorColor <> RowColor Then FormatCellColor = Printf("\cellcolor[rgb]{%1} ", _
+            ColorToRGB(InteriorColor)) & FormatCellColor
+End Function
+
+Private Function ColorToRGB(ByVal Color&) As String
+    ColorToRGB = Printf("%1, %2, %3", Format$((Color And &HFF&) / 255, "0.000"), _
+                Format$((Color And &HFF00&) / &H100 / 255, "0.000"), _
+                Format$((Color And &HFF0000) / &H10000 / 255, "0.000"))
 End Function
 
 Private Function ConvertSpecialChars(ByVal sText As String) As String

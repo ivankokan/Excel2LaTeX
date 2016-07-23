@@ -118,25 +118,30 @@ Please report bugs via the bug tracker at https://github.com/krlmlr/Excel2LaTeX/
 
 
 CHANGES
-~~~~~~~
-Version 3.3: Released on 27 Sep 2012
+-------
+
+###Version 3.3: Released on 27 Sep 2012
+
 * Bug fix: Doesn't crash when trying to start conversion when an entire line is
   selected.
 * Bug fix: Better conversion of backslashes: '\textbackslash{}' instead of
   '\textbackslash '
 * Performance: Improvements by avoiding unnecessary calls to Excel objects
 
-Version 3.2: Released on 26 Mar 2012
+### Version 3.2: Released on 26 Mar 2012
+
 * Bug fix: Finally restored compatibility with Office Mac
 * Bug fix: Do not add extra alignment tab after \multicolumn{}{}
 
-Version 3.1: Released on 19 May 2011
+### Version 3.1: Released on 19 May 2011
+
 * If the column width is set to 0, each cell occupies a separate line in the output file
 * In booktabs mode, no vertical space is inserted before the top row anymore
 * Bug fix: Restored compatibility with Office 2000 and Office Mac
 * Bug fix: Form is protected against erroneous entries
 
-Version 3.0: Released on 17 Nov 2010
+### Version 3.0: Released on 17 Nov 2010
+
 * CAVEAT: The toolbar buttons and menu items from previous versions of 
   Excel2LaTeX are not deleted automatically.
 
@@ -188,12 +193,14 @@ Version 3.0: Released on 17 Nov 2010
 * The main form shows up always, even if no range or a multi-area range is 
   selected.
 
-Version 2.3: Released on 16 Nov 2010
+### Version 2.3: Released on 16 Nov 2010
+
 * Bug fix: In Office 2007, no error is raised after opening a document anymore.
 * Bug fix: When writing the TeX file, no additional newline is appended. 
   Spurious spaces may produce unwanted results.
 
-Version 2.2: Released on 29 Sep 2010
+### Version 2.2: Released on 29 Sep 2010
+
 * Save and load settings to/from registry.
 * Bug fix: do not add two command buttons to the ribbons in Excel 2007 and 
   later.
@@ -206,7 +213,8 @@ Version 2.2: Released on 29 Sep 2010
   it to LaTeX.
 * Internal: various code refactorings.
   
-Version 2.1: Released on 18 Sep 2008
+### Version 2.1: Released on 18 Sep 2008
+
 * Better character replacement: the previous version only replaced the first
   occurrence of $ or % in a cell.
 * Optionally generate a table environment, format the table in the style of the
@@ -215,17 +223,20 @@ Version 2.1: Released on 18 Sep 2008
 * Bug fix: the previous version would damage formulas that referred to cells
   outside the selection.
   
-Version 2.0: Released on 21 Jul 2001
+###Version 2.0: Released on 21 Jul 2001
+
 This version is based on modifications by Germán Riaño
 * Graphical user interface
 * The LaTeX code can be copied to clipboard and then pasted into you editor.
 * Better handling of multicolum cells
 * doublelines on top border are now handled
 
-Version 1.2: Published on 22 Nov 1998
+### Version 1.2: Published on 22 Nov 1998
+
 * The characters % and $ are now converted to the correspondig LaTeX makros
 
-Version 1.1: Published on 12 Apr 1997
+### Version 1.1: Published on 12 Apr 1997
+
 * Some small changes to make it run with Excel 97 too
 
-Version 1.0: First published version, Oct 22 1996
+###Version 1.0: First published version, Oct 22 1996

@@ -476,7 +476,8 @@ Private Function AddCell(ByVal rCell As Range, ByVal bFirstCell As Boolean, ByVa
     txt = FormatCell(rCell, RowColor)
     
     Dim bRequiresDifferentVlineFormat As Boolean
-    bRequiresDifferentVlineFormat = RequiresDifferentVlineFormat(rCell)
+    'don't require a different vline format if the cell has no content
+    If Len(txt) > 0 Then bRequiresDifferentVlineFormat = RequiresDifferentVlineFormat(rCell)
     
     'Check for multicolumns
     If rCell.MergeCells Or bRequiresDifferentVlineFormat Then   'multicolumn cell
@@ -523,9 +524,11 @@ End Function
 Private Function FormatCell(ByVal rCell As Range, ByVal RowColor&) As String
     FormatCell = rCell.Text
     
-    FormatCell = ConvertSpecialChars(FormatCell)
-    FormatCell = FormatCellFont(FormatCell, rCell)
-    FormatCell = FormatCellOrientation(FormatCell, rCell)
+    If Len(FormatCell) > 0 Then
+        FormatCell = ConvertSpecialChars(FormatCell)
+        FormatCell = FormatCellFont(FormatCell, rCell)
+        FormatCell = FormatCellOrientation(FormatCell, rCell)
+    End If
     FormatCell = FormatCellColor(FormatCell, rCell, RowColor)
 End Function
 

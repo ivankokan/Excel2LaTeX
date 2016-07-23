@@ -525,7 +525,7 @@ Private Function FormatCell(ByVal rCell As Range, ByVal RowColor&) As String
     FormatCell = rCell.Text
     
     If Len(FormatCell) > 0 Then
-        FormatCell = ConvertSpecialChars(FormatCell)
+        FormatCell = ConvertSpecialChars(FormatCell, isnumeric(rCell.Value2))
         FormatCell = FormatCellFont(FormatCell, rCell)
         FormatCell = FormatCellOrientation(FormatCell, rCell)
     End If
@@ -560,11 +560,11 @@ Private Function ColorToRGB(ByVal Color&) As String
                 Format$((Color And &HFF0000) / &H10000 / 255, "0.000"))
 End Function
 
-Private Function ConvertSpecialChars(ByVal sText As String) As String
+Private Function ConvertSpecialChars(ByVal sText As String, ByVal Number As Boolean) As String
     ConvertSpecialChars = sText
     
-    'Check for special characters % and $
-    If convertDollar Then
+    'Check for special characters - always convert if numeric
+    If convertDollar Or Number Then
         ConvertSpecialChars = Replace(ConvertSpecialChars, "\", "\textbackslash{}")
         ConvertSpecialChars = Replace(ConvertSpecialChars, "$", "\$")
         ConvertSpecialChars = Replace(ConvertSpecialChars, "_", "\_")

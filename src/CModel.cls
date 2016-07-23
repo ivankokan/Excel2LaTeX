@@ -313,6 +313,8 @@ Private Function GetColumnsFormat(ByVal RangeToUse As Range, Optional ByVal bSki
             stg = stg + "l"
         Case xlCenter
             stg = stg + "c"
+        Case xlGeneral
+            stg = stg + IIf(VarType(c.Cells(c.Rows.Count, 1).Value2) = vbString, "l", "r")
         Case Else
             stg = stg + "r" 'Default alignment is right
         End Select

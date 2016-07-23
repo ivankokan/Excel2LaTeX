@@ -231,9 +231,12 @@ End Function
 
 Private Function GetDefaultRange() As Range
     If Selection Is Nothing Then Exit Function
-    If TypeName(Selection) <> "Range" Then Exit Function
-    
-    Set GetDefaultRange = Selection
+    If Not TypeOf Selection Is Range Then Exit Function
+    If Selection.Count = 1 Then
+        Set GetDefaultRange = Selection.CurrentRegion
+    Else
+        Set GetDefaultRange = Selection
+    End If
 End Function
 
 Private Function GetDefaultFileName()

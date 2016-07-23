@@ -103,12 +103,12 @@ This work consists of the file Excel2LaTeX.xla.
 KNOWN ISSUES
 ------------
 
-Office Mac: "Copy to clipboard" appends extra null (\0) characters.
-Office Mac: Performance is worse than in Windows, converting large ranges might
+* Office Mac: "Copy to clipboard" appends extra null (\0) characters.
+* Office Mac: Performance is worse than in Windows, converting large ranges might
 take minutes or hours.
-Office Mac: The functionality is accessible only through the "Format" menu.
-Office Mac: The dialog is modal (Windows: modeless).
-All: Color not (yet) supported.
+* Office Mac: The functionality is accessible only through the "Format" menu.
+* Office Mac: The dialog is modal (Windows: modeless).
+* All: Color not (yet) supported.
 
 
 BUGS

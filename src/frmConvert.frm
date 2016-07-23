@@ -79,6 +79,30 @@ Private Function UnionOfRangeAndItsPrecedents(ByVal pRange As Range) As Range
     End If
 End Function
 
+
+Private Sub AutoApplyBox_Click()
+    ApplyButton.Enabled = Not AutoApplyBox.Value
+    If AutoApplyBox.Value Then ApplyButton_Click
+End Sub
+
+Private Sub chkBooktabs_Click()
+    If AutoApplyBox.Value Then UpdateOptions
+End Sub
+
+Private Sub chkConvertDollar_Click()
+    If AutoApplyBox.Value Then UpdateOptions
+End Sub
+
+Private Sub chkTableFloat_Click()
+    If AutoApplyBox.Value Then UpdateOptions
+End Sub
+
+Private Sub ApplyButton_Click()
+    UpdateOptions
+    mModel.CellWidth = txtCellSize
+    mModel.Indent = txtIndent
+End Sub
+
 Private Sub lvwStoredTables_Change()
     Dim bSelected As Boolean
     bSelected = (lvwStoredTables.ListIndex >= 0)
@@ -192,18 +216,6 @@ Private Sub UpdateOptions()
     mModel.Options = GetOptions()
 End Sub
 
-Private Sub chkBooktabs_Click()
-    UpdateOptions
-End Sub
-
-Private Sub chkConvertDollar_Click()
-    UpdateOptions
-End Sub
-
-Private Sub chkTableFloat_Click()
-    UpdateOptions
-End Sub
-
 Private Sub cmdBrowse_Click()
     Dim sFileName
     sFileName = Application.GetSaveAsFilename(mModel.AbsoluteFileName, "TeX documents (*.tex), *.tex")
@@ -275,7 +287,7 @@ End Sub
 Private Sub txtCellSize_Change()
     On Error Resume Next
     spnCellWidth = txtCellSize
-    mModel.CellWidth = txtCellSize
+    If AutoApplyBox.Value Then mModel.CellWidth = txtCellSize
 End Sub
 
 Private Sub txtFilename_Change()
@@ -288,7 +300,7 @@ End Sub
 Private Sub txtIndent_Change()
     On Error Resume Next
     spnIndent = txtIndent
-    mModel.Indent = txtIndent
+    If AutoApplyBox.Value Then mModel.Indent = txtIndent
 End Sub
 
 Private Sub cmdSelection_Click()

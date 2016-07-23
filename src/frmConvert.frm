@@ -99,9 +99,12 @@ Private Sub lvwStoredTables_KeyDown(ByVal KeyCode As MSForms.ReturnInteger, ByVa
 End Sub
 
 Private Sub mActiveWkSheet_Change(ByVal Target As Range)
+    On Error GoTo errfail
+    If Not Me.Visible Then Exit Sub
     If Not Intersect(Target, UnionOfRangeAndItsPrecedents(mModel.Range)) Is Nothing Then
         ConvertSelection
     End If
+errfail:
 End Sub
 
 Private Sub mControllerEvents_ModelChanged()

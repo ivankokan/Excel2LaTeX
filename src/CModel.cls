@@ -120,19 +120,12 @@ Public Function IModel_GetConversionResult() As String
     'Start checking top border
     Set r = RangeToUse.Rows(1)
     
-    If booktabs Then
-        AddText Space(Indent) + "\toprule", True
-    Else
-        AddText HorizontalBorder(r, Indent)
-    End If
+    AddText HorizontalBorder(r, Indent, Top:=True)
     
     'Table contents:
     For j = 1 To RangeToUse.Rows.Count ' for each row
         Set r = RangeToUse.Rows(j)
         Set rc = r.Cells
-        If (j = 2) And booktabs Then
-            AddText Space(Indent) + "\midrule", True
-        End If
         AddText Space(Indent)
         Indent = Indent + 2
     
@@ -146,15 +139,10 @@ Public Function IModel_GetConversionResult() As String
         Indent = Indent - 2
         
         ' Check for Border lines
-        If Not booktabs Then
-            AddText HorizontalBorder(r.Offset(RowOffset:=1), Indent)
-        End If
+        AddText HorizontalBorder(r.Offset(RowOffset:=1), Indent, Bottom:=j = RangeToUse.Rows.Count)
     Next j 'row
     
 theend:      'Tabellenende
-    If booktabs Then
-        AddText Space(Indent) + "\bottomrule", True
-    End If
     AddText Space(Indent) + "\end{tabular}%", True
     
     If tableFloat Then
@@ -304,9 +292,6 @@ Private Function GetColumnsFormat(ByVal RangeToUse As Range, Optional ByVal bSki
 End Function
 
 Private Function VerticalBorder(ByVal pRightRange As Range)
-    ' No vertical borders for booktabs style
-    If booktabs Then Exit Function
-    
     'return nothing, | or ||
     Dim stg As String
     Select Case VerticalBorderStyle(pRightRange)
@@ -340,7 +325,7 @@ Private Function HasHorizontalBorder(ByVal rBelowRange As Range) As Boolean
     HasHorizontalBorder = (HorizontalBorder(rBelowRange, 0) <> "")
 End Function
 
-Private Function HorizontalBorder(ByVal rBelowRange As Range, ByVal spaces As Integer) As String
+Private Function HorizontalBorder(ByVal rBelowRange As Range, ByVal spaces As Integer, Optional ByVal Top As Boolean, Optional ByVal Bottom As Boolean) As String
     Debug.Assert rBelowRange.Rows.Count = 1
     
     Dim rAboveRange As Range
@@ -372,6 +357,21 @@ Private Function HorizontalBorder(ByVal rBelowRange As Range, ByVal spaces As In
     
     AppendToRangeSet sRangeDef, lLineOpenFrom, False, rBelowRange.Columns.Count + 1
     
+    Dim HLineCmd$, CLineCmd$, MoreCLineCmd$
+    If booktabs Then
+        If Top Then
+            HLineCmd = "\toprule"
+        ElseIf Bottom Then
+            HLineCmd = "\bottomrule"
+        Else
+            HLineCmd = "\midrule"
+        End If
+    Else
+        HLineCmd = "\hline"
+    End If
+    CLineCmd = IIf(booktabs, "\cmidrule", "\cline")
+    MoreCLineCmd = IIf(booktabs, "\morecmidrules", "")
+    
     ' Straight line? => revert to old behavior
     If sRangeDef = Printf("1-%1", rBelowRange.Columns.Count) Then
         'return nothing, \hline or \hline\hline
@@ -379,16 +379,16 @@ Private Function HorizontalBorder(ByVal rBelowRange As Range, ByVal spaces As In
     
         Select Case borderStyle
         Case xlDouble
-            HorizontalBorder = Space(spaces) + "\hline" + vbLf + Space(spaces) + "\hline" + vbLf
+            HorizontalBorder = Space(spaces) + HLineCmd + vbLf + Space(spaces) + HLineCmd + vbLf
         Case xlContinuous
-            HorizontalBorder = Space(spaces) + "\hline" + vbLf
+            HorizontalBorder = Space(spaces) + HLineCmd + vbLf
         Case Else
             HorizontalBorder = ""
         End Select
     ElseIf sRangeDef = "" Then
         HorizontalBorder = ""
     Else
-        HorizontalBorder = Printf("\cline{%1}", Replace(sRangeDef, ";", "}\cline{"))
+        HorizontalBorder = Printf(CLineCmd + "{%1}", Replace(sRangeDef, ";", "}" + CLineCmd + "{"))
     End If
 End Function
 

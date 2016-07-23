@@ -11,6 +11,7 @@ Option Explicit
 
 Implements IModel
 
+Dim Excel2010 As Boolean
 Dim CellWidth As Integer    'Characters per Cell in output file
 Dim convertDollar As Boolean
 Dim booktabs As Boolean
@@ -21,6 +22,10 @@ Dim sFileName As String
 Dim RangeToUse As Range
 
 Private mpEvents As New IModelEvents
+
+Private Sub Class_Initialize()
+    Excel2010 = Application.Version >= 14#
+End Sub
 
 ' IModel implementation
 
@@ -276,7 +281,14 @@ Private Function GetColumnsFormat(ByVal RangeToUse As Range, Optional ByVal bSki
         On Error Resume Next
         Set cn = rc(i + lStep)
         On Error GoTo 0
-        Select Case c.HorizontalAlignment
+        Dim HorizontalAlignment
+        'get horizontal alignment using the last row of the table
+        If Excel2010 Then
+            HorizontalAlignment = c.Cells(c.Rows.Count, 1).DisplayFormat.HorizontalAlignment
+        Else
+            HorizontalAlignment = c.Cells(c.Rows.Count, 1).HorizontalAlignment
+        End If
+        Select Case HorizontalAlignment
         Case xlLeft
             stg = stg + "l"
         Case xlCenter
@@ -311,12 +323,20 @@ Private Function VerticalBorderStyle(ByVal pRightRange As Range) As Variant
     Dim pRightRow As Range
     Dim pLeftRow As Range
     For Each pRightRow In pRightRange.Rows
-        VerticalBorderStyle = ResolveLine(VerticalBorderStyle, pRightRow.Borders(xlLeft).LineStyle)
+        If Excel2010 Then
+            VerticalBorderStyle = ResolveLine(VerticalBorderStyle, pRightRow.DisplayFormat.Borders(xlLeft).LineStyle)
+        Else
+            VerticalBorderStyle = ResolveLine(VerticalBorderStyle, pRightRow.Borders(xlLeft).LineStyle)
+        End If
         
         If pRightRow.Column > 1 Then
             Set pLeftRow = pRightRow.Resize(ColumnSize:=1).Offset(ColumnOffset:=-1)
             
-            VerticalBorderStyle = ResolveLine(VerticalBorderStyle, pLeftRow.Borders(xlRight).LineStyle)
+            If Excel2010 Then
+                VerticalBorderStyle = ResolveLine(VerticalBorderStyle, pLeftRow.DisplayFormat.Borders(xlRight).LineStyle)
+            Else
+                VerticalBorderStyle = ResolveLine(VerticalBorderStyle, pLeftRow.Borders(xlRight).LineStyle)
+            End If
         End If
     Next
 End Function
@@ -407,9 +427,17 @@ Public Sub AppendToRangeSet(ByRef sRangeDef As String, ByRef lLineOpenFrom As Lo
 End Sub
 
 Private Function ResolveHorizontalLine(ByVal rBelowRange As Range, ByVal rAboveRange As Range)
-    ResolveHorizontalLine = rBelowRange.Borders(xlTop).LineStyle
+    If Excel2010 Then
+        ResolveHorizontalLine = rBelowRange.DisplayFormat.Borders(xlTop).LineStyle
+    Else
+        ResolveHorizontalLine = rBelowRange.Borders(xlTop).LineStyle
+    End If
     If rAboveRange Is Nothing Then Exit Function
-    ResolveHorizontalLine = ResolveLine(ResolveHorizontalLine, rAboveRange.Borders(xlBottom).LineStyle)
+    If Excel2010 Then
+        ResolveHorizontalLine = ResolveLine(ResolveHorizontalLine, rAboveRange.DisplayFormat.Borders(xlBottom).LineStyle)
+    Else
+        ResolveHorizontalLine = ResolveLine(ResolveHorizontalLine, rAboveRange.Borders(xlBottom).LineStyle)
+    End If
 End Function
 
 Private Function ResolveLine(ByVal line1, ByVal line2)
@@ -495,7 +523,11 @@ End Function
 
 Private Function FormatCellFont(ByVal sText As String, ByVal rCell As Range) As String
     Dim pFont As Font
-    Set pFont = rCell.Font
+    If Excel2010 Then
+        Set pFont = rCell.DisplayFormat.Font
+    Else
+        Set pFont = rCell.Font
+    End If
     
     FormatCellFont = sText
     
@@ -515,8 +547,15 @@ Private Function FormatCellOrientation(ByVal sText As String, ByVal rCell As Ran
     ' Requires "rotating" package
     FormatCellOrientation = sText
     
+    Dim Orientation
+    If Excel2010 Then
+        Orientation = rCell.DisplayFormat.Orientation
+    Else
+        Orientation = rCell.Orientation
+    End If
+    
     ' Check for orientation
-    Select Case rCell.Orientation
+    Select Case Orientation
     Case xlHorizontal
         ' Do nothing
         

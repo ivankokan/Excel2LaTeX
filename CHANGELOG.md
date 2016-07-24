@@ -1,4 +1,4 @@
-**Version 3.4.0: Not currently released**
+**Version 3.4.0: Released on Jul 24 2016**
  * Bug fix: Wasn't loading properly on Excel Mac 2016
  * Bug fix: Changing the selected range after closing the form would sometimes cause an error
  * Changed form layout and added a checkbox which arrests updates when unticked

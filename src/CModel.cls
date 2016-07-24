@@ -3,14 +3,18 @@ BEGIN
   MultiUse = -1  'True
 END
 Attribute VB_Name = "CModel"
+Attribute VB_Base = "0{FCFB3D2A-A0FA-1068-A738-08002B3371B5}"
 Attribute VB_GlobalNameSpace = False
 Attribute VB_Creatable = False
 Attribute VB_PredeclaredId = False
 Attribute VB_Exposed = False
+Attribute VB_TemplateDerived = False
+Attribute VB_Customizable = False
 Option Explicit
 
 Implements IModel
 
+Dim Excel2010 As Boolean
 Dim CellWidth As Integer    'Characters per Cell in output file
 Dim convertDollar As Boolean
 Dim booktabs As Boolean
@@ -21,6 +25,10 @@ Dim sFileName As String
 Dim RangeToUse As Range
 
 Private mpEvents As New IModelEvents
+
+Private Sub Class_Initialize()
+    Excel2010 = Application.Version >= 14#
+End Sub
 
 ' IModel implementation
 
@@ -120,25 +128,21 @@ Public Function IModel_GetConversionResult() As String
     'Start checking top border
     Set r = RangeToUse.Rows(1)
     
-    If booktabs Then
-        AddText Space(Indent) + "\toprule", True
-    Else
-        AddText HorizontalBorder(r, Indent)
-    End If
+    AddText HorizontalBorder(r, Indent, Top:=True)
     
     'Table contents:
     For j = 1 To RangeToUse.Rows.Count ' for each row
         Set r = RangeToUse.Rows(j)
         Set rc = r.Cells
-        If (j = 2) And booktabs Then
-            AddText Space(Indent) + "\midrule", True
-        End If
         AddText Space(Indent)
         Indent = Indent + 2
     
+        Dim RowColor&
+        RowColor = GetRowColor(rc)
+        If RowColor <> &HFFFFFF Then AddText Printf("\rowcolor[rgb]{%1} ", ColorToRGB(RowColor))
         For i = 1 To rc.Count  ' for each cell in row r
             Set c = rc.Item(i)
-            i = i + AddCell(c, i = 1, i + c.MergeArea.Columns.Count > rc.Count) - 1
+            i = i + AddCell(c, i = 1, i + c.MergeArea.Columns.Count > rc.Count, RowColor) - 1
         Next i 'cells in row
         
         ' Struts and end of line
@@ -146,15 +150,10 @@ Public Function IModel_GetConversionResult() As String
         Indent = Indent - 2
         
         ' Check for Border lines
-        If Not booktabs Then
-            AddText HorizontalBorder(r.Offset(RowOffset:=1), Indent)
-        End If
+        AddText HorizontalBorder(r.Offset(RowOffset:=1), Indent, Bottom:=j = RangeToUse.Rows.Count)
     Next j 'row
     
 theend:      'Tabellenende
-    If booktabs Then
-        AddText Space(Indent) + "\bottomrule", True
-    End If
     AddText Space(Indent) + "\end{tabular}%", True
     
     If tableFloat Then
@@ -200,6 +199,20 @@ End Property
 
 ' Class implementation
 
+Private Function GetRowColor(Row As Range) As Long
+    If Excel2010 Then
+        GetRowColor = Row.DisplayFormat.Interior.Color
+    Else
+        GetRowColor = Row.Interior.Color
+    End If
+    If GetRowColor <> 0 Then Exit Function
+    If Excel2010 Then
+        GetRowColor = Row.Cells(1, 1).DisplayFormat.Interior.Color
+    Else
+        GetRowColor = Row.Cells(1, 1).Interior.Color
+    End If
+End Function
+
 Private Sub InitFromRegistry()
     On Error Resume Next
     StringToModel Me, VBA.GetSetting("Excel2LaTeX", "Main", "DefaultSettings")
@@ -221,9 +234,12 @@ End Function
 
 Private Function GetDefaultRange() As Range
     If Selection Is Nothing Then Exit Function
-    If TypeName(Selection) <> "Range" Then Exit Function
-    
-    Set GetDefaultRange = Selection
+    If Not TypeOf Selection Is Range Then Exit Function
+    If Selection.Count = 1 Then
+        Set GetDefaultRange = Selection.CurrentRegion
+    Else
+        Set GetDefaultRange = Selection
+    End If
 End Function
 
 Private Function GetDefaultFileName()
@@ -288,11 +304,20 @@ Private Function GetColumnsFormat(ByVal RangeToUse As Range, Optional ByVal bSki
         On Error Resume Next
         Set cn = rc(i + lStep)
         On Error GoTo 0
-        Select Case c.HorizontalAlignment
+        Dim HorizontalAlignment
+        'get horizontal alignment using the last row of the table
+        If Excel2010 Then
+            HorizontalAlignment = c.Cells(c.Rows.Count, 1).DisplayFormat.HorizontalAlignment
+        Else
+            HorizontalAlignment = c.Cells(c.Rows.Count, 1).HorizontalAlignment
+        End If
+        Select Case HorizontalAlignment
         Case xlLeft
             stg = stg + "l"
         Case xlCenter
             stg = stg + "c"
+        Case xlGeneral
+            stg = stg + IIf(VarType(c.Cells(c.Rows.Count, 1).Value2) = vbString, "l", "r")
         Case Else
             stg = stg + "r" 'Default alignment is right
         End Select
@@ -304,9 +329,6 @@ Private Function GetColumnsFormat(ByVal RangeToUse As Range, Optional ByVal bSki
 End Function
 
 Private Function VerticalBorder(ByVal pRightRange As Range)
-    ' No vertical borders for booktabs style
-    If booktabs Then Exit Function
-    
     'return nothing, | or ||
     Dim stg As String
     Select Case VerticalBorderStyle(pRightRange)
@@ -326,12 +348,20 @@ Private Function VerticalBorderStyle(ByVal pRightRange As Range) As Variant
     Dim pRightRow As Range
     Dim pLeftRow As Range
     For Each pRightRow In pRightRange.Rows
-        VerticalBorderStyle = ResolveLine(VerticalBorderStyle, pRightRow.Borders(xlLeft).LineStyle)
+        If Excel2010 Then
+            VerticalBorderStyle = ResolveLine(VerticalBorderStyle, pRightRow.DisplayFormat.Borders(xlLeft).LineStyle)
+        Else
+            VerticalBorderStyle = ResolveLine(VerticalBorderStyle, pRightRow.Borders(xlLeft).LineStyle)
+        End If
         
         If pRightRow.Column > 1 Then
             Set pLeftRow = pRightRow.Resize(ColumnSize:=1).Offset(ColumnOffset:=-1)
             
-            VerticalBorderStyle = ResolveLine(VerticalBorderStyle, pLeftRow.Borders(xlRight).LineStyle)
+            If Excel2010 Then
+                VerticalBorderStyle = ResolveLine(VerticalBorderStyle, pLeftRow.DisplayFormat.Borders(xlRight).LineStyle)
+            Else
+                VerticalBorderStyle = ResolveLine(VerticalBorderStyle, pLeftRow.Borders(xlRight).LineStyle)
+            End If
         End If
     Next
 End Function
@@ -340,7 +370,7 @@ Private Function HasHorizontalBorder(ByVal rBelowRange As Range) As Boolean
     HasHorizontalBorder = (HorizontalBorder(rBelowRange, 0) <> "")
 End Function
 
-Private Function HorizontalBorder(ByVal rBelowRange As Range, ByVal spaces As Integer) As String
+Private Function HorizontalBorder(ByVal rBelowRange As Range, ByVal spaces As Integer, Optional ByVal Top As Boolean, Optional ByVal Bottom As Boolean) As String
     Debug.Assert rBelowRange.Rows.Count = 1
     
     Dim rAboveRange As Range
@@ -372,6 +402,21 @@ Private Function HorizontalBorder(ByVal rBelowRange As Range, ByVal spaces As In
     
     AppendToRangeSet sRangeDef, lLineOpenFrom, False, rBelowRange.Columns.Count + 1
     
+    Dim HLineCmd$, CLineCmd$, MoreCLineCmd$
+    If booktabs Then
+        If Top Then
+            HLineCmd = "\toprule"
+        ElseIf Bottom Then
+            HLineCmd = "\bottomrule"
+        Else
+            HLineCmd = "\midrule"
+        End If
+    Else
+        HLineCmd = "\hline"
+    End If
+    CLineCmd = IIf(booktabs, "\cmidrule", "\cline")
+    MoreCLineCmd = IIf(booktabs, "\morecmidrules", "")
+    
     ' Straight line? => revert to old behavior
     If sRangeDef = Printf("1-%1", rBelowRange.Columns.Count) Then
         'return nothing, \hline or \hline\hline
@@ -379,16 +424,16 @@ Private Function HorizontalBorder(ByVal rBelowRange As Range, ByVal spaces As In
     
         Select Case borderStyle
         Case xlDouble
-            HorizontalBorder = Space(spaces) + "\hline" + vbLf + Space(spaces) + "\hline" + vbLf
+            HorizontalBorder = Space(spaces) + HLineCmd + vbLf + Space(spaces) + HLineCmd + vbLf
         Case xlContinuous
-            HorizontalBorder = Space(spaces) + "\hline" + vbLf
+            HorizontalBorder = Space(spaces) + HLineCmd + vbLf
         Case Else
             HorizontalBorder = ""
         End Select
     ElseIf sRangeDef = "" Then
         HorizontalBorder = ""
     Else
-        HorizontalBorder = Printf("\cline{%1}", Replace(sRangeDef, ";", "}\cline{"))
+        HorizontalBorder = Printf(CLineCmd + "{%1}", Replace(sRangeDef, ";", "}" + CLineCmd + "{"))
     End If
 End Function
 
@@ -407,9 +452,17 @@ Public Sub AppendToRangeSet(ByRef sRangeDef As String, ByRef lLineOpenFrom As Lo
 End Sub
 
 Private Function ResolveHorizontalLine(ByVal rBelowRange As Range, ByVal rAboveRange As Range)
-    ResolveHorizontalLine = rBelowRange.Borders(xlTop).LineStyle
+    If Excel2010 Then
+        ResolveHorizontalLine = rBelowRange.DisplayFormat.Borders(xlTop).LineStyle
+    Else
+        ResolveHorizontalLine = rBelowRange.Borders(xlTop).LineStyle
+    End If
     If rAboveRange Is Nothing Then Exit Function
-    ResolveHorizontalLine = ResolveLine(ResolveHorizontalLine, rAboveRange.Borders(xlBottom).LineStyle)
+    If Excel2010 Then
+        ResolveHorizontalLine = ResolveLine(ResolveHorizontalLine, rAboveRange.DisplayFormat.Borders(xlBottom).LineStyle)
+    Else
+        ResolveHorizontalLine = ResolveLine(ResolveHorizontalLine, rAboveRange.Borders(xlBottom).LineStyle)
+    End If
 End Function
 
 Private Function ResolveLine(ByVal line1, ByVal line2)
@@ -418,15 +471,16 @@ Private Function ResolveLine(ByVal line1, ByVal line2)
     If line1 = xlDouble Or line2 = xlDouble Then ResolveLine = xlDouble
 End Function
 
-Private Function AddCell(ByVal rCell As Range, ByVal bFirstCell As Boolean, ByVal bLastCell As Boolean) As Long
+Private Function AddCell(ByVal rCell As Range, ByVal bFirstCell As Boolean, ByVal bLastCell As Boolean, ByVal RowColor&) As Long
     Dim txt As String
     Dim nColumns As Long
     Dim nRows As Long
     
-    txt = FormatCell(rCell)
+    txt = FormatCell(rCell, RowColor)
     
     Dim bRequiresDifferentVlineFormat As Boolean
-    bRequiresDifferentVlineFormat = RequiresDifferentVlineFormat(rCell)
+    'don't require a different vline format if the cell has no content
+    If Len(txt) > 0 Then bRequiresDifferentVlineFormat = RequiresDifferentVlineFormat(rCell)
     
     'Check for multicolumns
     If rCell.MergeCells Or bRequiresDifferentVlineFormat Then   'multicolumn cell
@@ -470,19 +524,50 @@ Private Function AddCell(ByVal rCell As Range, ByVal bFirstCell As Boolean, ByVa
     AddCell = nColumns
 End Function
 
-Private Function FormatCell(ByVal rCell As Range) As String
+Private Function FormatCell(ByVal rCell As Range, ByVal RowColor&) As String
     FormatCell = rCell.Text
     
-    FormatCell = ConvertSpecialChars(FormatCell)
-    FormatCell = FormatCellFont(FormatCell, rCell)
-    FormatCell = FormatCellOrientation(FormatCell, rCell)
+    If Len(FormatCell) > 0 Then
+        FormatCell = ConvertSpecialChars(FormatCell, isnumeric(rCell.Value2))
+        FormatCell = FormatCellFont(FormatCell, rCell)
+        FormatCell = FormatCellOrientation(FormatCell, rCell)
+    End If
+    FormatCell = FormatCellColor(FormatCell, rCell, RowColor)
 End Function
 
-Private Function ConvertSpecialChars(ByVal sText As String) As String
+Private Function FormatCellColor(Text$, Cell As Range, ByVal RowColor&) As String
+    Dim FontColor&, InteriorColor&
+    If Excel2010 Then
+        With Cell.DisplayFormat
+            FontColor = .Font.Color
+            InteriorColor = .Interior.Color
+        End With
+    Else
+        FontColor = Cell.Font.Color
+        InteriorColor = Cell.Interior.Color
+    End If
+    
+    If FontColor = 0 Then
+        FormatCellColor = Text
+    Else
+        FormatCellColor = Printf("\textcolor[rgb]{%1}{%2}", ColorToRGB(FontColor), Text)
+    End If
+    
+    If InteriorColor <> RowColor Then FormatCellColor = Printf("\cellcolor[rgb]{%1} ", _
+            ColorToRGB(InteriorColor)) & FormatCellColor
+End Function
+
+Private Function ColorToRGB(ByVal Color&) As String
+    ColorToRGB = Printf("%1, %2, %3", Format$((Color And &HFF&) / 255, "0.000"), _
+                Format$((Color And &HFF00&) / &H100 / 255, "0.000"), _
+                Format$((Color And &HFF0000) / &H10000 / 255, "0.000"))
+End Function
+
+Private Function ConvertSpecialChars(ByVal sText As String, ByVal Number As Boolean) As String
     ConvertSpecialChars = sText
     
-    'Check for special characters % and $
-    If convertDollar Then
+    'Check for special characters - always convert if numeric
+    If convertDollar Or Number Then
         ConvertSpecialChars = Replace(ConvertSpecialChars, "\", "\textbackslash{}")
         ConvertSpecialChars = Replace(ConvertSpecialChars, "$", "\$")
         ConvertSpecialChars = Replace(ConvertSpecialChars, "_", "\_")
@@ -495,7 +580,11 @@ End Function
 
 Private Function FormatCellFont(ByVal sText As String, ByVal rCell As Range) As String
     Dim pFont As Font
-    Set pFont = rCell.Font
+    If Excel2010 Then
+        Set pFont = rCell.DisplayFormat.Font
+    Else
+        Set pFont = rCell.Font
+    End If
     
     FormatCellFont = sText
     
@@ -515,8 +604,15 @@ Private Function FormatCellOrientation(ByVal sText As String, ByVal rCell As Ran
     ' Requires "rotating" package
     FormatCellOrientation = sText
     
+    Dim Orientation
+    If Excel2010 Then
+        Orientation = rCell.DisplayFormat.Orientation
+    Else
+        Orientation = rCell.Orientation
+    End If
+    
     ' Check for orientation
-    Select Case rCell.Orientation
+    Select Case Orientation
     Case xlHorizontal
         ' Do nothing
         

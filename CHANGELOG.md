@@ -1,5 +1,14 @@
 **Version 3.4.0: Not currently released**
  * Bug fix: Wasn't loading properly on Excel Mac 2016
+ * Bug fix: Changing the selected range after closing the form would sometimes cause an error
+ * Changed form layout and added a checkbox which arrests updates when unticked
+ * Booktabs mode won't force three-line table format
+ * Support conditional/table formatting in Excel 2010+
+ * Color is now supported in fonts and fills
+ * If a single cell is selected, the form will attempt to convert the entire region
+ * Conversion now respects left-alignment of text in "General" mode
+ * Special characters will always be converted if a cell is numeric
+ * Pared down the About form
 
 **Version 3.3: Released on Sep 27 2012**
  * Bug fix: Doesn't crash when trying to start conversion when an entire line is selected.

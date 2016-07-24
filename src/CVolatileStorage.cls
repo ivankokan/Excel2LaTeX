@@ -3,10 +3,13 @@ BEGIN
   MultiUse = -1  'True
 END
 Attribute VB_Name = "CVolatileStorage"
+Attribute VB_Base = "0{FCFB3D2A-A0FA-1068-A738-08002B3371B5}"
 Attribute VB_GlobalNameSpace = False
 Attribute VB_Creatable = False
 Attribute VB_PredeclaredId = False
 Attribute VB_Exposed = False
+Attribute VB_TemplateDerived = False
+Attribute VB_Customizable = False
 Option Explicit
 
 Implements IStorage
@@ -45,4 +48,3 @@ Private Function IStorage_GetItems() As Collection
         IStorage_GetItems.Add StringToNewModel(sModel)
     Next
 End Function
-

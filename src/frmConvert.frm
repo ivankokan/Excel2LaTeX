@@ -1,18 +1,22 @@
 VERSION 5.00
 Begin {C62A69F0-16DC-11CE-9E98-00AA00574A4F} frmConvert 
-   Caption         =   "Exce2LaTeX"
-   ClientHeight    =   7365
+   OleObjectBlob   =   "frmConvert.frx":0000
+   Caption         =   "Excel2LaTeX"
+   ClientHeight    =   7440
    ClientLeft      =   45
    ClientTop       =   330
-   ClientWidth     =   12150
-   OleObjectBlob   =   "frmConvert.frx":0000
-   StartUpPosition =   1  'Fenstermitte
+   ClientWidth     =   12075
+   StartUpPosition =   1  'CenterOwner
+   TypeInfoVer     =   109
 End
 Attribute VB_Name = "frmConvert"
+Attribute VB_Base = "0{86998920-9B42-405F-8BA3-9B10214C86E8}{A87D0BBE-8D68-4653-9A87-9251ECDE6A1F}"
 Attribute VB_GlobalNameSpace = False
 Attribute VB_Creatable = False
 Attribute VB_PredeclaredId = True
 Attribute VB_Exposed = False
+Attribute VB_TemplateDerived = False
+Attribute VB_Customizable = False
 Option Explicit
 
 Implements IView
@@ -79,6 +83,30 @@ Private Function UnionOfRangeAndItsPrecedents(ByVal pRange As Range) As Range
     End If
 End Function
 
+
+Private Sub AutoApplyBox_Click()
+    ApplyButton.Enabled = Not AutoApplyBox.Value
+    If AutoApplyBox.Value Then ApplyButton_Click
+End Sub
+
+Private Sub chkBooktabs_Click()
+    If AutoApplyBox.Value Then UpdateOptions
+End Sub
+
+Private Sub chkConvertDollar_Click()
+    If AutoApplyBox.Value Then UpdateOptions
+End Sub
+
+Private Sub chkTableFloat_Click()
+    If AutoApplyBox.Value Then UpdateOptions
+End Sub
+
+Private Sub ApplyButton_Click()
+    UpdateOptions
+    mModel.CellWidth = txtCellSize
+    mModel.Indent = txtIndent
+End Sub
+
 Private Sub lvwStoredTables_Change()
     Dim bSelected As Boolean
     bSelected = (lvwStoredTables.ListIndex >= 0)
@@ -99,9 +127,12 @@ Private Sub lvwStoredTables_KeyDown(ByVal KeyCode As MSForms.ReturnInteger, ByVa
 End Sub
 
 Private Sub mActiveWkSheet_Change(ByVal Target As Range)
+    On Error GoTo errfail
+    If Not Me.Visible Then Exit Sub
     If Not Intersect(Target, UnionOfRangeAndItsPrecedents(mModel.Range)) Is Nothing Then
         ConvertSelection
     End If
+errfail:
 End Sub
 
 Private Sub mControllerEvents_ModelChanged()
@@ -189,18 +220,6 @@ Private Sub UpdateOptions()
     mModel.Options = GetOptions()
 End Sub
 
-Private Sub chkBooktabs_Click()
-    UpdateOptions
-End Sub
-
-Private Sub chkConvertDollar_Click()
-    UpdateOptions
-End Sub
-
-Private Sub chkTableFloat_Click()
-    UpdateOptions
-End Sub
-
 Private Sub cmdBrowse_Click()
     Dim sFileName
     sFileName = Application.GetSaveAsFilename(mModel.AbsoluteFileName, "TeX documents (*.tex), *.tex")
@@ -272,7 +291,7 @@ End Sub
 Private Sub txtCellSize_Change()
     On Error Resume Next
     spnCellWidth = txtCellSize
-    mModel.CellWidth = txtCellSize
+    If AutoApplyBox.Value Then mModel.CellWidth = txtCellSize
 End Sub
 
 Private Sub txtFilename_Change()
@@ -285,14 +304,13 @@ End Sub
 Private Sub txtIndent_Change()
     On Error Resume Next
     spnIndent = txtIndent
-    mModel.Indent = txtIndent
+    If AutoApplyBox.Value Then mModel.Indent = txtIndent
 End Sub
 
 Private Sub cmdSelection_Click()
     Set mModel.Range = Application.Selection
     Me.cmdSelection.Caption = mModel.RangeAddress
 End Sub
-
 
 Private Sub UserForm_Click()
 ' This is regenerated every time the form is activated in the IDE. Just keep it here.

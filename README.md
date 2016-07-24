@@ -13,7 +13,8 @@ Most Excel formatting is supported.
  * Bold and italic
  * Left, right, center, and general alignment (per-cell or per-column)
  * Vertical and horizontal borders (per-cell or per-column, single or double)
- * Color (using the `xcolor` and `colortbl` packages)
+ * Font color (using the `xcolor` package)
+ * Fill color (using the `colortbl` package)
  * Rotation (using the `rotating` package)
  * Merged cells (using the `multirow` package, if needed)
  * Can convert `\`, `$`, `_`, `^`, `%`, `&`, and `#` to appropriate macros, or leave them in-place

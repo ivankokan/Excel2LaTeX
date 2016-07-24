@@ -3,8 +3,8 @@ Making tables in LaTeX can be tedious, especially if some columns are calculated
 This converter allows you to write a table in Excel instead, and export the current selection as LaTeX markup
 which can be pasted into an existing LaTeX document, or exported to a file and included via the `\input` command.
 
-Known to be compatible with Windows Excel 2000&ndash;2016 and Mac Excel 2004, 2011, and 2016.
-May also be compatible with other versions.
+Known to be compatible with Windows Excel 2000&ndash;2016 (32.bit and 64-bit) and Mac Excel 2004, 2011, and 2016.
+May also be compatible with other versions that support `.xla` add-ins.
 
 ![Excel and Excel2LaTeX comparison](https://i.imgur.com/UNKCihT.png)
 

@@ -27,16 +27,18 @@ Most Excel formatting is supported.
 
 <h2>Using</h2>
 Just open the file Excel2LaTeX.xla in Excel.  Then you will have two additional 
-menu items in your "Tools" menu and a new toolbar with two buttons on it.  For 
-Excel 2007 and later, you will have two new buttons in the "Add-Ins" ribbon.  If 
+menu items in your **Tools** menu and a new toolbar with two buttons on it.  For 
+Excel 2007 and later, you will have two new buttons in the **Add-Ins** ribbon.  If 
 you plan to use the program frequently, you can save it in your addin directory 
-and add it with Tools/Add-in.  This way it will be loaded whenever Excel is 
+and add it with **Tools**→**Add-Ins**.  This way it will be loaded whenever Excel is 
 opened.
 
-Select the table to convert and hit the button "Convert table to LaTeX".  You 
-will be given the option to save the result to a .tex file, or send it to the clipboard 
-(so you can paste it into your LaTeX editor).  Hit the "Store" button to store the 
-current settings so you can "Load" them later or "Export all" to LaTeX.
+Select the table to convert and hit the button **Convert Table to LaTeX**.  You 
+will be given the option to save the result to a `.tex` file, or send it to the clipboard 
+(so you can paste it into your LaTeX editor).  Hit the **Store** button to store the 
+current settings so you can **Load** them later or **Export All** to files.
+
+![Excel2LaTeX interface](https://i.imgur.com/EK88upo.png)
 
 <h2>Contributing</h2>
 To work with the project, you will require my [VBA Sync Tool](https://github.com/chelh/VBASync).

@@ -1,5 +1,5 @@
-Copyright 1996, 1997, 1998, 2001, 2008, 2010, 2011, 2012, 2016 by Chelsea Hughes,
-Kirill Müller, Andrew Hawryluk, and Joachim Marder.
+Copyright (c) 1996–2016 by Chelsea Hughes, Kirill Müller, Andrew Hawryluk,
+Germán Riaño, and Joachim Marder.
 
 This work may be distributed and/or modified under the conditions of the LaTeX 
 Project Public License, either version 1.3 of this license or (at your option) any 

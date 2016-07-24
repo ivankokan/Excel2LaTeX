@@ -89,4 +89,5 @@ This version is based on modifications by Germán Riaño
 **Version 1.1: Published on Apr 12 1997**
  * Some small changes to make it run with Excel 97 too
 
-**Version 1.0: Published Oct 22 1996**
+**Version 1.0: Published on Oct 22 1996**
+ * Initial release

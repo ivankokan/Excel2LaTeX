@@ -235,10 +235,14 @@ End Sub
 
 
 Private Sub cmdCopy_Click()
-  Dim dataObj As New DataObject
-  dataObj.SetText txtResult
-  dataObj.PutInClipboard
-  Hide
+    #If VBA7 And Win32 Then
+        If Not Win32_SetClipBoard(Left$(txtResult, CB_MAXSIZE)) Then Exit Sub
+    #Else
+        Dim dataObj As New DataObject
+        dataObj.SetText txtResult
+        dataObj.PutInClipboard
+    #End If
+    Hide
 End Sub
 
 Private Sub cmdSave_Click()

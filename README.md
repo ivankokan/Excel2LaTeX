@@ -42,4 +42,4 @@ current settings so you can **Load** them later or **Export All** to files.
 ![Excel2LaTeX interface](https://i.imgur.com/EK88upo.png)
 
 <h2>Contributing</h2>
-To work with the project, you will require my [VBA Sync Tool](https://github.com/chelh/VBASync).
+To work with the project, you will require chelh's [VBA Sync Tool](https://github.com/chelh/VBASync).

@@ -69,3 +69,36 @@ Private Sub Test_Model_AppendToRangeSet()
     pModel.AppendToRangeSet sLineDef, lLineOpenFrom, False, 6
     Debug.Assert sLineDef = "1-1;4-5"
 End Sub
+
+Private Sub Test_StringBuilder()
+    Dim sb As StringBuilder
+    Set sb = New StringBuilder
+    Debug.Assert Len(sb.ToString()) = 0
+    sb.Append("This ").Append("is ").Append("a ").Append("test ").Append("of ").Append "the "
+    sb.Append("StringBuilder's ").Append("incremental ").Append("expansion ").Append "ability."
+    Debug.Assert sb.ToString() = "This is a test of the StringBuilder's incremental expansion ability."
+    sb.Append vbNullString
+    sb.Append ""
+    Debug.Assert sb.ToString() = "This is a test of the StringBuilder's incremental expansion ability."
+    sb.Append " "
+    sb.Append "Now I'm adding a very long string to test that StringBuilder correctly handles strings that are " & _
+            "more than double the length of the current buffer. Godspeed, StringBuilder! Lorem ipsum dolor sit " & _
+            "amet, consectetur adipiscing elit. Suspendisse hendrerit lectus ligula, sodales rhoncus nunc " & _
+            "porttitor vitae. Integer commodo vestibulum suscipit. Donec ultrices tellus ac tincidunt condimentum."
+    Debug.Assert sb.ToString() = "This is a test of the StringBuilder's incremental expansion ability. " & _
+            "Now I'm adding a very long string to test that StringBuilder correctly handles strings that are " & _
+            "more than double the length of the current buffer. Godspeed, StringBuilder! Lorem ipsum dolor sit " & _
+            "amet, consectetur adipiscing elit. Suspendisse hendrerit lectus ligula, sodales rhoncus nunc " & _
+            "porttitor vitae. Integer commodo vestibulum suscipit. Donec ultrices tellus ac tincidunt condimentum."
+    Set sb = New StringBuilder
+    Debug.Assert sb.Append("This is a test of adding a big string to StringBuilder up-front. Will it choke? " & _
+            "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse hendrerit lectus ligula, " & _
+            "sodales rhoncus nunc porttitor vitae. Integer commodo vestibulum suscipit. Donec ultrices tellus " & _
+            "ac tincidunt condimentum. Etiam volutpat ligula ipsum, a commodo neque tempor vitae. Vestibulum a " & _
+            "cursus nisl. Interdum et malesuada fames ac ante ipsum primis in faucibus.").ToString() = _
+            "This is a test of adding a big string to StringBuilder up-front. Will it choke? " & _
+            "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse hendrerit lectus ligula, " & _
+            "sodales rhoncus nunc porttitor vitae. Integer commodo vestibulum suscipit. Donec ultrices tellus " & _
+            "ac tincidunt condimentum. Etiam volutpat ligula ipsum, a commodo neque tempor vitae. Vestibulum a " & _
+            "cursus nisl. Interdum et malesuada fames ac ante ipsum primis in faucibus."
+End Sub

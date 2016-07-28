@@ -15,12 +15,12 @@ Option Explicit
 Implements IModel
 
 Dim Excel2010 As Boolean
+Dim sb As StringBuilder
 Dim CellWidth As Integer    'Characters per Cell in output file
 Dim convertDollar As Boolean
 Dim booktabs As Boolean
 Dim tableFloat As Boolean
 Dim Indent As Integer
-Dim FullText As String
 Dim sFileName As String
 Dim RangeToUse As Range
 
@@ -28,6 +28,7 @@ Private mpEvents As New IModelEvents
 
 Private Sub Class_Initialize()
     Excel2010 = Application.Version >= 14#
+    Set sb = New StringBuilder
 End Sub
 
 ' IModel implementation
@@ -106,7 +107,7 @@ Public Function IModel_GetConversionResult() As String
     Dim j As Integer
     Dim pos As Integer
     
-    FullText = ""
+    Set sb = New StringBuilder
     If RangeToUse Is Nothing Then
         AddText "% Error: No range selected.", True
         GoTo leave
@@ -164,7 +165,7 @@ theend:      'Tabellenende
     End If
     
 leave:
-    IModel_GetConversionResult = FullText
+    IModel_GetConversionResult = sb.ToString()
     
     ' Save to registry after successful conversion
     SaveToRegistry
@@ -252,8 +253,8 @@ Private Function GetDefaultFileName()
 End Function
 
 Private Sub AddText(ByVal txt As String, Optional ByVal LineFeed = False)
-    If LineFeed Then txt = txt + vbLf
-    FullText = FullText + txt
+    If LineFeed Then sb.Append vbLf
+    sb.Append txt
 End Sub
 
 Private Function PadSpace(ByVal n As Long)

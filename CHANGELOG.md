@@ -1,3 +1,6 @@
+**Version 3.4.1: Released on Jul 28 2016**
+ * Bug fix: Sometimes **Copy to Clipboard** wouldn't work on Excel 2013+ Windows
+
 **Version 3.4.0: Released on Jul 24 2016**
  * Bug fix: Wasn't loading properly on Excel Mac 2016
  * Bug fix: Changing the selected range after closing the form would sometimes cause an error

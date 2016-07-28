@@ -236,7 +236,7 @@ End Sub
 
 Private Sub cmdCopy_Click()
     #If VBA7 And Win32 Then
-        If Not Win32_SetClipBoard(Left$(txtResult, CB_MAXSIZE)) Then Exit Sub
+        If Not Win32_SetClipBoard(txtResult) Then Exit Sub
     #Else
         Dim dataObj As New DataObject
         dataObj.SetText txtResult

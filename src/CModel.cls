@@ -253,8 +253,8 @@ Private Function GetDefaultFileName()
 End Function
 
 Private Sub AddText(ByVal txt As String, Optional ByVal LineFeed = False)
-    If LineFeed Then sb.Append vbLf
     sb.Append txt
+    If LineFeed Then sb.Append vbLf
 End Sub
 
 Private Function PadSpace(ByVal n As Long)

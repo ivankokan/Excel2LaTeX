@@ -42,9 +42,3 @@ End Function
 Public Function ToString() As String
     ToString = Left$(m_buf, m_len)
 End Function
-
-Private Sub InternalAppend(s As String)
-    If Len(s) = 0 Then Exit Sub
-    Mid(m_buf, m_len + 1, Len(s)) = s
-    m_len = m_len + Len(s)
-End Sub

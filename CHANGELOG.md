@@ -1,3 +1,8 @@
+**Version 3.4.2: Unreleased**
+ * Bug fix: Launching the form would throw an error on some localized Excel versions
+ * Bug fix: Right vertical borders sometimes weren't recognized on blank cells
+ * Column format will be set relative to the last row only, improving performance on large tables
+
 **Version 3.4.1: Released on Jul 28 2016**
  * Bug fix: Sometimes **Copy to Clipboard** wouldn't work on Excel 2013+ Windows
 

@@ -27,7 +27,7 @@ Dim RangeToUse As Range
 Private mpEvents As New IModelEvents
 
 Private Sub Class_Initialize()
-    Excel2010 = Application.Version >= 14#
+    Excel2010 = Val(Application.Version) >= 14#
     Set sb = New StringBuilder
 End Sub
 

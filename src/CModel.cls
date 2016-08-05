@@ -479,8 +479,7 @@ Private Function AddCell(ByVal rCell As Range, ByVal bFirstCell As Boolean, ByVa
     txt = FormatCell(rCell, RowColor)
     
     Dim bRequiresDifferentVlineFormat As Boolean
-    'don't require a different vline format if the cell has no content
-    If Len(txt) > 0 Then bRequiresDifferentVlineFormat = RequiresDifferentVlineFormat(rCell)
+    bRequiresDifferentVlineFormat = RequiresDifferentVlineFormat(rCell)
     
     'Check for multicolumns
     If rCell.MergeCells Or bRequiresDifferentVlineFormat Then   'multicolumn cell
@@ -641,7 +640,13 @@ Private Function RequiresDifferentVlineFormat(ByVal rCell As Range) As Boolean
     sColumnFormat = GetColumnsFormat(rColumn, lRelativeColumn > 1, rCell.MergeArea.Columns.Count)
     sCellFormat = GetColumnsFormat(rCell, lRelativeColumn > 1, rCell.MergeArea.Columns.Count)
     
-    RequiresDifferentVlineFormat = (sColumnFormat <> sCellFormat)
+    If IsEmpty(rCell.Value2) Then
+        ' if the cell is empty, ignore alignment changes and only change the vline format
+        ' if a vline was added or removed
+        RequiresDifferentVlineFormat = (Len(sColumnFormat) <> Len(sCellFormat))
+    Else
+        RequiresDifferentVlineFormat = (sColumnFormat <> sCellFormat)
+    End If
 End Function
 
 Private Function GetRelativeColumn(ByVal rCell As Range) As Long

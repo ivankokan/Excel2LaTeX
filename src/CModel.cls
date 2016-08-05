@@ -348,23 +348,22 @@ Private Function VerticalBorderStyle(ByVal pRightRange As Range) As Variant
     
     Dim pRightRow As Range
     Dim pLeftRow As Range
-    For Each pRightRow In pRightRange.Rows
-        If Excel2010 Then
-            VerticalBorderStyle = ResolveLine(VerticalBorderStyle, pRightRow.DisplayFormat.Borders(xlLeft).LineStyle)
-        Else
-            VerticalBorderStyle = ResolveLine(VerticalBorderStyle, pRightRow.Borders(xlLeft).LineStyle)
-        End If
+    Set pRightRow = pRightRange.Cells(pRightRange.Rows.Count, 1)
+    If Excel2010 Then
+        VerticalBorderStyle = ResolveLine(VerticalBorderStyle, pRightRow.DisplayFormat.Borders(xlLeft).LineStyle)
+    Else
+        VerticalBorderStyle = ResolveLine(VerticalBorderStyle, pRightRow.Borders(xlLeft).LineStyle)
+    End If
+    
+    If pRightRow.Column > 1 Then
+        Set pLeftRow = pRightRow.Resize(ColumnSize:=1).Offset(ColumnOffset:=-1)
         
-        If pRightRow.Column > 1 Then
-            Set pLeftRow = pRightRow.Resize(ColumnSize:=1).Offset(ColumnOffset:=-1)
-            
-            If Excel2010 Then
-                VerticalBorderStyle = ResolveLine(VerticalBorderStyle, pLeftRow.DisplayFormat.Borders(xlRight).LineStyle)
-            Else
-                VerticalBorderStyle = ResolveLine(VerticalBorderStyle, pLeftRow.Borders(xlRight).LineStyle)
-            End If
+        If Excel2010 Then
+            VerticalBorderStyle = ResolveLine(VerticalBorderStyle, pLeftRow.DisplayFormat.Borders(xlRight).LineStyle)
+        Else
+            VerticalBorderStyle = ResolveLine(VerticalBorderStyle, pLeftRow.Borders(xlRight).LineStyle)
         End If
-    Next
+    End If
 End Function
 
 Private Function HasHorizontalBorder(ByVal rBelowRange As Range) As Boolean

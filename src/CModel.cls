@@ -14,7 +14,6 @@ Option Explicit
 
 Implements IModel
 
-Dim Excel2010 As Boolean
 Dim sb As StringBuilder
 Dim CellWidth As Integer    'Characters per Cell in output file
 Dim convertDollar As Boolean
@@ -27,7 +26,6 @@ Dim RangeToUse As Range
 Private mpEvents As New IModelEvents
 
 Private Sub Class_Initialize()
-    Excel2010 = Val(Application.Version) >= 14#
     Set sb = New StringBuilder
 End Sub
 
@@ -201,17 +199,9 @@ End Property
 ' Class implementation
 
 Private Function GetRowColor(Row As Range) As Long
-    If Excel2010 Then
-        GetRowColor = Row.DisplayFormat.Interior.Color
-    Else
-        GetRowColor = Row.Interior.Color
-    End If
+    GetRowColor = RangeOrDisplayFormat(Row).Interior.Color
     If GetRowColor <> 0 Then Exit Function
-    If Excel2010 Then
-        GetRowColor = Row.Cells(1, 1).DisplayFormat.Interior.Color
-    Else
-        GetRowColor = Row.Cells(1, 1).Interior.Color
-    End If
+    GetRowColor = RangeOrDisplayFormat(Row.Cells(1, 1)).Interior.Color
 End Function
 
 Private Sub InitFromRegistry()
@@ -307,11 +297,7 @@ Private Function GetColumnsFormat(ByVal RangeToUse As Range, Optional ByVal bSki
         On Error GoTo 0
         Dim HorizontalAlignment
         'get horizontal alignment using the last row of the table
-        If Excel2010 Then
-            HorizontalAlignment = c.Cells(c.Rows.Count, 1).DisplayFormat.HorizontalAlignment
-        Else
-            HorizontalAlignment = c.Cells(c.Rows.Count, 1).HorizontalAlignment
-        End If
+        HorizontalAlignment = RangeOrDisplayFormat(c.Cells(c.Rows.Count, 1)).HorizontalAlignment
         Select Case HorizontalAlignment
         Case xlLeft
             stg = stg + "l"
@@ -349,20 +335,12 @@ Private Function VerticalBorderStyle(ByVal pRightRange As Range) As Variant
     Dim pRightRow As Range
     Dim pLeftRow As Range
     Set pRightRow = pRightRange.Cells(pRightRange.Rows.Count, 1)
-    If Excel2010 Then
-        VerticalBorderStyle = ResolveLine(VerticalBorderStyle, pRightRow.DisplayFormat.Borders(xlLeft).LineStyle)
-    Else
-        VerticalBorderStyle = ResolveLine(VerticalBorderStyle, pRightRow.Borders(xlLeft).LineStyle)
-    End If
+    VerticalBorderStyle = ResolveLine(VerticalBorderStyle, RangeOrDisplayFormat(pRightRow).Borders(xlLeft).LineStyle)
     
     If pRightRow.Column > 1 Then
         Set pLeftRow = pRightRow.Resize(ColumnSize:=1).Offset(ColumnOffset:=-1)
         
-        If Excel2010 Then
-            VerticalBorderStyle = ResolveLine(VerticalBorderStyle, pLeftRow.DisplayFormat.Borders(xlRight).LineStyle)
-        Else
-            VerticalBorderStyle = ResolveLine(VerticalBorderStyle, pLeftRow.Borders(xlRight).LineStyle)
-        End If
+        VerticalBorderStyle = ResolveLine(VerticalBorderStyle, RangeOrDisplayFormat(pLeftRow).Borders(xlRight).LineStyle)
     End If
 End Function
 
@@ -452,17 +430,9 @@ Public Sub AppendToRangeSet(ByRef sRangeDef As String, ByRef lLineOpenFrom As Lo
 End Sub
 
 Private Function ResolveHorizontalLine(ByVal rBelowRange As Range, ByVal rAboveRange As Range)
-    If Excel2010 Then
-        ResolveHorizontalLine = rBelowRange.DisplayFormat.Borders(xlTop).LineStyle
-    Else
-        ResolveHorizontalLine = rBelowRange.Borders(xlTop).LineStyle
-    End If
+    ResolveHorizontalLine = RangeOrDisplayFormat(rBelowRange).Borders(xlTop).LineStyle
     If rAboveRange Is Nothing Then Exit Function
-    If Excel2010 Then
-        ResolveHorizontalLine = ResolveLine(ResolveHorizontalLine, rAboveRange.DisplayFormat.Borders(xlBottom).LineStyle)
-    Else
-        ResolveHorizontalLine = ResolveLine(ResolveHorizontalLine, rAboveRange.Borders(xlBottom).LineStyle)
-    End If
+    ResolveHorizontalLine = ResolveLine(ResolveHorizontalLine, RangeOrDisplayFormat(rAboveRange).Borders(xlBottom).LineStyle)
 End Function
 
 Private Function ResolveLine(ByVal line1, ByVal line2)
@@ -536,15 +506,8 @@ End Function
 
 Private Function FormatCellColor(Text$, Cell As Range, ByVal RowColor&) As String
     Dim FontColor&, InteriorColor&
-    If Excel2010 Then
-        With Cell.DisplayFormat
-            FontColor = .Font.Color
-            InteriorColor = .Interior.Color
-        End With
-    Else
-        FontColor = Cell.Font.Color
-        InteriorColor = Cell.Interior.Color
-    End If
+    FontColor = RangeOrDisplayFormat(cell).Font.Color
+    InteriorColor = RangeOrDisplayFormat(cell).Interior.Color
     
     If FontColor = 0 Then
         FormatCellColor = Text
@@ -579,11 +542,7 @@ End Function
 
 Private Function FormatCellFont(ByVal sText As String, ByVal rCell As Range) As String
     Dim pFont As Font
-    If Excel2010 Then
-        Set pFont = rCell.DisplayFormat.Font
-    Else
-        Set pFont = rCell.Font
-    End If
+    Set pFont = RangeOrDisplayFormat(rCell).Font
     
     FormatCellFont = sText
     
@@ -604,11 +563,7 @@ Private Function FormatCellOrientation(ByVal sText As String, ByVal rCell As Ran
     FormatCellOrientation = sText
     
     Dim Orientation
-    If Excel2010 Then
-        Orientation = rCell.DisplayFormat.Orientation
-    Else
-        Orientation = rCell.Orientation
-    End If
+    Orientation = RangeOrDisplayFormat(rCell).Orientation
     
     ' Check for orientation
     Select Case Orientation
@@ -683,3 +638,17 @@ Function GetMultiRowStruts(ByVal rCell As Range) As Long
         End If
     Next
 End Function
+
+#If VBA7 Then
+' under Excel 2010+, RangeOrDisplayFormat() returns a DisplayFormat,
+' so we can see conditional formatting
+Private Function RangeOrDisplayFormat(cell As Range) As DisplayFormat
+    Set RangeOrDisplayFormat = cell.DisplayFormat
+End Function
+#Else
+' under Excel 2007 and earlier, DisplayFormat is not supported, so
+' RangeOrDisplayFormat() just gives back the range it was passed
+Private Function RangeOrDisplayFormat(cell As Range) As Range
+    Set RangeOrDisplayFormat = cell
+End Function
+#End If

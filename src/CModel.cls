@@ -520,9 +520,9 @@ Private Function FormatCellColor(Text$, Cell As Range, ByVal RowColor&) As Strin
 End Function
 
 Private Function ColorToRGB(ByVal Color&) As String
-    ColorToRGB = Printf("%1, %2, %3", Format$((Color And &HFF&) / 255, "0.000"), _
-                Format$((Color And &HFF00&) / &H100 / 255, "0.000"), _
-                Format$((Color And &HFF0000) / &H10000 / 255, "0.000"))
+    ColorToRGB = Printf("%1, %2, %3", Str$(Round((Color And &HFF&) / 255, 3)), _
+                Str$(Round((Color And &HFF00&) / &H100 / 255, 3)), _
+                Str$(Round((Color And &HFF0000) / &H10000 / 255, 3)))
 End Function
 
 Private Function ConvertSpecialChars(ByVal sText As String, ByVal Number As Boolean) As String

@@ -1,6 +1,7 @@
 **Version 3.4.2: Unreleased**
  * Bug fix: Launching the form would throw an error on some localized Excel versions
  * Bug fix: Right vertical borders sometimes weren't recognized on blank cells
+ * Bug fix: On some localized Excel versions, generated colors were invalid
  * Column format will be set relative to the last row only, improving performance on large tables
 
 **Version 3.4.1: Released on Jul 28 2016**

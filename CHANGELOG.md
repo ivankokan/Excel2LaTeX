@@ -1,4 +1,5 @@
-**Version 3.4.2: Unreleased**
+**Version 3.4.2: Released on Aug 11 2016**
+ * Bug fix: Restored compatibility with Excel for Mac
  * Bug fix: Launching the form would throw an error on some localized Excel versions
  * Bug fix: Right vertical borders sometimes weren't recognized on blank cells
  * Bug fix: On some localized Excel versions, generated colors were invalid

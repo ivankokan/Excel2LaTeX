@@ -1,3 +1,6 @@
+**Version 3.4.3: Unreleased**
+ * Bug fix: Restored conditional formatting support on Excel 2011 and 2016 for Mac
+
 **Version 3.4.2: Released on Aug 11 2016**
  * Bug fix: Restored compatibility with Excel for Mac
  * Bug fix: Launching the form would throw an error on some localized Excel versions

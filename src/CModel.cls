@@ -645,6 +645,16 @@ End Function
 Private Function RangeOrDisplayFormat(cell As Range) As DisplayFormat
     Set RangeOrDisplayFormat = cell.DisplayFormat
 End Function
+#ElseIf Mac Then
+' VBA7 isn't supported in Excel 2011 and 2016 for Mac, so need to
+' actually check against Application.Version on that platform
+Private Function RangeOrDisplayFormat(cell As Range) As Object
+    If Val(Application.Version) >= 14# Then
+        Set RangeOrDisplayFormat = cell.DisplayFormat
+    Else
+        Set RangeOrDisplayFormat = cell
+    End If
+End Function
 #Else
 ' under Excel 2007 and earlier, DisplayFormat is not supported, so
 ' RangeOrDisplayFormat() just gives back the range it was passed

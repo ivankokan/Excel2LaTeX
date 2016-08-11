@@ -19,14 +19,12 @@ Attribute VB_TemplateDerived = False
 Attribute VB_Customizable = False
 Option Explicit
 
-Private Const COPYYEAR$ = "2016"
-
 Private Sub cmdClose_Click()
   Hide
 End Sub
 
 Private Sub UserForm_Initialize()
-    Label2.Caption = "Excel2LaTeX v" & ChrW$(8202) & "3.4.2"
+    Label2.Caption = "Excel2LaTeX v" & ChrW$(8202) & "3.4.3"
     Label1.Caption = "Copyright " & ChrW$(169) & " 1996" & ChrW$(8211) & "2016 Chelsea Hughes, " & _
                      "Kirill M" & ChrW$(252) & "ller," & vbLf & "Andrew Hawryluk, " & _
                      "Germ" & ChrW$(225) & "n Ria" & ChrW$(241) & "o, and Joachim Marder"

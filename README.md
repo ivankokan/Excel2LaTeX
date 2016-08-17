@@ -42,7 +42,7 @@ current settings so you can **Load** them later or **Export All** to files.
 
 <h2>Contributing</h2>
 The development repository and the bug tracker for this package are hosted on
-[GitHub](https://github.com/klrmlr/Excel2LaTeX). To work with the project, you
+[GitHub](https://github.com/krlmlr/Excel2LaTeX). To work with the project, you
 will require chelh's [VBA Sync Tool](https://github.com/chelh/VBASync). 
 
 <h2>License</h2>

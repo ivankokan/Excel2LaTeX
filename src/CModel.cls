@@ -538,6 +538,7 @@ Private Function ConvertSpecialChars(ByVal sText As String, ByVal Number As Bool
     ConvertSpecialChars = Replace(ConvertSpecialChars, "%", "\%")
     ConvertSpecialChars = Replace(ConvertSpecialChars, "&", "\&")
     ConvertSpecialChars = Replace(ConvertSpecialChars, "#", "\#")
+    ConvertSpecialChars = Replace$(ConvertSpecialChars, vbLf, "\newline{}")
 End Function
 
 Private Function FormatCellFont(ByVal sText As String, ByVal rCell As Range) As String

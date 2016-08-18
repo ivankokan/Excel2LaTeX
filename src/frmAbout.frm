@@ -24,7 +24,7 @@ Private Sub cmdClose_Click()
 End Sub
 
 Private Sub UserForm_Initialize()
-    Label2.Caption = "Excel2LaTeX v" & ChrW$(8202) & "3.4.3"
+    Label2.Caption = "Excel2LaTeX v" & ChrW$(8202) & "3.5.0"
     Label1.Caption = "Copyright " & ChrW$(169) & " 1996" & ChrW$(8211) & "2016 Chelsea Hughes, " & _
                      "Kirill M" & ChrW$(252) & "ller," & vbLf & "Andrew Hawryluk, " & _
                      "Germ" & ChrW$(225) & "n Ria" & ChrW$(241) & "o, and Joachim Marder"

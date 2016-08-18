@@ -1,5 +1,8 @@
-**Version 3.4.3: Unreleased**
+**Version 3.5.0: Unreleased**
  * Bug fix: Restored conditional formatting support on Excel 2011 and 2016 for Mac
+ * Cells that contain text and have text wrapping set will be placed in `p` columns
+ * Conversion will now convert newlines to \newline{}
+ * Replaced a dead link in README.md
 
 **Version 3.4.2: Released on Aug 11 2016**
  * Bug fix: Restored compatibility with Excel for Mac

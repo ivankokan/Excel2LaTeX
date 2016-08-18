@@ -298,21 +298,36 @@ Private Function GetColumnsFormat(ByVal RangeToUse As Range, Optional ByVal bSki
         Dim HorizontalAlignment
         'get horizontal alignment using the last row of the table
         HorizontalAlignment = RangeOrDisplayFormat(c.Cells(c.Rows.Count, 1)).HorizontalAlignment
-        Select Case HorizontalAlignment
-        Case xlLeft
-            stg = stg + "l"
-        Case xlCenter
-            stg = stg + "c"
-        Case xlGeneral
-            stg = stg + IIf(VarType(c.Cells(c.Rows.Count, 1).Value2) = vbString, "l", "r")
-        Case Else
-            stg = stg + "r" 'Default alignment is right
-        End Select
+        If VarType(c.Cells(c.Rows.Count, 1).Value2) = vbString And c.Cells(c.Rows.Count, 1).WrapText Then
+            If RangeToUse.MergeCells Then
+                stg = stg + "p{" & LTrim$(Str$(0.5 * SumColumnWidths(RangeToUse))) & "em}"
+            Else
+                stg = stg + "p{" & LTrim$(Str$(0.5 * c.ColumnWidth)) & "em}"
+            End If
+        Else
+            Select Case HorizontalAlignment
+            Case xlLeft
+                stg = stg + "l"
+            Case xlCenter
+                stg = stg + "c"
+            Case xlGeneral
+                stg = stg + IIf(VarType(c.Cells(c.Rows.Count, 1).Value2) = vbString, "l", "r")
+            Case Else
+                stg = stg + "r" 'Default alignment is right
+            End Select
+        End If
         If Not (cn Is Nothing) Then
             stg = stg + VerticalBorder(cn)
         End If
     Next i
     GetColumnsFormat = stg
+End Function
+
+Private Function SumColumnWidths(r As Range) As Double
+    Dim col As Range
+    For Each col In r
+        SumColumnWidths = SumColumnWidths + col.ColumnWidth
+    Next
 End Function
 
 Private Function VerticalBorder(ByVal pRightRange As Range)

@@ -530,7 +530,7 @@ Private Function FormatCellColor(Text$, Cell As Range, ByVal RowColor&) As Strin
         FormatCellColor = Printf("\textcolor[rgb]{%1}{%2}", ColorToRGB(FontColor), Text)
     End If
     
-    If InteriorColor <> RowColor Then FormatCellColor = Printf("\cellcolor[rgb]{%1} ", _
+    If InteriorColor <> RowColor Then FormatCellColor = Printf("\cellcolor[rgb]{%1}", _
             ColorToRGB(InteriorColor)) & FormatCellColor
 End Function
 

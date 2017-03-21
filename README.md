@@ -1,4 +1,4 @@
-<h1>Excel2LaTeX</h1>
+# Excel2LaTeX
 Making tables in LaTeX can be tedious, especially if some columns are calculated.
 This converter allows you to write a table in Excel instead, and export the current selection as LaTeX markup
 which can be pasted into an existing LaTeX document, or exported to a file and included via the `\input` command.
@@ -8,7 +8,7 @@ May also be compatible with other versions that support `.xla` add-ins.
 
 ![Excel and Excel2LaTeX comparison](https://i.imgur.com/UNKCihT.png)
 
-<h2>Features</h2>
+## Features
 Most Excel formatting is supported.
  * Bold and italic (if applied to the whole cell)
  * Left, right, center, and general alignment (per-cell or per-column)
@@ -25,7 +25,7 @@ Most Excel formatting is supported.
  * Copy output to clipboard or export to a `.tex` file for inclusion using `\include`
  * Save table specifications to your Excel worksheet, then export all tables at once
 
-<h2>Using</h2>
+## Using
 Just open the file Excel2LaTeX.xla in Excel. Then you will have two additional 
 menu items in your **Tools** menu and a new toolbar with two buttons on it. For 
 Excel 2007 and later, you will have two new buttons in the **Add-Ins** ribbon. If 
@@ -40,12 +40,12 @@ current settings so you can **Load** them later or **Export All** to files.
 
 ![Excel2LaTeX interface](https://i.imgur.com/EK88upo.png)
 
-<h2>Contributing</h2>
+## Contributing
 The development repository and the bug tracker for this package are hosted on
 [GitHub](https://github.com/krlmlr/Excel2LaTeX). To work with the project, you
 will require chelh's [VBA Sync Tool](https://github.com/chelh/VBASync). 
 
-<h2>License</h2>
+## License
 Copyright &copy; 1996&ndash;2016 Chelsea Hughes, Kirill Müller, Andrew Hawryluk,
 Germán Riaño, and Joachim Marder.
 

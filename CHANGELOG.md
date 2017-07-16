@@ -1,5 +1,6 @@
 **Version 3.5.0: Unreleased**
  * Bug fix: Restored conditional formatting support on Excel 2011 and 2016 for Mac
+ * Bug fix: “Invalid use of Null” on multi-color cells
  * Cells that contain text and have text wrapping set will be placed in `p` columns
  * Conversion will now convert newlines to `\newline{}`
  * Replaced a dead link in `README.md`

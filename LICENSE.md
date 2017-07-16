@@ -1,4 +1,4 @@
-Copyright &copy; 1996&ndash;2016 Chelsea Hughes, Kirill Müller, Andrew Hawryluk,
+Copyright &copy; 1996&ndash;2017 Chelsea Hughes, Kirill Müller, Andrew Hawryluk,
 Germán Riaño, and Joachim Marder.
 
 This work is distributed under the LaTeX Project Public License, version 1.3

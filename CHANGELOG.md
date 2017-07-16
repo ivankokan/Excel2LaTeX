@@ -1,4 +1,4 @@
-**Version 3.5.0: Unreleased**
+**Version 3.5.0: Released on Jul 15 2017**
  * Bug fix: Restored conditional formatting support on Excel 2011 and 2016 for Mac
  * Bug fix: “Invalid use of Null” on multi-color cells
  * Cells that contain text and have text wrapping set will be placed in `p` columns

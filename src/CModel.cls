@@ -521,7 +521,7 @@ End Function
 
 Private Function FormatCellColor(Text$, Cell As Range, ByVal RowColor&) As String
     Dim FontColor&, InteriorColor&
-    FontColor = RangeOrDisplayFormat(cell).Font.Color
+    FontColor = ZeroIfNull(RangeOrDisplayFormat(cell).Font.Color)
     InteriorColor = RangeOrDisplayFormat(cell).Interior.Color
     
     If FontColor = 0 Then
@@ -678,3 +678,11 @@ Private Function RangeOrDisplayFormat(cell As Range) As Range
     Set RangeOrDisplayFormat = cell
 End Function
 #End If
+
+Private Function ZeroIfNull(v) As Long
+    If Not IsNull(v) Then
+        If isnumeric(v) Then
+            ZeroIfNull = CLng(v)
+        End If
+    End If
+End Function

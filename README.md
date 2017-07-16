@@ -46,7 +46,7 @@ The development repository and the bug tracker for this package are hosted on
 will require chelh's [VBA Sync Tool](https://github.com/chelh/VBASync). 
 
 ## License
-Copyright &copy; 1996&ndash;2016 Chelsea Hughes, Kirill Müller, Andrew Hawryluk,
+Copyright &copy; 1996&ndash;2017 Chelsea Hughes, Kirill Müller, Andrew Hawryluk,
 Germán Riaño, and Joachim Marder.
 
 This work is distributed under the LaTeX Project Public License, version 1.3

@@ -18,7 +18,7 @@ Attribute VB_Name = "Conversion"
 
 Option Explicit
 
-Sub LaTeX()
+Public Sub LaTeX()
 Attribute LaTeX.VB_Description = "Opens the main dialog for converting into LaTeX"
 Attribute LaTeX.VB_ProcData.VB_Invoke_Func = "l\n14"
     With NewController
@@ -29,7 +29,7 @@ Attribute LaTeX.VB_ProcData.VB_Invoke_Func = "l\n14"
     End With
 End Sub
 
-Sub LaTeXAllToFiles()
+Public Sub LaTeXAllToFiles()
 Attribute LaTeXAllToFiles.VB_Description = "Converts all configured selections into LaTeX"
 Attribute LaTeXAllToFiles.VB_ProcData.VB_Invoke_Func = "l\n14"
     SaveAllStoredItems NewStorage

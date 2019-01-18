@@ -20,7 +20,7 @@ Dim convertDollar As Boolean
 Dim booktabs As Boolean
 Dim tableFloat As Boolean
 Dim Indent As Integer
-Dim sFileName As String
+Dim FileName As String
 Dim RangeToUse As Range
 
 Private mpEvents As New IModelEvents
@@ -40,13 +40,13 @@ Public Property Get IModel_Options() As x2lOptions
     If booktabs Then IModel_Options = IModel_Options Or x2lBooktabs
     If tableFloat Then IModel_Options = IModel_Options Or x2lCreateTableEnvironment
 End Property
-Public Property Let IModel_Options(ByVal Options As x2lOptions)
+Public Property Let IModel_Options(ByVal eOptions As x2lOptions)
     Dim oldOptions As x2lOptions
     oldOptions = IModel_Options()
     
-    convertDollar = (Options And x2lConvertMathChars) <> x2lNone
-    booktabs = (Options And x2lBooktabs) <> x2lNone
-    tableFloat = (Options And x2lCreateTableEnvironment) <> x2lNone
+    convertDollar = (eOptions And x2lConvertMathChars) <> x2lNone
+    booktabs = (eOptions And x2lBooktabs) <> x2lNone
+    tableFloat = (eOptions And x2lCreateTableEnvironment) <> x2lNone
     
     If oldOptions <> IModel_Options() Then
         mpEvents.RaiseChanged
@@ -72,29 +72,29 @@ Public Property Let IModel_CellWidth(ByVal iCellWidth As Integer)
 End Property
 
 Public Property Get IModel_FileName() As String
-    IModel_FileName = sFileName
+    IModel_FileName = FileName
 End Property
-Public Property Let IModel_FileName(ByVal iFileName As String)
+Public Property Let IModel_FileName(ByVal sFileName As String)
     Dim sBaseDir As String
     sBaseDir = WorksheetDir
-    If UCase(iFileName) Like UCase(sBaseDir) & "\*" Then
-        iFileName = Mid$(iFileName, Len(sBaseDir) + 2)
+    If UCase(sFileName) Like UCase(sBaseDir) & "\*" Then
+        sFileName = Mid$(sFileName, Len(sBaseDir) + 2)
     End If
-    sFileName = iFileName
+    FileName = sFileName
 End Property
 Public Property Get IModel_AbsoluteFileName() As String
-    If sFileName Like "?:\*" Or sFileName Like "\\*\*" Then
-        IModel_AbsoluteFileName = sFileName
+    If FileName Like "?:\*" Or FileName Like "\\*\*" Then
+        IModel_AbsoluteFileName = FileName
     Else
-        IModel_AbsoluteFileName = Printf("%1\%2", WorksheetDir, sFileName)
+        IModel_AbsoluteFileName = Printf("%1\%2", WorksheetDir, FileName)
     End If
 End Property
 
 Public Property Get IModel_RangeAddress() As String
     IModel_RangeAddress = RangeToAddress(RangeToUse)
 End Property
-Public Property Let IModel_RangeAddress(ByVal iRange As String)
-    Set RangeToUse = AddressToRange(iRange)
+Public Property Let IModel_RangeAddress(ByVal sRangeAddress As String)
+    Set RangeToUse = AddressToRange(sRangeAddress)
     mpEvents.RaiseChanged
 End Property
 
@@ -127,7 +127,7 @@ Public Function IModel_GetConversionResult() As String
     'Start checking top border
     Set r = RangeToUse.Rows(1)
     
-    AddText HorizontalBorder(r, Indent, Top:=True)
+    AddText HorizontalBorder(r, Indent, bTop:=True)
     
     'Table contents:
     For j = 1 To RangeToUse.Rows.Count ' for each row
@@ -149,7 +149,7 @@ Public Function IModel_GetConversionResult() As String
         Indent = Indent - 2
         
         ' Check for Border lines
-        AddText HorizontalBorder(r.Offset(RowOffset:=1), Indent, Bottom:=j = RangeToUse.Rows.Count)
+        AddText HorizontalBorder(r.Offset(RowOffset:=1), Indent, bBottom:=j = RangeToUse.Rows.Count)
     Next j 'row
     
 theend:      'Tabellenende
@@ -177,7 +177,7 @@ Public Sub IModel_InitDefault()
     InitFromRegistry
 
     Set RangeToUse = GetDefaultRange
-    sFileName = GetDefaultFileName
+    FileName = GetDefaultFileName
 End Sub
 
 Private Property Get IModel_Description() As String
@@ -191,17 +191,17 @@ End Property
 Private Property Get IModel_Range() As Range
     Set IModel_Range = RangeToUse
 End Property
-Private Property Set IModel_Range(ByVal pRange As Range)
-    Set RangeToUse = pRange.Areas(1)
+Private Property Set IModel_Range(ByVal rRange As Range)
+    Set RangeToUse = rRange.Areas(1)
     mpEvents.RaiseChanged
 End Property
 
 ' Class implementation
 
-Private Function GetRowColor(Row As Range) As Long
-    GetRowColor = RangeOrDisplayFormat(Row).Interior.Color
+Private Function GetRowColor(ByVal rRow As Range) As Long
+    GetRowColor = RangeOrDisplayFormat(rRow).Interior.Color
     If GetRowColor <> 0 Then Exit Function
-    GetRowColor = RangeOrDisplayFormat(Row.Cells(1, 1)).Interior.Color
+    GetRowColor = RangeOrDisplayFormat(rRow.Cells(1, 1)).Interior.Color
 End Function
 
 Private Sub InitFromRegistry()
@@ -242,9 +242,9 @@ Private Function GetDefaultFileName()
     GetDefaultFileName = Printf("%1.tex", sName)
 End Function
 
-Private Sub AddText(ByVal txt As String, Optional ByVal LineFeed = False)
-    sb.Append txt
-    If LineFeed Then sb.Append vbLf
+Private Sub AddText(ByVal sTxt As String, Optional ByVal bLineFeed As Boolean = False)
+    sb.Append sTxt
+    If bLineFeed Then sb.Append vbLf
 End Sub
 
 Private Function PadSpace(ByVal n As Long)
@@ -276,13 +276,13 @@ Private Function GetStruts(ByVal rRow As Range) As String
     End If
 End Function
 
-Private Function GetColumnsFormat(ByVal RangeToUse As Range, Optional ByVal bSkipFirst = False, Optional ByVal lStep As Long = 1) As String
+Private Function GetColumnsFormat(ByVal rRangeToUse As Range, Optional ByVal bSkipFirst As Boolean = False, Optional ByVal lStep As Long = 1) As String
     Dim rc As Range, c As Range, cn As Range
     
     Dim i As Long
     Dim stg As String
     
-    Set rc = RangeToUse.Columns
+    Set rc = rRangeToUse.Columns
     Set cn = rc.Item(1)
     
     If Not bSkipFirst Then
@@ -299,8 +299,8 @@ Private Function GetColumnsFormat(ByVal RangeToUse As Range, Optional ByVal bSki
         'get horizontal alignment using the last row of the table
         HorizontalAlignment = RangeOrDisplayFormat(c.Cells(c.Rows.Count, 1)).HorizontalAlignment
         If VarType(c.Cells(c.Rows.Count, 1).Value2) = vbString And c.Cells(c.Rows.Count, 1).WrapText Then
-            If RangeToUse.MergeCells Then
-                stg = stg + "p{" & LTrim$(Str$(0.5 * SumColumnWidths(RangeToUse))) & "em}"
+            If rRangeToUse.MergeCells Then
+                stg = stg + "p{" & LTrim$(Str$(0.5 * SumColumnWidths(rRangeToUse))) & "em}"
             Else
                 stg = stg + "p{" & LTrim$(Str$(0.5 * c.ColumnWidth)) & "em}"
             End If
@@ -323,17 +323,17 @@ Private Function GetColumnsFormat(ByVal RangeToUse As Range, Optional ByVal bSki
     GetColumnsFormat = stg
 End Function
 
-Private Function SumColumnWidths(r As Range) As Double
-    Dim col As Range
-    For Each col In r
-        SumColumnWidths = SumColumnWidths + col.ColumnWidth
+Private Function SumColumnWidths(ByVal rRange As Range) As Double
+    Dim rCol As Range
+    For Each rCol In rRange
+        SumColumnWidths = SumColumnWidths + rCol.ColumnWidth
     Next
 End Function
 
-Private Function VerticalBorder(ByVal pRightRange As Range)
+Private Function VerticalBorder(ByVal rRightRange As Range)
     'return nothing, | or ||
     Dim stg As String
-    Select Case VerticalBorderStyle(pRightRange)
+    Select Case VerticalBorderStyle(rRightRange)
     Case xlDouble
         stg = "||"
     Case xlContinuous
@@ -344,18 +344,18 @@ Private Function VerticalBorder(ByVal pRightRange As Range)
     VerticalBorder = stg
 End Function
 
-Private Function VerticalBorderStyle(ByVal pRightRange As Range) As Variant
+Private Function VerticalBorderStyle(ByVal rRightRange As Range) As Variant
     VerticalBorderStyle = xlNone
     
-    Dim pRightRow As Range
-    Dim pLeftRow As Range
-    Set pRightRow = pRightRange.Cells(pRightRange.Rows.Count, 1)
-    VerticalBorderStyle = ResolveLine(VerticalBorderStyle, RangeOrDisplayFormat(pRightRow).Borders(xlLeft).LineStyle)
+    Dim rRightRow As Range
+    Dim rLeftRow As Range
+    Set rRightRow = rRightRange.Cells(rRightRange.Rows.Count, 1)
+    VerticalBorderStyle = ResolveLine(VerticalBorderStyle, RangeOrDisplayFormat(rRightRow).Borders(xlLeft).LineStyle)
     
-    If pRightRow.Column > 1 Then
-        Set pLeftRow = pRightRow.Resize(ColumnSize:=1).Offset(ColumnOffset:=-1)
+    If rRightRow.Column > 1 Then
+        Set rLeftRow = rRightRow.Resize(ColumnSize:=1).Offset(ColumnOffset:=-1)
         
-        VerticalBorderStyle = ResolveLine(VerticalBorderStyle, RangeOrDisplayFormat(pLeftRow).Borders(xlRight).LineStyle)
+        VerticalBorderStyle = ResolveLine(VerticalBorderStyle, RangeOrDisplayFormat(rLeftRow).Borders(xlRight).LineStyle)
     End If
 End Function
 
@@ -363,7 +363,7 @@ Private Function HasHorizontalBorder(ByVal rBelowRange As Range) As Boolean
     HasHorizontalBorder = (HorizontalBorder(rBelowRange, 0) <> "")
 End Function
 
-Private Function HorizontalBorder(ByVal rBelowRange As Range, ByVal spaces As Integer, Optional ByVal Top As Boolean, Optional ByVal Bottom As Boolean) As String
+Private Function HorizontalBorder(ByVal rBelowRange As Range, ByVal iSpaces As Integer, Optional ByVal bTop As Boolean, Optional ByVal bBottom As Boolean) As String
     Debug.Assert rBelowRange.Rows.Count = 1
     
     Dim rAboveRange As Range
@@ -397,9 +397,9 @@ Private Function HorizontalBorder(ByVal rBelowRange As Range, ByVal spaces As In
     
     Dim HLineCmd$, CLineCmd$, MoreCLineCmd$
     If booktabs Then
-        If Top Then
+        If bTop Then
             HLineCmd = "\toprule"
-        ElseIf Bottom Then
+        ElseIf bBottom Then
             HLineCmd = "\bottomrule"
         Else
             HLineCmd = "\midrule"
@@ -417,9 +417,9 @@ Private Function HorizontalBorder(ByVal rBelowRange As Range, ByVal spaces As In
     
         Select Case borderStyle
         Case xlDouble
-            HorizontalBorder = Space(spaces) + HLineCmd + vbLf + Space(spaces) + HLineCmd + vbLf
+            HorizontalBorder = Space(iSpaces) + HLineCmd + vbLf + Space(iSpaces) + HLineCmd + vbLf
         Case xlContinuous
-            HorizontalBorder = Space(spaces) + HLineCmd + vbLf
+            HorizontalBorder = Space(iSpaces) + HLineCmd + vbLf
         Case Else
             HorizontalBorder = ""
         End Select
@@ -519,10 +519,10 @@ Private Function FormatCell(ByVal rCell As Range, ByVal RowColor&) As String
     FormatCell = FormatCellColor(FormatCell, rCell, RowColor)
 End Function
 
-Private Function FormatCellColor(Text$, Cell As Range, ByVal RowColor&) As String
+Private Function FormatCellColor(Text$, rCell As Range, ByVal RowColor&) As String
     Dim FontColor&, InteriorColor&
-    FontColor = ZeroIfNull(RangeOrDisplayFormat(cell).Font.Color)
-    InteriorColor = RangeOrDisplayFormat(cell).Interior.Color
+    FontColor = ZeroIfNull(RangeOrDisplayFormat(rCell).Font.Color)
+    InteriorColor = RangeOrDisplayFormat(rCell).Interior.Color
     
     If FontColor = 0 Then
         FormatCellColor = Text
@@ -658,24 +658,24 @@ End Function
 #If VBA7 Then
 ' under Excel 2010+, RangeOrDisplayFormat() returns a DisplayFormat,
 ' so we can see conditional formatting
-Private Function RangeOrDisplayFormat(cell As Range) As DisplayFormat
-    Set RangeOrDisplayFormat = cell.DisplayFormat
+Private Function RangeOrDisplayFormat(ByVal rCell As Range) As DisplayFormat
+    Set RangeOrDisplayFormat = rCell.DisplayFormat
 End Function
 #ElseIf Mac Then
 ' VBA7 isn't supported in Excel 2011 and 2016 for Mac, so need to
 ' actually check against Application.Version on that platform
-Private Function RangeOrDisplayFormat(cell As Range) As Object
+Private Function RangeOrDisplayFormat(ByVal rCell As Range) As Object
     If Val(Application.Version) >= 14# Then
-        Set RangeOrDisplayFormat = cell.DisplayFormat
+        Set RangeOrDisplayFormat = rCell.DisplayFormat
     Else
-        Set RangeOrDisplayFormat = cell
+        Set RangeOrDisplayFormat = rCell
     End If
 End Function
 #Else
 ' under Excel 2007 and earlier, DisplayFormat is not supported, so
 ' RangeOrDisplayFormat() just gives back the range it was passed
-Private Function RangeOrDisplayFormat(cell As Range) As Range
-    Set RangeOrDisplayFormat = cell
+Private Function RangeOrDisplayFormat(ByVal rCell As Range) As Range
+    Set RangeOrDisplayFormat = rCell
 End Function
 #End If
 

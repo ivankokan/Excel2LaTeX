@@ -25,7 +25,7 @@ Public Property Get Length() As Long
     Length = m_len
 End Property
 
-Public Function Append(s As String) As StringBuilder
+Public Function Append(ByVal s As String) As StringBuilder
     If m_len + Len(s) > 2 * Len(m_buf) Then
         m_buf = m_buf & Space$(2 * Len(s))
     ElseIf m_len + Len(s) > Len(m_buf) Then

@@ -67,19 +67,19 @@ End Sub
 '
 ' Form implementation
 '
-Private Function SafeRangePrecedents(ByVal pRange As Range) As Range
+Private Function SafeRangePrecedents(ByVal rRange As Range) As Range
     On Error Resume Next
-    Set SafeRangePrecedents = pRange.Precedents
+    Set SafeRangePrecedents = rRange.Precedents
 End Function
 
-Private Function UnionOfRangeAndItsPrecedents(ByVal pRange As Range) As Range
-    Dim pPrecedents As Range
-    Set pPrecedents = SafeRangePrecedents(pRange)
+Private Function UnionOfRangeAndItsPrecedents(ByVal rRange As Range) As Range
+    Dim rPrecedents As Range
+    Set rPrecedents = SafeRangePrecedents(rRange)
     
-    If pPrecedents Is Nothing Then
-        Set UnionOfRangeAndItsPrecedents = pRange
+    If rPrecedents Is Nothing Then
+        Set UnionOfRangeAndItsPrecedents = rRange
     Else
-        Set UnionOfRangeAndItsPrecedents = Union(pRange, pPrecedents)
+        Set UnionOfRangeAndItsPrecedents = Union(rRange, rPrecedents)
     End If
 End Function
 
@@ -126,10 +126,10 @@ Private Sub lvwStoredTables_KeyDown(ByVal KeyCode As MSForms.ReturnInteger, ByVa
     End Select
 End Sub
 
-Private Sub mActiveWkSheet_Change(ByVal Target As Range)
+Private Sub mActiveWkSheet_Change(ByVal rTarget As Range)
     On Error GoTo errfail
     If Not Me.Visible Then Exit Sub
-    If Not Intersect(Target, UnionOfRangeAndItsPrecedents(mModel.Range)) Is Nothing Then
+    If Not Intersect(rTarget, UnionOfRangeAndItsPrecedents(mModel.Range)) Is Nothing Then
         ConvertSelection
     End If
 errfail:
@@ -221,17 +221,16 @@ Private Sub UpdateOptions()
 End Sub
 
 Private Sub cmdBrowse_Click()
-    Dim sFileName
-    sFileName = Application.GetSaveAsFilename(mModel.AbsoluteFileName, "TeX documents (*.tex), *.tex")
-    If sFileName <> False Then
-        txtFilename = sFileName
+    Dim vFileName As Variant
+    vFileName = Application.GetSaveAsFilename(mModel.AbsoluteFileName, "TeX documents (*.tex), *.tex")
+    If vFileName <> False Then
+        txtFilename = vFileName
     End If
 End Sub
 
 Private Sub cmdCancel_Click()
-  Hide
+    Hide
 End Sub
-
 
 
 Private Sub cmdCopy_Click()

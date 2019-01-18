@@ -22,15 +22,14 @@ Public Function ModelToString(ByVal pModel As IModel) As String
     Next
 End Function
 
-Public Sub CollectionToModel(ByVal pModel As IModel, ByVal pCollection As Collection)
+Public Sub CollectionToModel(ByVal pModel As IModel, ByVal cCollection As Collection)
     Dim sName As Variant
     For Each sName In ModelPropertyNames()
         On Error Resume Next
-        CallByName pModel, sName, VbLet, pCollection(sName)
+        CallByName pModel, sName, VbLet, cCollection(sName)
         On Error GoTo 0
     Next
 End Sub
-
 
 Public Sub StringToModel(ByVal pModel As IModel, ByVal sSettings As String)
     Dim aSettings() As String
@@ -48,19 +47,20 @@ Public Sub StringToModel(ByVal pModel As IModel, ByVal sSettings As String)
     Next
 End Sub
 
-Public Function CollectionToNewModel(ByVal pSettings As Collection) As IModel
+Public Function CollectionToNewModel(ByVal cSettings As Collection) As IModel
     Set CollectionToNewModel = NewModel()
-    CollectionToModel CollectionToNewModel, pSettings
+    CollectionToModel CollectionToNewModel, cSettings
 End Function
+
 Public Function StringToNewModel(ByVal sSettings As String) As IModel
     Set StringToNewModel = NewModel()
     StringToModel StringToNewModel, sSettings
 End Function
 
 
-Public Function RangeToAddress(ByVal pRange As Range) As String
-    If pRange Is Nothing Then Exit Function
-    RangeToAddress = Printf("'%1'!%2", pRange.Worksheet.Name, pRange.Address)
+Public Function RangeToAddress(ByVal rRange As Range) As String
+    If rRange Is Nothing Then Exit Function
+    RangeToAddress = Printf("'%1'!%2", rRange.Worksheet.Name, rRange.Address)
 End Function
 
 Public Function AddressToRange(ByVal sRangeAddress As String) As Range
@@ -68,6 +68,7 @@ Public Function AddressToRange(ByVal sRangeAddress As String) As Range
     If sRangeAddress = "" Then Exit Function
     Set AddressToRange = Application.Range(sRangeAddress)
 End Function
+
 
 Public Sub SaveConversionResultToFile(ByVal pModel As IModel)
     Dim sFileName As String
@@ -80,12 +81,11 @@ Public Sub SaveConversionResultToFile(ByVal pModel As IModel)
 End Sub
 
 Public Sub SaveAllStoredItems(ByVal pStorage As IStorage)
-    Dim l1 As Long
     Dim cItems As Collection
     Set cItems = pStorage.GetItems
     
+    Dim l1 As Long
     For l1 = 1 To cItems.Count
         SaveConversionResultToFile cItems(l1)
     Next
 End Sub
-

@@ -18,8 +18,6 @@ Public Function NewView() As frmConvert
     Set NewView = New frmConvert
 End Function
 
-Function NewStorage() As IStorage
+Public Function NewStorage() As IStorage
     Set NewStorage = New CSheetStorage
 End Function
-
-

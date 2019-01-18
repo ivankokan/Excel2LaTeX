@@ -20,7 +20,7 @@ Attribute VB_Customizable = False
 Option Explicit
 
 Private Sub cmdClose_Click()
-  Hide
+    Hide
 End Sub
 
 Private Sub UserForm_Initialize()

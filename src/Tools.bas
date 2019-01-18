@@ -56,7 +56,7 @@ Public Function Printf(ByVal sFormat As String, ParamArray Values()) As String
     Printf = Join(aText, "")
 End Function
 
-Sub SplitKeyValue(ByVal sKeyValue As String, ByRef sKey As String, ByRef sValue As String)
+Public Sub SplitKeyValue(ByVal sKeyValue As String, ByRef sKey As String, ByRef sValue As String)
     Dim lPos As Long
     lPos = VBA.InStr(1, sKeyValue, "=")
     

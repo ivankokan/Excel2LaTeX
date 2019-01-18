@@ -343,16 +343,16 @@ End Sub
 
 
 Private Sub InitEncodingComboBox()
-    dEncodings.RemoveAll
-    dEncodings.Add Application.DefaultWebOptions.Encoding, "System Default"
-    dEncodings.Add MsoEncoding.msoEncodingUTF8, "utf-8"
+    ReDim aEncodings(1 To 2) As Variant
+    aEncodings(1) = Array(Application.DefaultWebOptions.Encoding, "System Default")
+    aEncodings(2) = Array(MsoEncoding.msoEncodingUTF8, "utf-8")
     
     With cboEncoding
         .TextColumn = 1
-        Dim eEncoding As Variant
-        For Each eEncoding In dEncodings.Keys
-            .AddItem eEncoding
-            .Column(1, .ListCount - 1) = dEncodings(eEncoding)
+        Dim aEncoding As Variant
+        For Each aEncoding In aEncodings
+            .AddItem aEncoding(0)
+            .Column(1, .ListCount - 1) = aEncoding(1)
         Next
         .TextColumn = 2
     End With

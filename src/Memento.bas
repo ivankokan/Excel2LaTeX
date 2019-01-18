@@ -1,7 +1,7 @@
 Attribute VB_Name = "Memento"
 Option Explicit
 
-Public dEncodings As New Scripting.Dictionary
+Public aEncodings() As Variant
 
 Public Function ModelPropertyNames() As String()
     Const NAMES As String = "RangeAddress|Options|CellWidth|Indent|FileName|Encoding"
@@ -72,6 +72,16 @@ Public Function AddressToRange(ByVal sRangeAddress As String) As Range
 End Function
 
 
+Private Function GetEncoding(ByVal aEncodings As Variant, ByVal eEncoding As MsoEncoding) As Variant
+    Dim aEncoding As Variant
+    For Each aEncoding In aEncodings
+        If aEncoding(0) = eEncoding Then
+            GetEncoding = aEncoding
+            Exit Function
+        End If
+    Next
+End Function
+
 Public Sub SaveConversionResultToFile(ByVal pModel As IModel)
     Dim sFileName As String
     sFileName = pModel.AbsoluteFileName
@@ -86,13 +96,17 @@ Public Sub SaveConversionResultToFile(ByVal pModel As IModel)
         Print #1, pModel.GetConversionResult;
         Close #1
     Else
+        Dim aEncoding As Variant
+        aEncoding = GetEncoding(aEncodings, pModel.Encoding)
+        Debug.Assert Not IsEmpty(aEncoding)
+        
         Dim str As New ADODB.Stream
         str.Type = StreamTypeEnum.adTypeText
         str.Mode = ConnectModeEnum.adModeReadWrite
         ' https://docs.microsoft.com/en-us/sql/ado/reference/ado-api/charset-property-ado?view=sql-server-2017
         ' For a list of the character set names that are known by a system,
         ' see the subkeys of HKEY_CLASSES_ROOT\MIME\Database\Charset in the Windows Registry.
-        str.Charset = dEncodings(pModel.Encoding)
+        str.Charset = aEncoding(1)
         str.Open
         str.WriteText sCodePageRemark, StreamWriteEnum.adWriteLine
         str.WriteText pModel.GetConversionResult

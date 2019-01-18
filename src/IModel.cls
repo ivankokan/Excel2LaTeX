@@ -62,6 +62,13 @@ Public Property Let RangeAddress(ByVal sRangeAddress As String)
 '
 End Property
 
+Public Property Get Encoding() As MsoEncoding
+'
+End Property
+Public Property Let Encoding(ByVal eEncoding As MsoEncoding)
+'
+End Property
+
 Public Function GetConversionResult() As String
 '
 End Function

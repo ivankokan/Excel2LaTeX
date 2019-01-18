@@ -1,8 +1,10 @@
 Attribute VB_Name = "Memento"
 Option Explicit
 
+Public dEncodings As New Scripting.Dictionary
+
 Public Function ModelPropertyNames() As String()
-    Const NAMES As String = "RangeAddress|Options|CellWidth|Indent|FileName"
+    Const NAMES As String = "RangeAddress|Options|CellWidth|Indent|FileName|Encoding"
     ModelPropertyNames = Split(NAMES, "|")
 End Function
 
@@ -75,9 +77,28 @@ Public Sub SaveConversionResultToFile(ByVal pModel As IModel)
     sFileName = pModel.AbsoluteFileName
     If sFileName = "" Then Exit Sub
     
-    Open sFileName For Output As 1
-    Print #1, pModel.GetConversionResult;
-    Close #1
+    Dim sCodePageRemark As String
+    sCodePageRemark = Printf("% codepage %1", pModel.Encoding)
+    
+    If pModel.Encoding = Application.DefaultWebOptions.Encoding Then
+        Open sFileName For Output As 1
+        Print #1, sCodePageRemark
+        Print #1, pModel.GetConversionResult;
+        Close #1
+    Else
+        Dim str As New ADODB.Stream
+        str.Type = StreamTypeEnum.adTypeText
+        ' https://docs.microsoft.com/en-us/sql/ado/reference/ado-api/charset-property-ado?view=sql-server-2017
+        ' For a list of the character set names that are known by a system,
+        ' see the subkeys of HKEY_CLASSES_ROOT\MIME\Database\Charset in the Windows Registry.
+        str.Charset = dEncodings(pModel.Encoding)
+        str.Open
+        str.WriteText sCodePageRemark, StreamWriteEnum.adWriteLine
+        str.WriteText pModel.GetConversionResult
+        str.SaveToFile sFileName, SaveOptionsEnum.adSaveCreateOverWrite
+        str.Close
+        Set str = Nothing
+    End If
 End Sub
 
 Public Sub SaveAllStoredItems(ByVal pStorage As IStorage)

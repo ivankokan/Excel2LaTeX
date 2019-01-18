@@ -2,15 +2,15 @@ VERSION 5.00
 Begin {C62A69F0-16DC-11CE-9E98-00AA00574A4F} frmConvert 
    OleObjectBlob   =   "frmConvert.frx":0000
    Caption         =   "Excel2LaTeX"
-   ClientHeight    =   7440
+   ClientHeight    =   8040
    ClientLeft      =   45
    ClientTop       =   330
    ClientWidth     =   12075
    StartUpPosition =   1  'CenterOwner
-   TypeInfoVer     =   109
+   TypeInfoVer     =   113
 End
 Attribute VB_Name = "frmConvert"
-Attribute VB_Base = "0{86998920-9B42-405F-8BA3-9B10214C86E8}{A87D0BBE-8D68-4653-9A87-9251ECDE6A1F}"
+Attribute VB_Base = "0{145BB6FB-D7E5-49AC-BD1B-7A8F1F345C1A}{3F351095-FC91-456A-87FD-C4AF6A9CE476}"
 Attribute VB_GlobalNameSpace = False
 Attribute VB_Creatable = False
 Attribute VB_PredeclaredId = True
@@ -38,6 +38,7 @@ Private WithEvents mActiveWkSheet As Worksheet
 Attribute mActiveWkSheet.VB_VarHelpID = -1
 
 Private mbIgnoreControlEvents As Boolean
+
 
 '
 ' IView implementation
@@ -105,6 +106,20 @@ Private Sub ApplyButton_Click()
     UpdateOptions
     mModel.CellWidth = txtCellSize
     mModel.Indent = txtIndent
+End Sub
+
+Private Sub lblEncoding_Click()
+    Const CODEPAGES_URL As String = "https://docs.microsoft.com/en-us/windows/desktop/intl/code-page-identifiers"
+    On Error GoTo CannotOpen
+    ActiveWorkbook.FollowHyperlink Address:=CODEPAGES_URL, NewWindow:=True
+    Exit Sub
+
+CannotOpen:
+    MsgBox "Cannot open " & CODEPAGES_URL & "!", vbExclamation
+End Sub
+
+Private Sub cboEncoding_Change()
+    mModel.Encoding = cboEncoding
 End Sub
 
 Private Sub lvwStoredTables_Change()
@@ -179,6 +194,7 @@ Public Sub InitModel(ByVal pModel As IModel)
         .CellWidth = Val(Me.txtCellSize)
         .Options = Me.GetOptions()
         .Indent = Val(Me.txtIndent)
+        .Encoding = Me.cboEncoding
         .FileName = Me.txtFilename
     End With
 End Sub
@@ -189,6 +205,7 @@ Public Sub InitFromModel(ByVal pModel As IModel)
         Me.txtCellSize = .CellWidth
         Me.SetOptions (.Options)
         Me.txtIndent = .Indent
+        Me.cboEncoding = .Encoding
         Me.txtFilename = .FileName
         Me.cmdSelection.Caption = .RangeAddress
     End With
@@ -321,4 +338,22 @@ End Sub
 
 Private Sub UserForm_Initialize()
     lvwStoredTables_Change
+    InitEncodingComboBox
+End Sub
+
+
+Private Sub InitEncodingComboBox()
+    dEncodings.RemoveAll
+    dEncodings.Add Application.DefaultWebOptions.Encoding, "System Default"
+    dEncodings.Add MsoEncoding.msoEncodingUTF8, "utf-8"
+    
+    With cboEncoding
+        .TextColumn = 1
+        Dim eEncoding As Variant
+        For Each eEncoding In dEncodings.Keys
+            .AddItem eEncoding
+            .Column(1, .ListCount - 1) = dEncodings(eEncoding)
+        Next
+        .TextColumn = 2
+    End With
 End Sub

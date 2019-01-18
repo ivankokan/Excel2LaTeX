@@ -22,12 +22,14 @@ Dim tableFloat As Boolean
 Dim Indent As Integer
 Dim FileName As String
 Dim RangeToUse As Range
+Dim Encoding As MsoEncoding
 
 Private mpEvents As New IModelEvents
 
 Private Sub Class_Initialize()
     Set sb = New StringBuilder
 End Sub
+
 
 ' IModel implementation
 
@@ -95,6 +97,15 @@ Public Property Get IModel_RangeAddress() As String
 End Property
 Public Property Let IModel_RangeAddress(ByVal sRangeAddress As String)
     Set RangeToUse = AddressToRange(sRangeAddress)
+    mpEvents.RaiseChanged
+End Property
+
+Public Property Get IModel_Encoding() As MsoEncoding
+    IModel_Encoding = Encoding
+End Property
+Public Property Let IModel_Encoding(ByVal eEncoding As MsoEncoding)
+    If Encoding = eEncoding Then Exit Property
+    Encoding = eEncoding
     mpEvents.RaiseChanged
 End Property
 
@@ -172,10 +183,11 @@ End Function
 Public Sub IModel_InitDefault()
     Indent = 0
     CellWidth = 5
+    Encoding = Application.DefaultWebOptions.Encoding
     IModel_Options = x2lBooktabs Or x2lConvertMathChars Or x2lCreateTableEnvironment
     
     InitFromRegistry
-
+    
     Set RangeToUse = GetDefaultRange
     FileName = GetDefaultFileName
 End Sub
@@ -195,6 +207,7 @@ Private Property Set IModel_Range(ByVal rRange As Range)
     Set RangeToUse = rRange.Areas(1)
     mpEvents.RaiseChanged
 End Property
+
 
 ' Class implementation
 

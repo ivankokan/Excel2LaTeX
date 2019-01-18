@@ -88,6 +88,7 @@ Public Sub SaveConversionResultToFile(ByVal pModel As IModel)
     Else
         Dim str As New ADODB.Stream
         str.Type = StreamTypeEnum.adTypeText
+        str.Mode = ConnectModeEnum.adModeReadWrite
         ' https://docs.microsoft.com/en-us/sql/ado/reference/ado-api/charset-property-ado?view=sql-server-2017
         ' For a list of the character set names that are known by a system,
         ' see the subkeys of HKEY_CLASSES_ROOT\MIME\Database\Charset in the Windows Registry.
@@ -95,9 +96,20 @@ Public Sub SaveConversionResultToFile(ByVal pModel As IModel)
         str.Open
         str.WriteText sCodePageRemark, StreamWriteEnum.adWriteLine
         str.WriteText pModel.GetConversionResult
-        str.SaveToFile sFileName, SaveOptionsEnum.adSaveCreateOverWrite
+        If pModel.Encoding = MsoEncoding.msoEncodingUTF8 Then str.Position = 3 ' Skip BOM
+        
+        Dim binaryStr As New ADODB.Stream
+        binaryStr.Type = StreamTypeEnum.adTypeBinary
+        binaryStr.Mode = ConnectModeEnum.adModeReadWrite
+        binaryStr.Open
+        str.CopyTo binaryStr
+        str.Flush
         str.Close
         Set str = Nothing
+        
+        binaryStr.SaveToFile sFileName, SaveOptionsEnum.adSaveCreateOverWrite
+        binaryStr.Close
+        Set binaryStr = Nothing
     End If
 End Sub
 

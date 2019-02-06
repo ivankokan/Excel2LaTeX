@@ -343,9 +343,11 @@ End Sub
 
 
 Private Sub InitEncodingComboBox()
-    ReDim aEncodings(1 To 2) As Variant
+    ReDim aEncodings(1 To 4) As Variant
     aEncodings(1) = Array(Application.DefaultWebOptions.Encoding, "System Default")
-    aEncodings(2) = Array(MsoEncoding.msoEncodingUTF8, "utf-8")
+    aEncodings(2) = Array(MsoEncoding.msoEncodingUTF8, "UTF-8")
+    aEncodings(3) = Array(MsoEncoding.msoEncodingUnicodeLittleEndian, "UTF-16LE")
+    aEncodings(4) = Array(MsoEncoding.msoEncodingUnicodeBigEndian, "UTF-16BE")
     
     With cboEncoding
         .TextColumn = 1

@@ -27,28 +27,28 @@ End Property
 Public Property Get Options() As x2lOptions
 '
 End Property
-Public Property Let Options(ByVal Options As x2lOptions)
+Public Property Let Options(ByVal eOptions As x2lOptions)
 '
 End Property
 
 Public Property Get Indent() As Integer
 '
 End Property
-Public Property Let Indent(ByVal Indent As Integer)
+Public Property Let Indent(ByVal iIndent As Integer)
 '
 End Property
 
 Public Property Get CellWidth() As Integer
 '
 End Property
-Public Property Let CellWidth(ByVal CellWidth As Integer)
+Public Property Let CellWidth(ByVal iCellWidth As Integer)
 '
 End Property
 
 Public Property Get FileName() As String
 '
 End Property
-Public Property Let FileName(ByVal FileName As String)
+Public Property Let FileName(ByVal sFileName As String)
 '
 End Property
 Public Property Get AbsoluteFileName() As String
@@ -58,7 +58,14 @@ End Property
 Public Property Get RangeAddress() As String
 '
 End Property
-Public Property Let RangeAddress(ByVal iRange As String)
+Public Property Let RangeAddress(ByVal sRangeAddress As String)
+'
+End Property
+
+Public Property Get Encoding() As MsoEncoding
+'
+End Property
+Public Property Let Encoding(ByVal eEncoding As MsoEncoding)
 '
 End Property
 
@@ -77,6 +84,6 @@ End Property
 Public Property Get Range() As Range
 '
 End Property
-Public Property Set Range(ByVal pRange As Range)
+Public Property Set Range(ByVal rRange As Range)
 '
 End Property

@@ -2,15 +2,15 @@ VERSION 5.00
 Begin {C62A69F0-16DC-11CE-9E98-00AA00574A4F} frmConvert 
    OleObjectBlob   =   "frmConvert.frx":0000
    Caption         =   "Excel2LaTeX"
-   ClientHeight    =   7440
+   ClientHeight    =   8040
    ClientLeft      =   45
    ClientTop       =   330
    ClientWidth     =   12075
    StartUpPosition =   1  'CenterOwner
-   TypeInfoVer     =   109
+   TypeInfoVer     =   113
 End
 Attribute VB_Name = "frmConvert"
-Attribute VB_Base = "0{86998920-9B42-405F-8BA3-9B10214C86E8}{A87D0BBE-8D68-4653-9A87-9251ECDE6A1F}"
+Attribute VB_Base = "0{145BB6FB-D7E5-49AC-BD1B-7A8F1F345C1A}{3F351095-FC91-456A-87FD-C4AF6A9CE476}"
 Attribute VB_GlobalNameSpace = False
 Attribute VB_Creatable = False
 Attribute VB_PredeclaredId = True
@@ -38,6 +38,7 @@ Private WithEvents mActiveWkSheet As Worksheet
 Attribute mActiveWkSheet.VB_VarHelpID = -1
 
 Private mbIgnoreControlEvents As Boolean
+
 
 '
 ' IView implementation
@@ -67,19 +68,19 @@ End Sub
 '
 ' Form implementation
 '
-Private Function SafeRangePrecedents(ByVal pRange As Range) As Range
+Private Function SafeRangePrecedents(ByVal rRange As Range) As Range
     On Error Resume Next
-    Set SafeRangePrecedents = pRange.Precedents
+    Set SafeRangePrecedents = rRange.Precedents
 End Function
 
-Private Function UnionOfRangeAndItsPrecedents(ByVal pRange As Range) As Range
-    Dim pPrecedents As Range
-    Set pPrecedents = SafeRangePrecedents(pRange)
+Private Function UnionOfRangeAndItsPrecedents(ByVal rRange As Range) As Range
+    Dim rPrecedents As Range
+    Set rPrecedents = SafeRangePrecedents(rRange)
     
-    If pPrecedents Is Nothing Then
-        Set UnionOfRangeAndItsPrecedents = pRange
+    If rPrecedents Is Nothing Then
+        Set UnionOfRangeAndItsPrecedents = rRange
     Else
-        Set UnionOfRangeAndItsPrecedents = Union(pRange, pPrecedents)
+        Set UnionOfRangeAndItsPrecedents = Union(rRange, rPrecedents)
     End If
 End Function
 
@@ -107,6 +108,20 @@ Private Sub ApplyButton_Click()
     mModel.Indent = txtIndent
 End Sub
 
+Private Sub lblEncoding_Click()
+    Const CODEPAGES_URL As String = "https://docs.microsoft.com/en-us/windows/desktop/intl/code-page-identifiers"
+    On Error GoTo CannotOpen
+    ActiveWorkbook.FollowHyperlink Address:=CODEPAGES_URL, NewWindow:=True
+    Exit Sub
+
+CannotOpen:
+    MsgBox "Cannot open " & CODEPAGES_URL & "!", vbExclamation
+End Sub
+
+Private Sub cboEncoding_Change()
+    mModel.Encoding = cboEncoding
+End Sub
+
 Private Sub lvwStoredTables_Change()
     Dim bSelected As Boolean
     bSelected = (lvwStoredTables.ListIndex >= 0)
@@ -126,10 +141,10 @@ Private Sub lvwStoredTables_KeyDown(ByVal KeyCode As MSForms.ReturnInteger, ByVa
     End Select
 End Sub
 
-Private Sub mActiveWkSheet_Change(ByVal Target As Range)
+Private Sub mActiveWkSheet_Change(ByVal rTarget As Range)
     On Error GoTo errfail
     If Not Me.Visible Then Exit Sub
-    If Not Intersect(Target, UnionOfRangeAndItsPrecedents(mModel.Range)) Is Nothing Then
+    If Not Intersect(rTarget, UnionOfRangeAndItsPrecedents(mModel.Range)) Is Nothing Then
         ConvertSelection
     End If
 errfail:
@@ -179,6 +194,7 @@ Public Sub InitModel(ByVal pModel As IModel)
         .CellWidth = Val(Me.txtCellSize)
         .Options = Me.GetOptions()
         .Indent = Val(Me.txtIndent)
+        .Encoding = Me.cboEncoding
         .FileName = Me.txtFilename
     End With
 End Sub
@@ -189,6 +205,7 @@ Public Sub InitFromModel(ByVal pModel As IModel)
         Me.txtCellSize = .CellWidth
         Me.SetOptions (.Options)
         Me.txtIndent = .Indent
+        Me.cboEncoding = .Encoding
         Me.txtFilename = .FileName
         Me.cmdSelection.Caption = .RangeAddress
     End With
@@ -221,17 +238,16 @@ Private Sub UpdateOptions()
 End Sub
 
 Private Sub cmdBrowse_Click()
-    Dim sFileName
-    sFileName = Application.GetSaveAsFilename(mModel.AbsoluteFileName, "TeX documents (*.tex), *.tex")
-    If sFileName <> False Then
-        txtFilename = sFileName
+    Dim vFileName As Variant
+    vFileName = Application.GetSaveAsFilename(mModel.AbsoluteFileName, "TeX documents (*.tex), *.tex")
+    If vFileName <> False Then
+        txtFilename = vFileName
     End If
 End Sub
 
 Private Sub cmdCancel_Click()
-  Hide
+    Hide
 End Sub
-
 
 
 Private Sub cmdCopy_Click()
@@ -322,4 +338,24 @@ End Sub
 
 Private Sub UserForm_Initialize()
     lvwStoredTables_Change
+    InitEncodingComboBox
+End Sub
+
+
+Private Sub InitEncodingComboBox()
+    ReDim aEncodings(1 To 4) As Variant
+    aEncodings(1) = Array(Application.DefaultWebOptions.Encoding, "System Default")
+    aEncodings(2) = Array(MsoEncoding.msoEncodingUTF8, "UTF-8")
+    aEncodings(3) = Array(MsoEncoding.msoEncodingUnicodeLittleEndian, "UTF-16LE")
+    aEncodings(4) = Array(MsoEncoding.msoEncodingUnicodeBigEndian, "UTF-16BE")
+    
+    With cboEncoding
+        .TextColumn = 1
+        Dim aEncoding As Variant
+        For Each aEncoding In aEncodings
+            .AddItem aEncoding(0)
+            .Column(1, .ListCount - 1) = aEncoding(1)
+        Next
+        .TextColumn = 2
+    End With
 End Sub

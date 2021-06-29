@@ -23,7 +23,7 @@ Private Property Get IStorage_Events() As IStorageEvents
     Set IStorage_Events = mpEvents
 End Property
 
-Private Function IStorage_Add(ByVal pModel As IModel, Optional ByVal lIndex = -1) As Long
+Private Function IStorage_Add(ByVal pModel As IModel, Optional ByVal lIndex As Long = -1) As Long
     IStorage_Add = mCollection.Count + 1
     If (lIndex < 0) Or (mCollection.Count = 0) Then
         mCollection.Add ModelToString(pModel)

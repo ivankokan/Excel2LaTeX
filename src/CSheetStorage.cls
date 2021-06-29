@@ -23,7 +23,7 @@ Private Property Get IStorage_Events() As IStorageEvents
     Set IStorage_Events = mpEvents
 End Property
 
-Private Function IStorage_Add(ByVal pModel As IModel, Optional ByVal lIndex = -1) As Long
+Private Function IStorage_Add(ByVal pModel As IModel, Optional ByVal lIndex As Long = -1) As Long
     Dim lFreeRow As Long
     If lIndex < 0 Then
         lFreeRow = GetFreeRowIndex
@@ -75,10 +75,10 @@ End Sub
 Private Function IStorage_GetItems() As Collection
     Set IStorage_GetItems = New Collection
     
-    Dim pStorageSheet As Worksheet
-    Set pStorageSheet = GetStorageSheet(False)
+    Dim wStorageSheet As Worksheet
+    Set wStorageSheet = GetStorageSheet(False)
     
-    If pStorageSheet Is Nothing Then Exit Function
+    If wStorageSheet Is Nothing Then Exit Function
 
     Dim cColumns As Collection
     Dim cKeys As Collection
@@ -90,7 +90,7 @@ Private Function IStorage_GetItems() As Collection
     Dim sKey As String, sValue As String
     Dim rRow As Range
     For lRow = 2 To MAX_DIM
-        Set rRow = pStorageSheet.Rows(lRow)
+        Set rRow = wStorageSheet.Rows(lRow)
         If Application.WorksheetFunction.CountA(rRow) = 0 Then Exit For
         Set cRow = New Collection
         
@@ -110,14 +110,15 @@ Private Function IStorage_GetItems() As Collection
 End Function
 
 
-
 Private Sub AddressToFormula(ByVal sAddress As String, ByVal rCell As Range)
     rCell.Formula = Printf("=COUNT(%1)", sAddress)
 End Sub
+
 Private Function FormulaToAddress(ByVal rCell As Range) As String
     On Error Resume Next
     FormulaToAddress = Mid(rCell.Formula, 8, Len(rCell.Formula) - 8)
 End Function
+
 
 Private Function GetStorageSheet(Optional ByVal bCreate As Boolean = True) As Worksheet
     On Error Resume Next
@@ -136,18 +137,18 @@ Private Function GetColumnList(Optional ByRef cNameList As Collection) As Collec
     Set GetColumnList = New Collection
     Set cNameList = New Collection
     
-    Dim pStorageSheet As Worksheet
-    Set pStorageSheet = GetStorageSheet(False)
+    Dim wStorageSheet As Worksheet
+    Set wStorageSheet = GetStorageSheet(False)
     
-    If pStorageSheet Is Nothing Then Exit Function
+    If wStorageSheet Is Nothing Then Exit Function
     
-    Dim pFirstRow As Range
-    Set pFirstRow = pStorageSheet.Rows(1)
+    Dim rFirstRow As Range
+    Set rFirstRow = wStorageSheet.Rows(1)
     
     Dim l1 As Long
     Dim sName As String
     For l1 = 1 To MAX_DIM
-        sName = pFirstRow.Cells(ColumnIndex:=l1)
+        sName = rFirstRow.Cells(ColumnIndex:=l1)
         If sName = "" Then Exit For
         GetColumnList.Add l1, sName
         cNameList.Add sName
@@ -155,16 +156,16 @@ Private Function GetColumnList(Optional ByRef cNameList As Collection) As Collec
 End Function
 
 Private Function GetFreeRowIndex() As Long
-    Dim pStorageSheet As Worksheet
-    Set pStorageSheet = GetStorageSheet()
+    Dim wStorageSheet As Worksheet
+    Set wStorageSheet = GetStorageSheet()
     
-    Dim pFirstColumn As Range
-    Set pFirstColumn = pStorageSheet.Columns(1)
+    Dim rFirstColumn As Range
+    Set rFirstColumn = wStorageSheet.Columns(1)
     
     Dim l1 As Long
     Dim sValue As String
     For l1 = 2 To MAX_DIM
-        sValue = pFirstColumn.Cells(RowIndex:=l1)
+        sValue = rFirstColumn.Cells(RowIndex:=l1)
         If sValue = "" Then
             GetFreeRowIndex = l1
             Exit Function
@@ -173,16 +174,16 @@ Private Function GetFreeRowIndex() As Long
 End Function
 
 Private Function GetFreeColumnIndex() As Long
-    Dim pStorageSheet As Worksheet
-    Set pStorageSheet = GetStorageSheet()
+    Dim wStorageSheet As Worksheet
+    Set wStorageSheet = GetStorageSheet()
     
-    Dim pFirstRow As Range
-    Set pFirstRow = pStorageSheet.Rows(1)
+    Dim rFirstRow As Range
+    Set rFirstRow = wStorageSheet.Rows(1)
     
     Dim l1 As Long
     Dim sValue As String
     For l1 = 1 To MAX_DIM
-        sValue = pFirstRow.Cells(ColumnIndex:=l1)
+        sValue = rFirstRow.Cells(ColumnIndex:=l1)
         If sValue = "" Then
             GetFreeColumnIndex = l1
             Exit Function
@@ -193,8 +194,8 @@ End Function
 Private Function CreateColumn(ByVal sName As String) As Long
     CreateColumn = GetFreeColumnIndex()
     
-    Dim pStorageSheet As Worksheet
-    Set pStorageSheet = GetStorageSheet()
+    Dim wStorageSheet As Worksheet
+    Set wStorageSheet = GetStorageSheet()
     
-    pStorageSheet.Cells(1, CreateColumn) = sName
+    wStorageSheet.Cells(1, CreateColumn) = sName
 End Function

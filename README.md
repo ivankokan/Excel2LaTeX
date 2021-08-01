@@ -11,6 +11,7 @@ May also be compatible with other versions that support `.xla` add-ins. Does not
 ## Features
 Most Excel formatting is supported.
  * Bold and italic (if applied to the whole cell)
+ * Underline and double underline (using the `ulem` package)
  * Left, right, center, and general alignment (per-cell or per-column)
  * Vertical and horizontal borders (per-cell or per-column, single or double)
  * Font color (using the `xcolor` package)

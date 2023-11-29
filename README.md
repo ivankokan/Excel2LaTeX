@@ -1,4 +1,7 @@
 # Excel2LaTeX
+Excel2LaTeX插件，简单修复了不能使用下划线问题
+Fix the problem about underline.
+
 Making tables in LaTeX can be tedious, especially if some columns are calculated.
 This converter allows you to write a table in Excel instead, and export the current selection as LaTeX markup
 which can be pasted into an existing LaTeX document, or exported to a file and included via the `\input` command.
